@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 // import ContactList from './ContactList';
 // import CreateContact from './CreateContact';
 // import EditContact from './EditContact';
-// import Home from '../App';
+import Home from './App';
 
 //Commented out to give example of how routes should be written
 export default() => {
@@ -14,8 +14,8 @@ export default() => {
         <BrowserRouter>
             <div>
                 <Switch>
-            {/* <Route exact path="/" component={Home} />
-            <Route path="/createAccount" component={CreateAccount} />
+            { <Route exact path="/" component={Home} />
+            /*<Route path="/createAccount" component={CreateAccount} />
             <Route path="/login" component={Login} />
             <Route path="/contactList" component={ContactList} />
             <Route path="/createContact" component={CreateContact} />
