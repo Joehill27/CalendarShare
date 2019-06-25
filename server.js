@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const users = require('./routes/api/user');
-// const contacts = require('./routes/api/contact');
+const groups = require('./routers/api/group');
 const cors = require('cors');
 const path = require("path")
 
@@ -20,6 +20,8 @@ mongoose
 
 //TODO add API routes here:
 //API Routes
+app.use('/api/user', users);
+app.use('/api/group', groups);
 
 app.use(express.static(path.join(__dirname, "client", "build")));
 
