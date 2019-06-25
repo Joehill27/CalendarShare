@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import Login from './Components/Login';
 import CreateAccount from './Components/CreateAccount';
-import EventList from './Components/EventList';
+import home from './Components/Home';
 // import CreateContact from './CreateContact';
 // import EditContact from './EditContact';
 import Home from './App';
@@ -17,7 +17,7 @@ export default() => {
                     <Route exact path="/" component={Home} />
                     <Route path = "/createAccount" component={CreateAccount} />
                     <Route path = "/login" component={Login} />
-                    <Route path = "/eventList" component={EventList} />
+                    <Route path = "/home" component={home} />
                 </Switch>
             </div>
         </BrowserRouter>

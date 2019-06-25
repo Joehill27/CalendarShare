@@ -69,9 +69,18 @@ class CreateAccount extends Component {
       const response = await createAccount();
       console.log(response);
       if(response) {
+        console.log(response.data.error);
+        if(!response.data.error.localeCompare("Account with that username already exists"))
+        {
+            console.log("Account already exists");
+            alert("Account name/email already exists.");
+            this.props.history.push('/');
+            return;
+        }
+
         localStorage.setItem('userId', response.data.user._id);
         localStorage.setItem('userName', response.data.user.username);
-        this.props.history.push('/eventList');
+        this.props.history.push('/home');
         window.location.reload();
       } else {
         alert("Unable to create account");
