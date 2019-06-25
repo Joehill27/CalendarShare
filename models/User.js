@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const EventScheme = require('./Event');
 
 let UserSchema = new Schema({
     email: {
@@ -11,6 +12,10 @@ let UserSchema = new Schema({
     password: {
         type: String
     },
+    events: {
+        type: [EventScheme]
+    }
+    
 });
 
 module.exports = User = mongoose.model('user', UserSchema);
