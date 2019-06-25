@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, NavLink, Link } from 'react-router-dom';
 import axios from 'axios';
 
-class home extends Component
+class Home extends Component
 {
     constructor()
     {
@@ -18,11 +18,19 @@ class home extends Component
     render()
     {
         return (
-            <div classname = "App">
-                <h1> Hello </h1>
+            <div className="App">
+                <div className="App__ContactPage" height = "auto">
+                    <div className="PageSwitcher">
+                        <NavLink exact to="/" className="PageSwitcher__Item--Logout">Logout</NavLink>
+                    </div>
+                    
+                    <div>
+                        <h1> Hello </h1>
+                    </div>
+                </div>
             </div>
         );
     }
 }
 
-export default home;
+export default Home;

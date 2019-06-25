@@ -3,21 +3,18 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import Login from './Components/Login';
 import CreateAccount from './Components/CreateAccount';
-import home from './Components/Home';
-// import CreateContact from './CreateContact';
-// import EditContact from './EditContact';
-import Home from './App';
+import Home from './Components/Home';
+import App from './App';
 
-//Commented out to give example of how routes should be written
 export default() => {
     return(
         <BrowserRouter>
             <div>
                 <Switch>
-                    <Route exact path="/" component={Home} />
+                    <Route exact path="/" component={App} />
                     <Route path = "/createAccount" component={CreateAccount} />
                     <Route path = "/login" component={Login} />
-                    <Route path = "/home" component={home} />
+                    <Route path = "/home" component={Home} />
                 </Switch>
             </div>
         </BrowserRouter>
