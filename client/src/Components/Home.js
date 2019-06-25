@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, NavLink, Link } from 'react-router-dom';
 import axios from 'axios';
 
-class EventList extends Component
+class home extends Component
 {
     constructor()
     {
@@ -25,4 +25,4 @@ class EventList extends Component
     }
 }
 
-export default EventList;
+export default home;

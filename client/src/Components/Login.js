@@ -60,7 +60,7 @@ class Login extends Component {
       console.log(response);
       if(response) {
         localStorage.setItem('userId', response.data.user._id);
-        this.props.history.push('/eventList');
+        this.props.history.push('/home');
         window.location.reload();
       }
   }

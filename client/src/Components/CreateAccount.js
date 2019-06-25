@@ -80,7 +80,7 @@ class CreateAccount extends Component {
 
         localStorage.setItem('userId', response.data.user._id);
         localStorage.setItem('userName', response.data.user.username);
-        this.props.history.push('/eventList');
+        this.props.history.push('/home');
         window.location.reload();
       } else {
         alert("Unable to create account");
