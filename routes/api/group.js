@@ -50,3 +50,4 @@ router.delete('/:groupId/deleteEvent/:eventId', (req, res) => {
 
 });
 
+module.exports = router;
