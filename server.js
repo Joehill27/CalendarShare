@@ -23,6 +23,8 @@ mongoose
 app.use('/api/user', users);
 app.use('/api/group', groups);
 
+app.use('/api/user', users);
+
 app.use(express.static(path.join(__dirname, "client", "build")));
 
 app.get("*", (req, res) => {
