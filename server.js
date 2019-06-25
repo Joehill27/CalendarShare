@@ -21,6 +21,8 @@ mongoose
 //TODO add API routes here:
 //API Routes
 
+app.use('/api/user', users);
+
 app.use(express.static(path.join(__dirname, "client", "build")));
 
 app.get("*", (req, res) => {
