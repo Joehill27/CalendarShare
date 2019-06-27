@@ -3,10 +3,10 @@ const router = express.Router();
 const User = require('../../models/User');
 
 //Checks if a user exists by username, if they do checks password
-router.post('/login', (req, res) => {
+router.get('/login', (req, res) => {
     let name = req.body.username;
     let password = req.body.password;
-    User.findOne({username: name}).select('-groups -friends -preferences -email -__v').exec(function(err, user) {
+    User.findOne({username: name}).select('-groups -friends -email -events -__v').exec(function(err, user) {
     if(!user) {
         res.send({'error' : 'user does not exist'});
     } else{
@@ -17,7 +17,7 @@ router.post('/login', (req, res) => {
 
 router.get('/get', (req, res) => {
     let name = req.body.username;
-    User.findOne({username: name}).exec(function(err, user) {
+    User.findOne({username: name}).select('-password -groups -friends -email -events -__v').exec(function(err, user) {
         if(!user) {
             res.send({'error' : 'user does not exist'});
         } else {
@@ -30,12 +30,12 @@ router.get('/get', (req, res) => {
 router.post('/createAccount', (req, res) => {
     let username = req.body.username;
 
-    User.findOne({'username': username}).exec(function(err, user) {
+    User.findOne({'username': username}).select('-password -groups -friends -email -events -__v').exec(function(err, user) {
         if(!user) {
             let newUser = new User(req.body);
             newUser.save()
             .then(newUser => {
-                res.send({'user': newUser, 'error' : ''});
+                res.send({'user': newUser._id, 'error' : ''});
             })
         } else {
             res.send({'error': 'Account with that username already exists'});
@@ -49,10 +49,10 @@ router.delete('/deleteAccount/:userId', (req, res) => {
 
     User.findOneAndDelete({id: userId}, function(err, user) {
         if(!user) {
-            res.send({error: 'user not found' + err});
+            res.send({error: 'user not found'});
         }
         else {
-            res.send({'user': user, 'error': ''});
+            res.send({'success': 'user deleted', 'error': ''});
         }
     })
 });
@@ -184,7 +184,7 @@ router.post('/:userId/addGroup', (req, res) => {
 
 
 //Delete group from user
-router.post('/:userId/deleteGroup/:groupId', (req, res) => {
+router.delete('/:userId/deleteGroup/:groupId', (req, res) => {
     let groupId = req.params.groupId;
     let userId = req.params.userId;
 

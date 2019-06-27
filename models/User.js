@@ -14,8 +14,19 @@ let UserSchema = new Schema({
     },
     events: {
         type: [EventScheme]
+    },
+    friends : {
+        type: [
+            {
+                friendId: {
+                    type: String
+                },
+                friendName: {
+                    type: String
+                }
+            }
+        ]
     }
-    
 });
 
 module.exports = User = mongoose.model('user', UserSchema);
