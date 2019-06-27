@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-// import emailExistence from 'email-existence'
 
 const bcrypt = require('bcryptjs');
-// const emailExists = require('email-exists');
-// const emailExistence = require('email-existence');
 const emailCheck = require('email-check');
 
 class CreateAccount extends Component {
@@ -69,21 +66,7 @@ class CreateAccount extends Component {
       }
     }
 
-    const checkEmail = async() => {
-      try {
-        return emailCheck(this.state.email);
-      } catch(error) {
-        console.log(error);
-      }
-    }
-
     const createAccountHandler = async() => {
-      // const check = await checkEmail();
-      // if(check === false)
-      // {
-      //   alert("Invalid email");
-      //   return;
-      // }
       const response = await createAccount();
       console.log(response);
       if(response) {
