@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+// import emailExistence from 'email-existence'
 
 const bcrypt = require('bcryptjs');
+// const emailExists = require('email-exists');
+// const emailExistence = require('email-existence');
+const emailCheck = require('email-check');
 
 class CreateAccount extends Component {
 
@@ -65,17 +69,32 @@ class CreateAccount extends Component {
       }
     }
 
+    const checkEmail = async() => {
+      try {
+        return emailCheck(this.state.email);
+      } catch(error) {
+        console.log(error);
+      }
+    }
+
     const createAccountHandler = async() => {
+      // const check = await checkEmail();
+      // if(check === false)
+      // {
+      //   alert("Invalid email");
+      //   return;
+      // }
       const response = await createAccount();
       console.log(response);
       if(response) {
         console.log(response.data.error);
-        if(!response.data.error.localeCompare("Account with that username already exists"))
+        if(!response.data.error.localeCompare("Account with that username already exists") || 
+           !response.data.error.localeCompare("Invalid email address"))
         {
-            console.log("Account already exists");
-            alert("Account name/email already exists.");
-            this.props.history.push('/');
-            return;
+          console.log(response.data.error);
+          alert("Account name/email already exists or email is invalid");
+          this.props.history.push('/');
+          return;
         }
 
         localStorage.setItem('userId', response.data.user._id);
