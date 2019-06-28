@@ -1,5 +1,6 @@
 import React from 'react';
-import { MDBContainer, MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem, MDBNavLink, MDBIcon, MDBBtn } from 'mdbreact';
+import { MDBContainer, MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem, MDBNavLink, MDBIcon, MDBBtn,
+  MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBFormInline } from 'mdbreact';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 class Navigation extends React.Component {
@@ -41,12 +42,31 @@ class Navigation extends React.Component {
                       <MDBNavLink to="#">My Events</MDBNavLink>
                   </MDBNavItem>
                   <MDBNavItem>
+                    <MDBNavLink to="#">Group Events</MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem>
                     <MDBNavLink to="#">Create Event</MDBNavLink>
                   </MDBNavItem>
                 </MDBNavbarNav>
                 <MDBNavbarNav right>
+                  <MDBFormInline className="md-form mr-auto m-0">
+                    <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
+                  <MDBBtn outline color="white" size="sm" type="submit" className="mr-auto">
+                    Search
+                  </MDBBtn>
+                  </MDBFormInline>
                   <MDBNavItem>
-                    <MDBNavLink to="#"><MDBIcon icon="cogs" /></MDBNavLink>
+                    <MDBDropdown>
+                      <MDBDropdownToggle nav caret>
+                        <span><MDBIcon icon="cog" className="mr-1" /></span>
+                      </MDBDropdownToggle>
+                      <MDBDropdownMenu>
+                        <MDBDropdownItem href="#!">Action</MDBDropdownItem>
+                        <MDBDropdownItem href="#!">Another Action</MDBDropdownItem>
+                        <MDBDropdownItem href="#!">Something else here</MDBDropdownItem>
+                        <MDBDropdownItem href="#!">Something else here</MDBDropdownItem>
+                      </MDBDropdownMenu>
+                    </MDBDropdown>
                   </MDBNavItem>
                   <MDBNavItem>
                     <MDBNavLink to="#"><MDBIcon icon="sign-out-alt" className="red-text" /></MDBNavLink>
@@ -56,12 +76,6 @@ class Navigation extends React.Component {
             </MDBNavbar>
           </header>
         </Router>
-        <MDBContainer style={container} className="text-center mt-5 pt-5">
-          <h2>This Navbar is fixed</h2>
-          <h5>It will always stay visible on the top, even when you scroll down</h5>
-          <br/>
-          <p>Full page intro with background image will be always displayed in full screen mode, regardless of device</p>
-        </MDBContainer>
       </div>
     );
   }
