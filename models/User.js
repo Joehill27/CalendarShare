@@ -26,6 +26,28 @@ let UserSchema = new Schema({
                 }
             }
         ]
+    },
+    friendRequest : {
+        incoming: {
+            type: [{
+                from: {
+                    type: String
+                },
+                to: {
+                    type: String
+                }
+            }]
+        },
+        outgoing: {
+            type: [{
+                from: {
+                    type: String
+                },
+                to: {
+                    type: String
+                }
+            }]
+        }
     }
 });
 

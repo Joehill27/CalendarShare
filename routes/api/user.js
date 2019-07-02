@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../../models/User');
+const mongoose = require('mongoose');
 
 var emailCheck = require('email-check');
 
 //Checks if a user exists by username, if they do checks password
-router.get('/login', (req, res) => {
+router.post('/login', (req, res) => {
     let name = req.body.username;
     let password = req.body.password;
     User.findOne({username: name}).select('-groups -friends -email -events -__v').exec(function(err, user) {
@@ -86,13 +87,12 @@ router.get('/:userId/events', (req, res) => {
 });
 
 //Create user event
-router.post('/:userId/addEvent', (req, res) => {
+router.post('/:userId/createEvent', (req, res) => {
     let userId = req.params.userId;
     var event = {
         _id: mongoose.Types.ObjectId(),
         'start': req.body.start,
         'end': req.body.end,
-        'duration': req.body.duration,
         'eventInfo': req.body.eventInfo,
         'eventName': req.body.eventName,
         'recurring': req.body.recurring
@@ -215,6 +215,14 @@ router.delete('/:userId/deleteGroup/:groupId', (req, res) => {
     });
 });
 
+//Add incoming friend request
+
+//Delete incoming friend request
+
+//Add outgoing friend request
+
+//Delete outgoing friend request
+
 //Get all user friends
 router.get('/:userId/friends', (req, res) => {
     let userId = req.params.userId;
@@ -251,7 +259,7 @@ router.post('/:userId/addFriend', (req, res) => {
                     if(err) {
                         res.send({'error': err});
                     } else {
-                        res.send({'friend created successfully' : friend});
+                        res.send({'friend added successfully' : friend});
                     }
                 });
             });
