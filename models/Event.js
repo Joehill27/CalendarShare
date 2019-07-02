@@ -9,19 +9,15 @@ let Event = new Schema({
     end : {
         type: Date
     },
-    duration : {
-        type: Number
-    },
     eventname: {
         type: String
     },
-    eventinfo: {
+    eventInfo: {
         type: String
     },
     recurring : {
         type: Boolean
     }
-
 });
 
 module.exports = Event;
