@@ -3,6 +3,8 @@ const router = express.Router();
 const User = require('../../models/User');
 const mongoose = require('mongoose');
 
+var emailCheck = require('email-check');
+
 //Checks if a user exists by username, if they do checks password
 router.post('/login', (req, res) => {
     let name = req.body.username;
@@ -31,16 +33,26 @@ router.get('/get', (req, res) => {
 router.post('/createAccount', (req, res) => {
     let username = req.body.username;
 
-    User.findOne({'username': username}).select('-password -groups -friends -email -events -__v').exec(function(err, user) {
-        if(!user) {
-            let newUser = new User(req.body);
-            newUser.save()
-            .then(newUser => {
-                res.send({'user': newUser._id, 'error' : ''});
-            })
+    emailCheck(req.body.email).then(function(result) {
+        if(result == true)
+        {
+            User.findOne({'username': username}).exec(function(err, user) {
+                if(!user) {
+                    let newUser = new User(req.body);
+                    newUser.save()
+                    .then(newUser => {
+                        res.send({'user': newUser, 'error' : ''});
+                    })
+                } else {
+                    res.send({'error': 'Account with that username already exists'});
+                }
+            });
         } else {
-            res.send({'error': 'Account with that username already exists'});
+            res.send({'error': 'Invalid email address'});
         }
+    }).catch(function(err)
+    {
+        res.send(err);
     });
 });
 
