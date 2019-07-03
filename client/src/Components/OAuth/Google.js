@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+const bcrypt = require('bcryptjs');
 
-class Google extends Component
+axios.defaults.headers.post['Access-Control-Allow-Methods'] = 'PATCH, DELETE, POST, GET, OPTIONS';
+
+class Facebook extends Component
 {
-    
+    constructor()
+    {
+        super();
 
+        const response = axios.get('/api/google/get', null);
+        console.log(response);       
+    }
     render()
     {
         return (
             <div>
                 <h1>Logging in with Google </h1>
-                <a class="home-btn" href="/">Home</a>
+                <a className="home-btn" href="/">Home</a>
             </div>
         );
     }
 }
 
-export default Google;
+export default Facebook;

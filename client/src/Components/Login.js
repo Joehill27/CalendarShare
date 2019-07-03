@@ -87,9 +87,9 @@ class Login extends Component {
           </div>
           <div>
             <h1> Or login using... </h1>
-            <a class="google-btn" href="/auth/google">Google+</a>
+            <a className="google-btn" href="/auth/google">Google+</a>
             <h1/>
-            <a class="facebook-btn" href="/auth/facebook">Facebook</a>
+            <a className="facebook-btn" href="/auth/facebook">Facebook</a>
           </div>
       </div>
     );
