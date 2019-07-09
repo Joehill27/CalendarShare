@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const EventScheme = require('./Event');
+const ImageScheme = require('./Image');
 
 let UserSchema = new Schema({
     email: {
@@ -26,7 +27,21 @@ let UserSchema = new Schema({
                 }
             }
         ]
+    },
+    friendRequests : {
+        type: [{
+            from: {
+                type: String
+            },
+            to: {
+                type: String
+            }
+        }]
+    },
+    profilePicture: {
+        type: String
     }
+
 });
 
 module.exports = User = mongoose.model('user', UserSchema);

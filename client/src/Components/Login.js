@@ -83,7 +83,13 @@ class Login extends Component {
           {/* Login Button */}
           <div className="FormField">
             <button onClick={loginHandler} className="FormField__Button mr-20">Login</button>
-            <Link  to="/" className="FormField__Link">Create an account</Link>
+            <Link  to="/createAccount" className="FormField__Link">Create an account</Link>
+          </div>
+          <div>
+            <h1> Or login using... </h1>
+            <a className="google-btn" href="/auth/google">Google+</a>
+            <h1/>
+            <a className="facebook-btn" href="/auth/facebook">Facebook</a>
           </div>
       </div>
     );
