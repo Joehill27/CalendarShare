@@ -217,7 +217,7 @@ img {
 }
 
 .cardpadding {
-  padding-top: 5rem
+  padding-top: 4.5rem
 }
 
 .scrollbar {
@@ -232,6 +232,7 @@ img {
 .scrollbar::-webkit-scrollbar-thumb {
   border-radius: 5px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
   background: rgba(0, 0, 0, 0.2);
 }
 
@@ -243,6 +244,7 @@ img {
 .scrollbar-primary::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
   background-color: #7283a7 ;
 }
 

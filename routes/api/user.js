@@ -2,6 +2,20 @@ const express = require('express');
 const router = express.Router();
 const User = require('../../models/User');
 const mongoose = require('mongoose');
+const ImageSchema = require('../../models/Image');
+const Image = mongoose.model('img', ImageSchema);
+
+
+//Setting up where to store new images
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: function (req, res, cb) {
+        cb(null, 'uploads/')
+    }
+});
+const upload = multer({ storage: storage });
+const fs = require('fs');
+
 
 var emailCheck = require('email-check');
 
@@ -52,7 +66,7 @@ router.post('/createAccount', (req, res) => {
         }
     }).catch(function(err)
     {
-        res.send(err);
+        res.send({'error': 'Invalid email address' + err});
     });
 });
 
@@ -215,13 +229,69 @@ router.delete('/:userId/deleteGroup/:groupId', (req, res) => {
     });
 });
 
+//Get all incoming friend requests
+router.get('/:userId/getFriendRequests', (req, res) => {
+    let userId = req.params.userId;
+
+    User.findById(userId, function(err, user) {
+        if(!user) 
+            res.send({'error': 'user not found'});
+        
+        var friendRequests = user.friendRequests;
+        res.send({'friendRequests': friendRequests});
+    })
+});
+
 //Add incoming friend request
+router.post('/:userId/createFriendRequest', (req, res) => {
+    let toUserId = req.params.userId;
+    let fromUserId = req.body.userId;
+
+    User.findById(toUserId, function(err, user) {
+        if(!user) 
+            res.send({'error': 'user not found'});
+        
+        var request = {
+            from: {
+                fromUserId
+            },
+            to : {
+                toUserId
+            }
+        }
+
+        User.update(
+            { _id: toUserId }, 
+            { $push: { friendRequests: request }}
+        ).exec(function(err) {
+            if(err) {
+                res.send({'error': err});
+            } else {
+                res.send({'request added successfully' : request});
+            }
+        });
+    });
+});
 
 //Delete incoming friend request
+router.delete('/:userId/deleteFriendRequest', (req, res) => {
+    let userId = req.params.userId;
+    let friendId = req.body.userId;
+    User.findById(userId, function(err, user) {
+        if(!user) 
+            res.send({'error': 'user not found'});
 
-//Add outgoing friend request
+        user.friendRequests.pull(friendId);
+        user.save()
+        .then(
+            res.send('friend request deleted')
+        )
+        .catch(function(err){
+            res.send({'error': err});
+        });
+    });
 
-//Delete outgoing friend request
+});
 
 //Get all user friends
 router.get('/:userId/friends', (req, res) => {
@@ -285,5 +355,39 @@ router.delete('/:userId/deleteFriend/:friendId', (req, res) => {
         });
     });
 });
+
+//Add/update user picture by updating the image id
+router.post('/:userId/addPicture', upload.single('image'), (req, res) => {
+    let userId = req.params.userId;
+    var new_img = new Image;
+    new_img.img.data = fs.readFileSync(req.file.path)
+    new_img.img.contentType = 'image/jpeg';
+    new_img.save(function(err, img) {
+
+        User.findById(userId, function(err, user) {
+            user.profilePicture = img.id;
+            user.save();
+            res.send({'user profile picture updated': user});
+        });
+    });
+});
+
+//Gets the users profile picture's image id, then gets the image by id
+router.get('/:userId/getPicture', (req, res) => {
+    let userId = req.params.userId;
+    User.findById(userId, function(err, user) {
+        let imageId = user.profilePicture;
+        if(!user)
+            res.send({'error': 'user does not exist'});
+            Image.findById(imageId, function(err, img) {
+                if (err)
+                    res.send(err);
+                // console.log(img);
+                res.contentType('json');
+                res.send({'Here is the image': img});
+            });
+    });
+});
+
 
 module.exports = router;
