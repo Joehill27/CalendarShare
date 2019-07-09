@@ -2,9 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const users = require('./routes/api/user');
-// const groups = require('./routers/api/group');
+const groups = require('./routes/api/group');
+const google = require('./routes/api/google');
 const cors = require('cors');
-const path = require("path")
+const path = require("path");
 
 const app = express();
 app.use(bodyParser.json());
@@ -18,12 +19,10 @@ mongoose
     .then(() => console.log('MonoDB Connected...'))
     .catch(err => console.log(err));
 
-//TODO add API routes here:
 //API Routes
 app.use('/api/user', users);
-// app.use('/api/group', groups);
-
-// app.use('/api/user', users);
+app.use('/api/group', groups);
+app.use('/api/google', google);
 
 app.use(express.static(path.join(__dirname, "client", "build")));
 
