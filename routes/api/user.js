@@ -4,6 +4,9 @@ const User = require('../../models/User');
 const mongoose = require('mongoose');
 const ImageSchema = require('../../models/Image');
 const Image = mongoose.model('img', ImageSchema);
+const Group = require('../../models/Group');
+const Event = require('../../models/Event');
+
 
 
 //Setting up where to store new images
@@ -16,7 +19,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 const fs = require('fs');
 
-
+//Used to check if emails exist when creating an account
 var emailCheck = require('email-check');
 
 //Checks if a user exists by username, if they do checks password
@@ -32,6 +35,7 @@ router.post('/login', (req, res) => {
     });
 });
 
+//Check if a user exists
 router.get('/get', (req, res) => {
     let name = req.body.username;
     User.findOne({username: name}).select('-password -groups -friends -email -events -__v').exec(function(err, user) {
@@ -70,6 +74,19 @@ router.post('/createAccount', (req, res) => {
     });
 });
 
+//Gets all users
+router.get('/allUsers', (req, res) => {
+    User.find({}, '_id username events groups profilePicture' ,(err, users) => {
+        if(err) {
+            res.send({'error': 'Could not get all users'});
+            next();
+        }
+        else {
+            res.json(users);
+        }
+    })
+});
+
 //Deletes a user by id
 router.delete('/deleteAccount/:userId', (req, res) => {
     let userId = req.params.usedId;
@@ -101,27 +118,60 @@ router.get('/:userId/events', (req, res) => {
 });
 
 //Create user event
-router.post('/:userId/createEvent', (req, res) => {
+router.post('/:userId/createEvent', upload.single('image'), (req, res) => {
     let userId = req.params.userId;
-    var event = {
-        _id: mongoose.Types.ObjectId(),
-        'start': req.body.start,
-        'end': req.body.end,
-        'eventInfo': req.body.eventInfo,
-        'eventName': req.body.eventName,
-        'recurring': req.body.recurring
-    };
+    var new_img = new Image;
 
-    User.update(
-        { _id: userId }, 
-        { $push: { events: event }}
-    ).exec(function(err) {
-        if(err){
-            res.send({'error': 'Could not update event ' + err});
+    if(req.file.path) {
+        new_img.img.data = fs.readFileSync(req.file.path)
+        new_img.img.contentType = 'image/jpeg';
+        new_img.save(function(err, img) {
+        if(err) {
+            res.send({'error': 'Unable to save picture' + err});
         } else {
-            res.send({'event created successfully' : event, 'error': ''});
+            var event = {
+                _id: mongoose.Types.ObjectId(),
+                'start': req.body.start,
+                'end': req.body.end,
+                'eventInfo': req.body.eventInfo,
+                'eventName': req.body.eventName,
+                'recurring': req.body.recurring,
+                'eventPicture': img.id
+            };
+        
+            User.update(
+                { _id: userId }, 
+                { $push: { events: event }}
+            ).exec(function(err) {
+                if(err){
+                    res.send({'error': 'Could not update event ' + err});
+                } else {
+                    res.send({'event created successfully' : event, 'error': ''});
+                }
+            });
         }
     });
+    } else {
+        var event = {
+            _id: mongoose.Types.ObjectId(),
+            'start': req.body.start,
+            'end': req.body.end,
+            'eventInfo': req.body.eventInfo,
+            'eventName': req.body.eventName,
+            'recurring': req.body.recurring,
+        };
+    
+        User.update(
+            { _id: userId }, 
+            { $push: { events: event }}
+        ).exec(function(err) {
+            if(err){
+                res.send({'error': 'Could not update event ' + err});
+            } else {
+                res.send({'event created successfully' : event, 'error': ''});
+            }
+        });
+    }
 });
 
 //Modify user event
@@ -131,10 +181,10 @@ router.put('/:userId/updateEvent/:eventId', (req, res) => {
     
     User.findById(userId, function(err, user){
         var event = user.events.id(eventId);
-        if(!event) res.send({'error': 'Unable to find event' + err});   
-            if(req.body)     
-                event.set(req.body);
-
+        if(!event) 
+            res.send({'error': 'Unable to find event' + err});   
+        if(req.body)     
+            event.set(req.body);
         user.save()
         .then(
             res.send({'event': event, 'error': ''})
@@ -153,7 +203,6 @@ router.delete('/:userId/deleteEvent/:eventId', (req, res) => {
         if(err) {
             res.send({'error': 'can not find user'});
         }
-        // User.Contact.pull(contactId);
         user.events.pull(eventId);
         user.save()
         .then(
@@ -161,6 +210,40 @@ router.delete('/:userId/deleteEvent/:eventId', (req, res) => {
         )
         .catch(function(err){
             res.send({'error': err});
+        });
+    });
+});
+
+//Choose picture for event
+router.put('/:userId/event/updatePicture', upload.single('image'), (req, res) => {
+    let userId = req.params.userId;
+
+    var new_img = new Image;
+    new_img.img.data = fs.readFileSync(req.file.path)
+    new_img.img.contentType = 'image/jpeg';
+    new_img.save(function(err, img) {
+
+        if(err) {
+            res.send({'error': 'unable to save image'});
+        }
+
+        User.findById(userId, 'events', (err, user) => {
+            if(err) {
+                res.send({'error': 'User does not exist'});
+            } else {
+                var event = user.events.id(eventId);
+                if(!event) 
+                res.send({'error': 'Unable to find event' + err});   
+                
+                event.profilePicture = img.id;
+
+                user.save()
+                .then(
+                    res.send({'event': event, 'error': ''})
+                ).catch(function(err) {
+                    res.send({'error': err});
+                });
+            }
         });
     });
 });
@@ -189,21 +272,23 @@ router.get('/:userId/groups', (req, res) => {
 //Add group to user
 router.post('/:userId/addGroup', (req, res) => {
     let userId = req.params.userId;
-    var group = {
-        _id: groupId,
-        'groupName': req.body.groupName
-    };
-
-    //TODO check if group exists
-
-    User.update(
-        { _id: userId }, 
-        { $push: { groups: group }}
-    ).exec(function(err) {
-        if(err){
-            res.send({'error': 'Could not add group ' + err});
+    let groupName = req.body.groupName;
+    
+    group.findOne({'groupName': groupName}, '_id groupName', (err, group) => {
+        if(err) {
+            res.send({'error': 'Group does not exist'});
+            next();
         } else {
-            res.send({'group added successfully' : group});
+            User.update(
+                { _id: userId }, 
+                { $push: { groups: group }}
+            ).exec(function(err) {
+                if(err){
+                    res.send({'error': 'Could not add group ' + err});
+                } else {
+                    res.send({'group added successfully' : group});
+                }
+            });
         }
     });
 });
@@ -344,7 +429,6 @@ router.delete('/:userId/deleteFriend/:friendId', (req, res) => {
         if(err) {
             res.send({'error': 'can not find user'});
         }
-        // User.Contact.pull(contactId);
         user.friends.pull(friendId);
         user.save()
         .then(
@@ -373,7 +457,7 @@ router.post('/:userId/addPicture', upload.single('image'), (req, res) => {
 });
 
 //Gets the users profile picture's image id, then gets the image by id
-router.get('/:userId/getPicture', (req, res) => {
+router.get('/:userId/getProfilePicture', (req, res) => {
     let userId = req.params.userId;
     User.findById(userId, function(err, user) {
         let imageId = user.profilePicture;
@@ -384,9 +468,48 @@ router.get('/:userId/getPicture', (req, res) => {
                     res.send(err);
                 // console.log(img);
                 res.contentType('json');
-                res.send({'Here is the image': img});
+                res.send({'image': img});
             });
     });
+});
+
+
+//Get all of the user's friend's events
+router.get('/:userId/friends/events', (req, res) => {
+    let userId = req.params.userId;
+
+    User.findById(userId, (err, user) => {
+        if(err) {
+            res.send({'error': 'User does not exist'});
+        } else {
+            User.find({'friendId': userId}, 'events', (err, events) => {
+                if(err) {
+                    res.send({'error': err});
+                } else {
+                    res.send({'friendEvents': events});
+                }
+            });
+        }
+    })
+});
+
+//Get all of the user's group's events
+router.get('/:userId/groups/events', (req, res) => {
+    let userId = req.params.userId;
+
+    User.findById(userId, (err, user) => {
+        if(err) {
+            res.send({'error': 'User does not exist'});
+        } else {
+            Group.find({'memberId': userId}, 'events', (err, events) => {
+                if(err) {
+                    res.send({'error': err});
+                } else {
+                    res.send({'groupEvents': events});
+                }
+            });
+        }
+    })
 });
 
 
