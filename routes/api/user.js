@@ -314,23 +314,32 @@ router.delete('/:userId/deleteGroup/:groupId', (req, res) => {
     });
 });
 
+//Get all group requests
+
+
+//Create group request
+
+//Delete group request
+
+
+
 //Get all incoming friend requests
 router.get('/:userId/getFriendRequests', (req, res) => {
     let userId = req.params.userId;
 
-    User.findById(userId, function(err, user) {
+    User.findById(userId, 'friendRequests', function(err, user) {
         if(!user) 
             res.send({'error': 'user not found'});
         
         var friendRequests = user.friendRequests;
-        res.send({'friendRequests': friendRequests});
+        res.send({'friendRequests': friendRequests, 'error': ''});
     })
 });
 
 //Add incoming friend request
 router.post('/:userId/createFriendRequest', (req, res) => {
-    let toUserId = req.params.userId;
-    let fromUserId = req.body.userId;
+    let fromUserId = req.params.userId;
+    let toUserId = req.body.userId;
 
     User.findById(toUserId, function(err, user) {
         if(!user) 
@@ -359,9 +368,9 @@ router.post('/:userId/createFriendRequest', (req, res) => {
 });
 
 //Delete incoming friend request
-router.delete('/:userId/deleteFriendRequest', (req, res) => {
+router.delete('/:userId/deleteFriendRequest/:friendId', (req, res) => {
     let userId = req.params.userId;
-    let friendId = req.body.userId;
+    let friendId = req.params.userId;
     User.findById(userId, function(err, user) {
         if(!user) 
             res.send({'error': 'user not found'});
@@ -369,7 +378,7 @@ router.delete('/:userId/deleteFriendRequest', (req, res) => {
         user.friendRequests.pull(friendId);
         user.save()
         .then(
-            res.send('friend request deleted')
+            res.send({'succes': 'friend request deleted', 'error': ''})
         )
         .catch(function(err){
             res.send({'error': err});
@@ -486,7 +495,7 @@ router.get('/:userId/friends/events', (req, res) => {
                 if(err) {
                     res.send({'error': err});
                 } else {
-                    res.send({'friendEvents': events});
+                    res.send({'friendEvents': events, 'error': ''});
                 }
             });
         }
