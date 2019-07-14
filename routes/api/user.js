@@ -44,6 +44,7 @@ router.get('/get', (req, res) => {
     })
 });
 
+//TODO check if user exists with username OR email
 //Creates an account with given info
 router.post('/createAccount', (req, res) => {
     let username = req.body.username;
@@ -191,6 +192,7 @@ router.put('/:userId/updateEvent/:eventId', (req, res) => {
     });
 });
 
+//TODO delete picture
 //Delete user event
 router.delete('/:userId/deleteEvent/:eventId', (req, res) => {
     let eventId = req.params.eventId;
@@ -211,6 +213,7 @@ router.delete('/:userId/deleteEvent/:eventId', (req, res) => {
     });
 });
 
+//TODO delete previous picture
 //Choose picture for event
 router.put('/:userId/event/updatePicture', upload.single('image'), (req, res) => {
     let userId = req.params.userId;
@@ -322,10 +325,13 @@ router.get('/:userId/getGroupRequests', (req, res) => {
 });
 
 //Create group request
-router.post('/:userId/createGroupRequest', (req, res) => {
+router.post('/:userId/createGroupRequest/:groupId', (req, res) => {
     let userId = req.params.userId;
-    let groupId = req.body.groupId;
-    let groupRequest = req.body;
+    let groupId = req.params.groupId;
+
+    let groupRequest = {
+        'groupId': groupId
+    }
 
     Group.findById(groupId, (err, group) => {
         if(err) {
@@ -347,8 +353,9 @@ router.post('/:userId/createGroupRequest', (req, res) => {
 
 
 //Delete group request
-router.delete('/:userId/deleteGroupRequest', (req, res) => {
+router.delete('/:userId/deleteGroupRequest/:groupId', (req, res) => {
     let userId = req.params.userId;
+    let groupId = req.params.groupId;
 
     User.findById(userId, 'groupRequests', (err, user) => {
         if(err) {
@@ -471,7 +478,7 @@ router.get('/:userId/friends', (req, res) => {
 });
 
 //Add friend
-router.post('/:userId/addFriends', (req, res) => {
+router.post('/:userId/addFriend', (req, res) => {
     let friendOneId = req.body.friendOneId;
     let friendOneName = req.body.friendOneName;
     let friendTwoId = req.body.friendTwoId;
@@ -539,6 +546,8 @@ router.delete('/:userId/deleteFriend/:friendId', (req, res) => {
     });
 });
 
+//TODO delete old picture
+
 //Add/update user picture by updating the image id
 router.post('/:userId/addPicture', upload.single('image'), (req, res) => {
     let userId = req.params.userId;
@@ -570,7 +579,6 @@ router.get('/:userId/getProfilePicture', (req, res) => {
             });
     });
 });
-
 
 //Get all of the user's friend's events
 router.get('/:userId/friends/events', (req, res) => {
@@ -608,6 +616,21 @@ router.get('/:userId/groups/events', (req, res) => {
             });
         }
     })
+});
+
+//Update user settings
+router.put('/:userId/updateSettings', (req, res) => {
+    let userId = req.params.userId;
+
+    User.findById(userId, 'settings', (err, user) => {
+        if(err) {
+            res.send({'error': 'Unable to find user' + err});
+        } else {
+            user.settings = req.body;
+            user.save();
+            res.send({'success!': 'Update user settings'});
+        }
+    });
 });
 
 module.exports = router;

@@ -4,6 +4,7 @@ const Group = require('../../models/Group');
 const User = require('../../models/User');
 const Event = require('../../models/Event');
 const ImageSchema = require('../../models/Image');
+const mongoose = require('mongoose');
 const Image = mongoose.model('img', ImageSchema);
 
 //Setting up where to store new images
@@ -113,9 +114,21 @@ router.delete('/:groupId/deleteMember/:userId', (req, res) => {
     });
 });
 
+//Get all group events
+router.get('/:groupId/getEvents', (req, res) => {
+    let groupId = req.params.groupId;
+
+    Group.findById(groupId, 'groupEvents', (err, group) => {
+        if(err) {
+            res.send({'error': 'Unable to find group ' + err});
+        } else {
+            res.send({'events' :group.groupEvents, 'error': ''});
+        }
+    });
+});
+
 //Add group event
 router.post('/:groupId/addEvent', upload.single('image'), (req, res) => {
-    let eventId = req.params.eventId;
     let groupId = req.params.groupId;
 
     let event = new Event(req.body);
@@ -139,7 +152,7 @@ router.post('/:groupId/addEvent', upload.single('image'), (req, res) => {
         group.events.push(event);
         group.save()
         .then(
-            res.send({'success': 'event added', 'error': ''})
+            res.send({'success': 'event added' + event, 'error': ''})
         )
         .catch(function(err){
             res.send({'error': err});
@@ -167,6 +180,7 @@ router.put('/:groupId/updateEvent/:eventId', (req, res) => {
     });
 });
 
+//Delete event picture
 //Delete group event
 router.delete('/:groupId/deleteEvent/:eventId', (req, res) => {
     let eventId = req.params.eventId;
@@ -187,6 +201,7 @@ router.delete('/:groupId/deleteEvent/:eventId', (req, res) => {
     });
 });
 
+//TODO delete old picture
 //Update group event picture
 router.put('/:groupId/:eventId/picture', upload.single('image'), (req, res) => {
     let groupId = req.params.groupId;
@@ -208,6 +223,7 @@ router.put('/:groupId/:eventId/picture', upload.single('image'), (req, res) => {
         });
 });
 
+//TODO delete old picture
 //Update group picture
 router.put('/:groupId/groupPicture', upload.single('image'), (req, res) => {
     let groupId = req.params.groupId;
