@@ -10,7 +10,7 @@ let GroupSchema = new Schema({
     members: {
         type: [
             {
-                memberName: {
+                memberId: {
                     type: String
                 },
                 memberPermission: {

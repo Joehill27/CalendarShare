@@ -29,7 +29,6 @@ export const createFriendRequest = async(toId, fromId) => {
     }
 }
 
-//TODO update actual API route/api/user.js line 394
 //Accept friend request
 
 //Deny friend request

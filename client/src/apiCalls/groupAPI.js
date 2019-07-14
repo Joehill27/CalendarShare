@@ -12,8 +12,6 @@
 
 //Invite user to group
 
-//Accept join request
-
 //Update group picture
 
 //Delete group picture

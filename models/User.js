@@ -21,9 +21,6 @@ let UserSchema = new Schema({
             {
                 friendId: {
                     type: String
-                },
-                friendName: {
-                    type: String
                 }
             }
         ]
@@ -33,9 +30,6 @@ let UserSchema = new Schema({
             {
                 groupId : {
                     type: String
-                },
-                groupName: {
-                    type: String
                 }
             }
         ]
@@ -44,8 +38,12 @@ let UserSchema = new Schema({
         type: [{
             from: {
                 type: String
-            },
-            to: {
+            }
+        }]
+    },
+    groupRequests : {
+        type: [{
+            groupId: {
                 type: String
             }
         }]

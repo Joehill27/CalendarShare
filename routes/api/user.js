@@ -5,9 +5,6 @@ const mongoose = require('mongoose');
 const ImageSchema = require('../../models/Image');
 const Image = mongoose.model('img', ImageSchema);
 const Group = require('../../models/Group');
-const Event = require('../../models/Event');
-
-
 
 //Setting up where to store new images
 const multer = require('multer');
@@ -256,10 +253,7 @@ router.get('/:userId/groups', (req, res) => {
         let groups = user.groups;
         
         if(user) {
-            res.send({
-                'groups': groups,
-                'error' : ''
-            });
+            res.send({'groups': groups, 'error' : ''});
         }
         else {
             res.send({
@@ -274,7 +268,7 @@ router.post('/:userId/addGroup', (req, res) => {
     let userId = req.params.userId;
     let groupName = req.body.groupName;
     
-    group.findOne({'groupName': groupName}, '_id groupName', (err, group) => {
+    group.findOne({'groupName': groupName}, '_id', (err, group) => {
         if(err) {
             res.send({'error': 'Group does not exist'});
             next();
@@ -315,12 +309,93 @@ router.delete('/:userId/deleteGroup/:groupId', (req, res) => {
 });
 
 //Get all group requests
+router.get('/:userId/getGroupRequests', (req, res) => {
+    let userId = req.params.userId;
 
+    User.findById(userId, 'groupRequests', (err, groupRequests) => {
+        if(err) {
+            res.send({'error': 'Unable to get group requests' + err});
+        } else {
+            res.send({'groupRequests': groupRequests, 'error': ''});
+        }
+    });
+});
 
 //Create group request
+router.post('/:userId/createGroupRequest', (req, res) => {
+    let userId = req.params.userId;
+    let groupId = req.body.groupId;
+    let groupRequest = req.body;
+
+    Group.findById(groupId, (err, group) => {
+        if(err) {
+            res.send({'error': 'Group does not exist' + err});
+        } else {
+            User.update(
+                { _id: userId }, 
+                { $push: { 'groupRequests': groupRequest }}
+            ).exec(function(err) {
+                if(err){
+                    res.send({'error': 'Could not add group request' + err});
+                } else {
+                    res.send({'success': 'Group request added successfully', 'error': ''});
+                }
+            });
+        }
+    });
+});
+
 
 //Delete group request
+router.delete('/:userId/deleteGroupRequest', (req, res) => {
+    let userId = req.params.userId;
 
+    User.findById(userId, 'groupRequests', (err, user) => {
+        if(err) {
+            res.send({'error': 'Unable to delete group request'+ err});
+        } else {
+            user.groupRequests.pull(groupId);
+            user.save()
+            .then(
+                res.send({'success': 'Group request deleted', 'error': ''})
+            )
+            .catch(function(err){
+                res.send({'error': err});
+            });
+        }
+    });
+});
+
+//Accept group request
+router.post('/:userId/acceptGroupRequest/:groupId', (req, res) => {
+    let userId = req.params.userId;
+    let groupId = req.params.groupId;
+    let memberPermission = req.body.memberPermission;
+
+    let member = {
+        'memberId': userId,
+        'memberPermission': memberPermission
+    }
+
+    User.findById(userId, 'groups groupRequests', (err, user) => {
+        if(err) {
+            res.send({'error': 'Unable to find user' + err});
+        } else {
+            user.groups.push(groupId);
+            user.groupRequests.pull(groupId);
+            user.save();
+            Group.findById(groupId, 'members', (err, group) => {
+                if(err) {
+                    res.send({'error': 'Unable to find group' + err});
+                } else {
+                    group.members.push(member);
+                    res.send({'success': 'User join group', 'error': ''});
+                }
+            });
+        }
+    });
+
+});
 
 
 //Get all incoming friend requests
@@ -344,14 +419,9 @@ router.post('/:userId/createFriendRequest', (req, res) => {
     User.findById(toUserId, function(err, user) {
         if(!user) 
             res.send({'error': 'user not found'});
-        
+
         var request = {
-            from: {
-                fromUserId
-            },
-            to : {
-                toUserId
-            }
+            from: fromUserId,
         }
 
         User.update(
@@ -372,8 +442,8 @@ router.delete('/:userId/deleteFriendRequest/:friendId', (req, res) => {
     let userId = req.params.userId;
     let friendId = req.params.userId;
     User.findById(userId, function(err, user) {
-        if(!user) 
-            res.send({'error': 'user not found'});
+        if(err) 
+            res.send({'error': 'user not found' + err});
 
         user.friendRequests.pull(friendId);
         user.save()
@@ -390,7 +460,7 @@ router.delete('/:userId/deleteFriendRequest/:friendId', (req, res) => {
 //Get all user friends
 router.get('/:userId/friends', (req, res) => {
     let userId = req.params.userId;
-    User.findById(userId, function(err, user) {
+    User.findById(userId, 'friends', function(err, user) {
         if(!user) 
             res.send({'error': 'user not found'});
 
@@ -401,31 +471,44 @@ router.get('/:userId/friends', (req, res) => {
 });
 
 //Add friend
-router.post('/:userId/addFriend', (req, res) => {
-    let name = req.body.name;
-    let userId = req.params.userId;
+router.post('/:userId/addFriends', (req, res) => {
+    let friendOneId = req.body.friendOneId;
+    let friendOneName = req.body.friendOneName;
+    let friendTwoId = req.body.friendTwoId;
+    let friendTwoName = req.body.friendTwoName;
+    let userWithRequest = req.params.userId;
 
     //Check if user to be added exists
-    User.findOne({username: name}).exec(function(err, findUser) {
-        if(!findUser) {
+    User.findById(friendOneId, (err, findUser) => {
+        if(err) {
             res.send({'error': "user does not exist"});
         } else {
-            User.findById(userId, (req, user) => {
-                var friend = {
-                    _id: findUser._id,
-                    'name': name
-                };
+
+            let friendOne = {
+                friendId: friendTwoId,
+                friendName: friendTwoName
+            }
+            let friendTwo = {
+                friendId: friendOneId,
+                friendName: friendOneName
+            }
             
-                User.update(
-                    { _id: userId }, 
-                    { $push: { friends: friend }}
-                ).exec(function(err) {
-                    if(err) {
-                        res.send({'error': err});
-                    } else {
-                        res.send({'friend added successfully' : friend});
-                    }
-                });
+            //Add friend, remove incoming friend request
+            User.update(
+                { _id: friendOneId }, 
+                { $push: { friends: friendOne }},
+                { $pull: { friendRequests: friendTwoId}}
+            ).exec(function(err) {
+                if(err) {
+                    res.send({'error': err});
+                } else {
+                    //Add friend, no friend request ot delete
+                    User.update(
+                        { _id: friendTwoId},
+                        { $push : {friends : friendTwo}}
+                    )
+                    res.send({'friends added successfully' : friend});
+                }
             });
         }
     });
@@ -434,6 +517,8 @@ router.post('/:userId/addFriend', (req, res) => {
 //Delete friend
 router.delete('/:userId/deleteFriend/:friendId', (req, res) => {
     let friendId = req.params.friendId;
+    let userId = req.params.userId;
+
     User.findById(userId, function(err, user) {
         if(err) {
             res.send({'error': 'can not find user'});
@@ -441,7 +526,12 @@ router.delete('/:userId/deleteFriend/:friendId', (req, res) => {
         user.friends.pull(friendId);
         user.save()
         .then(
-            res.send('friend deleted')
+            User.update(
+                { _id: friendId},
+                { $pull : {friends: userId}}
+            ).then(
+                res.send('friend deleted')
+            )
         )
         .catch(function(err){
             res.send({'error': err});
@@ -475,7 +565,6 @@ router.get('/:userId/getProfilePicture', (req, res) => {
             Image.findById(imageId, function(err, img) {
                 if (err)
                     res.send(err);
-                // console.log(img);
                 res.contentType('json');
                 res.send({'image': img});
             });
@@ -520,6 +609,5 @@ router.get('/:userId/groups/events', (req, res) => {
         }
     })
 });
-
 
 module.exports = router;
