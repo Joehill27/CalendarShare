@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const EventScheme = require('./Event');
-const ImageScheme = require('./Image');
+//TODO update settings
 
 let UserSchema = new Schema({
     email: {
@@ -21,8 +21,14 @@ let UserSchema = new Schema({
             {
                 friendId: {
                     type: String
-                },
-                friendName: {
+                }
+            }
+        ]
+    },
+    groups: {
+        type: [
+            {
+                groupId : {
                     type: String
                 }
             }
@@ -32,13 +38,20 @@ let UserSchema = new Schema({
         type: [{
             from: {
                 type: String
-            },
-            to: {
+            }
+        }]
+    },
+    groupRequests : {
+        type: [{
+            groupId: {
                 type: String
             }
         }]
     },
     profilePicture: {
+        type: String
+    },
+    settings: {
         type: String
     }
 

@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-//Todo recurring events in schema
 let Event = new Schema({
     start : {
         type: Date
@@ -17,6 +16,12 @@ let Event = new Schema({
     },
     recurring : {
         type: Boolean
+    },
+    eventPicture: {
+        type: String
+    },
+    eventType: {
+        type: String
     }
 });
 
