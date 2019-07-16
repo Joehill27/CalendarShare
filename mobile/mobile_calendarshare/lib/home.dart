@@ -1,17 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_calendarshare/view_events.dart';
-import 'package:mobile_calendarshare/view_group_events.dart';
+import 'package:flutter/services.dart';
+import 'package:mobile_calendarshare/event_card.dart';
+import 'package:mobile_calendarshare/event_detail_page.dart';
+import 'package:mobile_calendarshare/event_model.dart';
+import 'package:mobile_calendarshare/past_events.dart';
+import 'package:mobile_calendarshare/new_event_form.dart';
+
+
+import 'my_event_list.dart';
 
 class HomePage extends StatefulWidget {
+  HomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
   @override
   _HomePageState createState() => new _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   int _bottomNavIndex=0;
+
   @override
   Widget build(BuildContext context) {
+    var key = new GlobalKey<ScaffoldState>();
     return new Scaffold(
+      key:  key,
       bottomNavigationBar: new BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         fixedColor: Color(0XFF29D091),
@@ -54,6 +67,22 @@ class _HomePageState extends State<HomePage> {
 }
 
 class MainContent extends StatelessWidget {
+ 
+final initialEvents = <Event>[]
+  ..add(new Event('Concert', 'Amway Center', 'Biggest Hits of 2019'))
+  ..add(new Event('Family Reunion', 'Magic Kingdom', 'Smiths 11th Annual Disney Get-Together'))
+  ..add(new Event('Concert', 'Amway Center', 'Biggest s of 2019'))
+  ..add(new Event('Pool Party', 'Glen\'s Place', 'Summer\'s Hottest Event'));
+
+final initialGroupEvents = <Event>[]
+  ..add(new Event('Musical', 'Amway Center', 'Biggest Hits of 2019'))
+  ..add(new Event('Disney Day', 'Magic Kingdom', 'Smiths 11th Annual Disney Get-Together'))
+  ..add(new Event('Magics Game', 'Amway Center', 'Biggest hits of 2019'))
+  ..add(new Event('Study PARTY', 'Glen\'s Place', 'Summer\'s Hottest Event'));
+
+final initialPastEvents = <Event> [];
+
+
   @override
   Widget build(BuildContext context) {
     return new ListView(
@@ -218,205 +247,135 @@ class MainContent extends StatelessWidget {
                 ],
               ),
               new SizedBox(
+                height: 30.0,
+              ),
+        
+             
+            
+  
+              
+              
+              
+
+            new SizedBox(
                 height: 15.0,
               ),
-              Row(
-                children: <Widget>[
-                  new Expanded(
-                      child: new Text("My Events",
-                          style: new TextStyle(fontSize: 18.0))),
-                  new Expanded(
-                      child: GestureDetector(
-                        onTap:() {
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => SecondRoute()
-                          ));
-                          },
+              new Container(
+              alignment: Alignment.centerLeft,
+              child: new Text("My Events", style: new TextStyle(
+                fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.indigo,)
+              
+              )),
+              
+              Container(
+        padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20.0),
+        height: MediaQuery.of(context).size.height * 0.35,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+            itemCount: initialEvents.length, itemBuilder: (context, index) {
+              return Container(
+                width: MediaQuery.of(context).size.width * .6,
+                child: Card(
                   
-                    child: new Text('View All',
-                    style: new TextStyle(color: Color(0XFF2BD093)),
-                    textAlign: TextAlign.end,
-                  ))),
-                ],
+                  color: Colors.yellow,     
+                             
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => EventDetailPage(initialEvents[index]),
+                        ));
+                      },
+                      
+                      child: new Text(initialEvents[index].name + '\n'+ initialEvents[index].description),
+                     
+                )
+                ));
+              
+        }),
+      ),    
+                            
+             
+                 
+                 
+                    
+              new SizedBox(
+                height: 15.0,
               ),
+              new Container(
+              alignment: Alignment.centerLeft,
+              child: new Text("Group Events", style: new TextStyle(
+                fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.indigo,)
+            
+              )),
+              Container(
+        padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20.0),
+        height: MediaQuery.of(context).size.height * 0.35,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+            itemCount: initialGroupEvents.length, itemBuilder: (context, index) {
+              return Container(
+                width: MediaQuery.of(context).size.width * .6,
+                child: Card(
+                  
+                  color: Colors.transparent,     
+                             
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => EventDetailPage(initialGroupEvents[index]),
+                        ));
+                      },
+                      child: new Text(initialGroupEvents[index].name), 
+                )
+                ));
+              
+        }),
+      ),
+    
+  
+              
+             
+              new SizedBox(
+                height: 15.0,
+              ),
+              new Container(
+              alignment: Alignment.centerLeft,
+              child: new Text("Past Events", style: new TextStyle(
+                fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.indigo,)
+            
+              )),
+              Container(
+        padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20.0),
+        height: MediaQuery.of(context).size.height * 0.35,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+            itemCount: initialPastEvents.length, itemBuilder: (context, index) {
+              return Container(
+                width: MediaQuery.of(context).size.width * .6,
+                child: Card(
+                  
+                  color: Colors.white,     
+                             
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => EventDetailPage(initialPastEvents[index]),
+                        ));
+                      },
+                      child: new Text(initialEvents[index].name), 
+                )
+                ));
+              
+        }),
+      ),
+  
+              
+             
               new SizedBox(
                 height: 10.0,
               ),
               Row(
-                children: <Widget>[
-                  new Expanded(
-                    child: Container(
-                      height: 150.0,
-                      child: new Column(
-                        children: <Widget>[
-                          new Container(
-                            height: 100.0,
-                            decoration: new BoxDecoration(
-                                borderRadius: new BorderRadius.circular(5.0),
-                                image: new DecorationImage(
-                                    image: new NetworkImage(
-                                        'https://www.howtogeek.com/wp-content/uploads/2016/01/steam-and-xbox-controllers.jpg'),
-                                    fit: BoxFit.cover)),
-                          ),
-                          new Text(
-                            "Concert",
-                            style: new TextStyle(fontSize: 16.0),
-                            textAlign: TextAlign.center,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  new SizedBox(
-                    width: 5.0,
-                  ),
-                  new Expanded(
-                    child: Container(
-                      height: 150.0,
-                      child: new Column(
-                        children: <Widget>[
-                          new Container(
-                            height: 100.0,
-                            decoration: new BoxDecoration(
-                                borderRadius: new BorderRadius.circular(5.0),
-                                image: new DecorationImage(
-                                    image: new NetworkImage(
-                                        'https://pawanjewellers.in/wp-content/uploads/2016/09/Jewellery-new.jpg'),
-                                    fit: BoxFit.cover)),
-                          ),
-                          new Text("Soccer Game",
-                              style: new TextStyle(fontSize: 16.0),
-                              textAlign: TextAlign.center)
-                        ],
-                      ),
-                    ),
-                  ),
-                  new SizedBox(
-                    width: 5.0,
-                  ),
-                  new Expanded(
-                    child: Container(
-                      height: 150.0,
-                      child: new Column(
-                        children: <Widget>[
-                          new Container(
-                            height: 100.0,
-                            decoration: new BoxDecoration(
-                                borderRadius: new BorderRadius.circular(5.0),
-                                image: new DecorationImage(
-                                    image: new NetworkImage(
-                                        'http://images4.fanpop.com/image/photos/21600000/Electronics-hd-wallpaper-21627626-1920-1200.jpg'),
-                                    fit: BoxFit.cover)),
-                          ),
-                          new Text('Salsa Class',
-                              style: new TextStyle(fontSize: 16.0),
-                              textAlign: TextAlign.center)
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              new SizedBox(
-                height: 15.0,
-              ),
-              Row(
-                children: <Widget>[
-                  new Expanded(
-                      child: new Text("Group Events",
-                          style: new TextStyle(fontSize: 18.0))),
-                  new Expanded(
-                      child: GestureDetector(
-                        onTap:() {
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => SecondRoute2()
-                          ));
-                          },
-                  
-                    child: new Text('View All',
-                    style: new TextStyle(color: Color(0XFF2BD093)),
-                    textAlign: TextAlign.end,
-                  ))),
-                ],
-              ),
-              new SizedBox(
-                height: 10.0,
-              ),
-              Row(
-                children: <Widget>[
-                  new Expanded(
-                    child: Container(
-                      height: 150.0,
-                      child: new Column(
-                        children: <Widget>[
-                          new Container(
-                            height: 100.0,
-                            decoration: new BoxDecoration(
-                                borderRadius: new BorderRadius.circular(5.0),
-                                image: new DecorationImage(
-                                    image: new NetworkImage(
-                                        'https://s1.cdn.autoevolution.com/images/gallery/LEXUS-HS-250h-3892_26.jpg'),
-                                    fit: BoxFit.cover)),
-                          ),
-                          new Text(
-                            "Car Show",
-                            style: new TextStyle(fontSize: 16.0),
-                            textAlign: TextAlign.center,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  new SizedBox(
-                    width: 5.0,
-                  ),
-                  new Expanded(
-                    child: Container(
-                      height: 150.0,
-                      child: new Column(
-                        children: <Widget>[
-                          new Container(
-                            height: 100.0,
-                            decoration: new BoxDecoration(
-                                borderRadius: new BorderRadius.circular(5.0),
-                                image: new DecorationImage(
-                                    image: new NetworkImage(
-                                        'https://d3tvpxjako9ywy.cloudfront.net/blog/content/uploads/2015/03/company-culture-why-it-matters.jpg?av=6219bb831e993c907ca622baef062556'),
-                                    fit: BoxFit.cover)),
-                          ),
-                          new Text("Career Fair",
-                              style: new TextStyle(fontSize: 16.0),
-                              textAlign: TextAlign.center)
-                        ],
-                      ),
-                    ),
-                  ),
-                  new SizedBox(
-                    width: 5.0,
-                  ),
-                  new Expanded(
-                    child: Container(
-                      height: 150.0,
-                      child: new Column(
-                        children: <Widget>[
-                          new Container(
-                            height: 100.0,
-                            decoration: new BoxDecoration(
-                                borderRadius: new BorderRadius.circular(5.0),
-                                image: new DecorationImage(
-                                    image: new NetworkImage(
-                                        'http://images4.fanpop.com/image/photos/21600000/Electronics-hd-wallpaper-21627626-1920-1200.jpg'),
-                                    fit: BoxFit.cover)),
-                          ),
-                          new Text('Workshop',
-                              style: new TextStyle(fontSize: 16.0),
-                              textAlign: TextAlign.center)
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
+               ),
               
           
             ],
@@ -425,4 +384,5 @@ class MainContent extends StatelessWidget {
       ],
     );
   }
+  
 }
