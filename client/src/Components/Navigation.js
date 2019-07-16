@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 class Navigation extends React.Component {
   constructor(props) {
       super(props);
+
       this.state = {
           collapse: false,
       };
@@ -18,7 +19,23 @@ class Navigation extends React.Component {
       });
   }
 
+  componentDidMount() {
+    if(this.state.userId == -1)
+    {
+        this.props.history.push('/');
+        return;
+    }
+}
+
+
   render() {
+
+    const logoutHandler = async() => {
+      localStorage.setItem('userId', -1);
+      localStorage.setItem('user', '');
+      this.props.history.push('/');
+    }
+
     const bgNavy = {backgroundColor: '#2E4158'}
     const container = {height: 1300}
     return(
@@ -38,16 +55,29 @@ class Navigation extends React.Component {
                   <MDBNavItem>
                       <MDBNavLink to="#">Groups</MDBNavLink>
                   </MDBNavItem>
+                  <MDBNavItem>
+                    <MDBDropdown>
+                      <MDBDropdownToggle nav caret>
+                        <span><MDBIcon icon="bell" className="mr-1" /></span>
+                      </MDBDropdownToggle>
+                      <MDBDropdownMenu>
+                        <MDBDropdownItem href="#!">Friends</MDBDropdownItem>
+                        <MDBDropdownItem href="#!">Groups</MDBDropdownItem>
+                        <MDBDropdownItem href="#!">New Events</MDBDropdownItem>
+                        <MDBDropdownItem href="#!">Something else here</MDBDropdownItem>
+                      </MDBDropdownMenu>
+                    </MDBDropdown>
+                  </MDBNavItem>
                 </MDBNavbarNav>
                 <MDBNavbarNav right>
                   <MDBNavItem>
                     <MDBDropdown>
                       <MDBDropdownToggle nav caret>
-                        <span>User Name</span>
+                        <span>{localStorage.getItem('userName')}</span>
                       </MDBDropdownToggle>
                       <MDBDropdownMenu>
                         <MDBDropdownItem href="#!">Settings<MDBIcon icon="cog" className="mdb-color-text ml-2" /></MDBDropdownItem>
-                        <MDBDropdownItem href="#!">Sign Out<MDBIcon icon="sign-out-alt" className="red-text ml-2" /></MDBDropdownItem>
+                        <MDBDropdownItem href="/">Sign Out<MDBIcon icon="sign-out-alt" className="red-text ml-2" /></MDBDropdownItem>
                       </MDBDropdownMenu>
                     </MDBDropdown>
                   </MDBNavItem>

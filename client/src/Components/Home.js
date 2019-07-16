@@ -9,6 +9,10 @@ import Footer from './Footer';
 class Home extends React.Component {
   constructor(props) {
     super(props);
+    if(localStorage.getItem('userId') == -1) {
+      alert("Attempting to access a page without valid credentials.\nReturning to login page. Please log in to a valid account.");
+      this.props.history.push('');
+    }
   }
 
   render() {
