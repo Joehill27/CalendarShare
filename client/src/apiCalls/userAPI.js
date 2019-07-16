@@ -4,6 +4,7 @@ import axios from "axios";
 export const getUser = async(userName) => {
     try {
         let user = await axios.get('/api/user/get', userName);
+        return user;
     } catch(e) {
         console.log(e);
     }

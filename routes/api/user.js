@@ -23,7 +23,7 @@ var emailCheck = require('email-check');
 router.post('/login', (req, res) => {
     let name = req.body.username;
     let password = req.body.password;
-    User.findOne({username: name}).select('-groups -friends -email -events -__v').exec(function(err, user) {
+    User.findOne({username: name}).exec(function(err, user) {
     if(!user) {
         res.send({'error' : 'user does not exist'});
     } else{

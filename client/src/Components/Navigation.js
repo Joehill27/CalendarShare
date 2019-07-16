@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 class Navigation extends React.Component {
   constructor(props) {
       super(props);
+
       this.state = {
           collapse: false,
       };
@@ -18,7 +19,23 @@ class Navigation extends React.Component {
       });
   }
 
+  componentDidMount() {
+    if(this.state.userId == -1)
+    {
+        this.props.history.push('/');
+        return;
+    }
+}
+
+
   render() {
+
+    const logoutHandler = async() => {
+      localStorage.setItem('userId', -1);
+      localStorage.setItem('user', '');
+      this.props.history.push('/');
+    }
+
     const bgNavy = {backgroundColor: '#2E4158'}
     const container = {height: 1300}
     return(
@@ -47,7 +64,7 @@ class Navigation extends React.Component {
                       </MDBDropdownToggle>
                       <MDBDropdownMenu>
                         <MDBDropdownItem href="#!">Settings<MDBIcon icon="cog" className="mdb-color-text ml-2" /></MDBDropdownItem>
-                        <MDBDropdownItem href="#!">Sign Out<MDBIcon icon="sign-out-alt" className="red-text ml-2" /></MDBDropdownItem>
+                        <MDBDropdownItem href="/">Sign Out<MDBIcon icon="sign-out-alt" className="red-text ml-2" /></MDBDropdownItem>
                       </MDBDropdownMenu>
                     </MDBDropdown>
                   </MDBNavItem>
