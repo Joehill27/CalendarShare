@@ -1,3 +1,4 @@
+    
 import React, { Component } from "react";
 import axios from "axios";
 import './App.css';
@@ -24,17 +25,17 @@ class App extends Component {
         <div className="App__Form">
           
           <div className="PageSwitcher">
-            <NavLink to="/" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Login</NavLink>
-            <NavLink exact to="/createAccount" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Create Account</NavLink>
+            <NavLink to="/login" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Login</NavLink>
+            <NavLink exact to="/" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Create Account</NavLink>
           </div>
 
           <div className="FormTitle">
-            <NavLink to="/" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Login</NavLink> or 
-            <NavLink exact to="/createAccount" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Create Account</NavLink>
+            <NavLink to="/login" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Login</NavLink> or 
+            <NavLink exact to="/" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Create Account</NavLink>
           </div>
         
-          <Route exact path="/createAccount" component={CreateAccount}></Route>
-          <Route path="/" component={Login}></Route>
+          <Route exact path="/" component={CreateAccount}></Route>
+          <Route path="/login" component={Login}></Route>
         </div>
       </div>
       </Router>

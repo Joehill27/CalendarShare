@@ -13,9 +13,20 @@ class Home extends React.Component {
     const bgNavy = {backgroundColor: '#2E4158'}
     const scrollContainerStyle = { width: "auto", maxHeight: "auto" };
     return (
-      <div style={bgNavy}>
+      <div style={bgNavy}>  
       <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
         <Navigation/>
+        <div class="card-inline cardpadding"><h2><Event/></h2></div>
+        <div class="card-inline cardpadding"><h2><Event/></h2></div>
+        <div class="card-inline cardpadding"><h2><Event/></h2></div>
+        <div class="card-inline cardpadding"><h2><Event/></h2></div>
+        <div class="card-inline cardpadding"><h2><Event/></h2></div>
+        <div class="card-inline cardpadding"><h2><Event/></h2></div>
+        <div class="card-inline cardpadding"><h2><Event/></h2></div>
+      </div>
+      <div>-</div>
+      <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
+        <Navigation/> 
         <div class="card-inline cardpadding"><h2><Event/></h2></div>
         <div class="card-inline cardpadding"><h2><Event/></h2></div>
         <div class="card-inline cardpadding"><h2><Event/></h2></div>

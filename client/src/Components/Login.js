@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-const bcrypt = require('bcryptjs');
+import { sha256 } from '../../../node_modules/js-sha256';
 
 axios.defaults.headers.post['Access-Control-Allow-Methods'] = 'PATCH, DELETE, POST, GET, OPTIONS';
 
@@ -44,12 +44,10 @@ class Login extends Component {
       };
       try {
         var res = await axios.post('/api/user/login', blank);
-        if(bcrypt.compareSync(this.state.password, res.data.user.password))
-        {
-          return res;
-        } else {
-          alert("Invalid Username/Password");
-        }
+        var toHash = this.state.username + this.state.password + this.state.username;
+        var isSame = (sha256(toHash) == res.data.user.password) ? true: false;
+        if(isSame) return res;
+        else alert("Incorrect username or password");
       } catch (error) {
         console.log(error);
       }
