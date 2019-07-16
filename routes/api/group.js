@@ -47,7 +47,7 @@ router.post('/createGroup', (req, res) => {
     newGroup.members.push(creator);
     newGroup.save()
     .then(newGroup => {
-        res.send({'success': 'new Group created'})
+        res.send({'success': 'new Group created' + group})
     
     }).catch(err => {
         res.send({'error': err});

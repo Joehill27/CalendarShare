@@ -1,19 +1,10 @@
 import axios from "axios";
 
-
-//Get group
-export const getGroup = async(groupId) => {
-    try {
-
-    } catch(e) {
-        console.log(e);
-    }
-}
-
 //Create group
 export const createGroup = async(group) => {
     try {
-
+        let result = await axios.post('/api/group/createGroup', group);
+        return result;
     } catch(e) {
         console.log(e);
     }
@@ -22,7 +13,8 @@ export const createGroup = async(group) => {
 //Delete group
 export const deleteGroup = async(groupId) => {
     try {
-
+        let result = await axios.delete('/api/group/' + groupId + '/deleteGroup');
+        return result;
     } catch(e) {
         console.log(e);
     }
@@ -31,17 +23,19 @@ export const deleteGroup = async(groupId) => {
 //Get all group events
 export const getGroupEvents = async(groupId) => {
     try {
-        let response = await axios.get('/api/group/' + groupId + '/getEvents');
-        return response
+        let groupEvents = await axios.get('/api/group/' + groupId + '/getEvents');
+        return groupEvents;
     } catch(e) {
         console.log(e);
     }
 }
 
 //Create group event
-export const createGroupEvent = async(groupId, event) => {
+export const createGroupEvent = async(groupId, event, image) => {
     try {
-
+        event.image = image;
+        let result = await axios.post('/api/group/'+ groupId + '/addEvent', event);
+        return result;
     } catch(e) {
         console.log(e);
     }
@@ -50,7 +44,8 @@ export const createGroupEvent = async(groupId, event) => {
 //Update group event
 export const updateGroupEvent = async(groupId, event) => {
     try {
-
+        let result = await axios.put('/api/group/' + groupId + '/updateEvent/' + event.eventId);
+        return result;
     } catch(e) {
         console.log(e);
     }
@@ -59,24 +54,32 @@ export const updateGroupEvent = async(groupId, event) => {
 //Delete group event
 export const deleteGroupEvent = async(groupId, eventId) => {
     try {
-
-    } catch(e) {
-        console.log(e);
-    }
-}
-
-//Get all group members
-export const getGroupMembers = async(groupId) => {
-    try {
-
+        let result = await axios.delete('/api/group/' + groupId + '/deleteEvent/' + eventId);
+        return result;
     } catch(e) {
         console.log(e);
     }
 }
 
 //Add user to group
+export const addGroupMemeber = async(user) => {
+    try {
+        let result = await axios.post('/api/group/' + groupId + '/addMember');
+        return result;
+    } catch(e) {
+        console.log(e);
+    }
+}
 
 //Delete user from group
+export const deleteUserFromGroup = async(groupId, userId) => {
+    try {
+        let result = await axios.delete('/api/group/' + groupId + '/deleteMember/' + userId);
+        return result;
+    } catch(e) {
+        console.log(e);
+    }
+}
 
 //Invite user to group
 export const inviteUserToGroup = async(groupId, userId) => {
@@ -90,7 +93,8 @@ export const inviteUserToGroup = async(groupId, userId) => {
 //Update group picture
 export const updateGroupPicture = async(groupId, image) => {
     try {
-
+        let result = await axios.put('/api/group/', );
+        return result;
     } catch(e) {
         console.log(e);
     }

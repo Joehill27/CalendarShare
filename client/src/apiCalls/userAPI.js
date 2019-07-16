@@ -79,7 +79,7 @@ export const denyGroupRequest = async(userId, groupId) => {
 //Update User Settings
 export const updateUserSettings = async(userId, settings) => {
     try {
-        let result = await axios.update('/api/user/' + userId + 'updateSettings');
+        let result = await axios.update('/api/user/' + userId + 'updateSettings', settings);
         return result;
     } catch(e) {
         console.log(e);
