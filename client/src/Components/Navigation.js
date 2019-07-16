@@ -60,7 +60,7 @@ class Navigation extends React.Component {
                   <MDBNavItem>
                     <MDBDropdown>
                       <MDBDropdownToggle nav caret>
-                        <span>User Name</span>
+                        <span>{localStorage.getItem('userName')}</span>
                       </MDBDropdownToggle>
                       <MDBDropdownMenu>
                         <MDBDropdownItem href="#!">Settings<MDBIcon icon="cog" className="mdb-color-text ml-2" /></MDBDropdownItem>
