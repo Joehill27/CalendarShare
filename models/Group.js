@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const EventScheme = require('./Event');
 
+//TODO update settings
 let GroupSchema = new Schema({
     groupName : {
         type: String
@@ -9,7 +10,7 @@ let GroupSchema = new Schema({
     members: {
         type: [
             {
-                memberName: {
+                memberId: {
                     type: String
                 },
                 memberPermission: {
@@ -20,6 +21,12 @@ let GroupSchema = new Schema({
     },
     events: {
         type: [EventScheme]
+    },
+    groupPicture: {
+        type: String
+    },
+    settings : {
+        type: String
     }
     
 });

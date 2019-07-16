@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const EventScheme = require('./Event');
+//TODO update settings
 
 let UserSchema = new Schema({
     email: {
@@ -20,35 +21,40 @@ let UserSchema = new Schema({
             {
                 friendId: {
                     type: String
-                },
-                friendName: {
+                }
+            }
+        ]
+    },
+    groups: {
+        type: [
+            {
+                groupId : {
                     type: String
                 }
             }
         ]
     },
-    friendRequest : {
-        incoming: {
-            type: [{
-                from: {
-                    type: String
-                },
-                to: {
-                    type: String
-                }
-            }]
-        },
-        outgoing: {
-            type: [{
-                from: {
-                    type: String
-                },
-                to: {
-                    type: String
-                }
-            }]
-        }
+    friendRequests : {
+        type: [{
+            from: {
+                type: String
+            }
+        }]
+    },
+    groupRequests : {
+        type: [{
+            groupId: {
+                type: String
+            }
+        }]
+    },
+    profilePicture: {
+        type: String
+    },
+    settings: {
+        type: String
     }
+
 });
 
 module.exports = User = mongoose.model('user', UserSchema);

@@ -58,6 +58,9 @@ class Login extends Component {
       console.log(response);
       if(response) {
         localStorage.setItem('userId', response.data.user._id);
+        delete response.data.user.password;
+        localStorage.setItem('user', response.data.user);
+        localStorage.setItem('userName', response.data.user.username)
         this.props.history.push('/home');
         window.location.reload();
       }
