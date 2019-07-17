@@ -272,6 +272,7 @@ router.get('/:userId/groups', (req, res) => {
     });
 });
 
+//TODO add user as a member to group
 //Add group to user
 router.post('/:userId/addGroup', (req, res) => {
     let userId = req.params.userId;
