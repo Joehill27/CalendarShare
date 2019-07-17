@@ -5,13 +5,16 @@ MDBModalHeader, MDBModalFooter, MDBContainer, MDBRow, MDBInput } from 'mdbreact'
 class MyEvent extends React.Component {
 
     state = {
+ 
         modal1: false,
         modal2: false,
-        eventName: {
-            value: "",
-            valid: false
-        }
-    }
+        eventName: "",
+        eventDate: "",
+        eventStart: "",
+        eventEnd: "",
+        eventType: "",
+        eventDetails: ""
+    };
 
     toggle = nr => () => {
         let modalNumber = 'modal' + nr
@@ -19,6 +22,15 @@ class MyEvent extends React.Component {
             [modalNumber]: !this.state[modalNumber]
         });
     }
+
+    submitHandler = event => {
+        event.preventDefault();
+        event.target.className += " was-validated";
+      };
+
+    changeHandler = event => {
+    this.setState({ [event.target.name]: event.target.value });
+    };
 
 
     render() {
@@ -44,36 +56,132 @@ class MyEvent extends React.Component {
                                 </MDBModalFooter>
                             </MDBModal>
                         <MDBBtn size="sm" color="mdb-color darken-2" onClick={this.toggle(2)}>Edit</MDBBtn>
-                            <MDBModal isOpen={this.state.modal2} toggle={this.toggle(2)} centered>
+                            <MDBModal isOpen={this.state.modal2} toggle={this.toggle(2)} size="lg" centered>
                                     <MDBModalHeader toggle={this.toggle(2)}>Edit [Event Name]</MDBModalHeader>
                                     <MDBModalBody>
                                         <MDBContainer fluid className="">
-                                            <form>
+                                            <form className="needs-validation" onSubmit={this.submitHandler} noValidate>
                                                 <MDBRow>
                                                     <MDBCol>
                                                         <MDBInput
+                                                            value={this.state.eventName}
                                                             label="Event Name" 
-                                                            className={this.state.eventName.valid ? "form-control is-valid" : "form-control is-invalid"}
+                                                            className="form-control"
                                                             name="eventName"
                                                             onChange={this.changeHandler}
                                                             type="text"
                                                             required
                                                             >
-                                                            <div className="valid-feedback">Valid</div>
-                                                            <div className="valid-feedback">invalid</div>
+                                                            <div className="invalid-feedback font-weight-light smallText">Event Name Required</div>
+                                                        </MDBInput>
+                                                    </MDBCol>
+                                                </MDBRow>
+                                                <MDBRow>
+                                                    <MDBCol>
+                                                        <MDBInput
+                                                            value={this.state.eventDate}
+                                                            label="Event Date" 
+                                                            className="form-control"
+                                                            name="eventDate"
+                                                            onChange={this.changeHandler}
+                                                            type="Date"
+                                                            required
+                                                        >
+                                                        <div className="invalid-feedback font-weight-light smallText">Event Date Required</div>
                                                         </MDBInput>
                                                     </MDBCol>
                                                     <MDBCol>
-                                                        <MDBInput label="Time" outline />
+                                                        <MDBInput
+                                                            value={this.state.eventStart}
+                                                            label="Start Time" 
+                                                            className="form-control"
+                                                            name="eventStart"
+                                                            onChange={this.changeHandler}
+                                                            type="time"
+                                                            required
+                                                        >
+                                                        <div className="invalid-feedback font-weight-light smallText">Start Time Required</div>
+                                                        </MDBInput>
+                                                    </MDBCol>
+                                                    <MDBCol>
+                                                        <MDBInput
+                                                            value={this.state.eventEnd}
+                                                            label="End Time" 
+                                                            className="form-control"
+                                                            name="eventEnd"
+                                                            onChange={this.changeHandler}
+                                                            type="time"
+                                                            required
+                                                        >
+                                                        <div className="invalid-feedback font-weight-light smallText">End Time Required</div>
+                                                        </MDBInput>
+                                                    </MDBCol>
+                                                </MDBRow>
+                                                <MDBRow>
+                                                    <MDBCol>
+                                                    <label className="font-weight-light medText grey-text">Event Type</label>
+                                                    <div className="custom-control custom-radio">
+                                                        <input
+                                                            value="Sporting"
+                                                            onChange={this.changeHandler}
+                                                            type="radio"
+                                                            className="custom-control-input"
+                                                            id="customControlValidation1"
+                                                            name="eventType"
+                                                            required
+                                                        />
+                                                        <label
+                                                            className="custom-control-label medText paddingTop font-weight-light"
+                                                            htmlFor="customControlValidation1"
+                                                        >
+                                                            Sporting
+                                                        </label>
+                                                    </div>
+                                                    <div className="custom-control custom-radio ">
+                                                        <input
+                                                            value="Music"
+                                                            onChange={this.changeHandler}
+                                                            type="radio"
+                                                            className="custom-control-input"
+                                                            id="customControlValidation2"
+                                                            name="eventType"
+                                                            required
+                                                        />
+                                                        <label
+                                                            className="custom-control-label medText paddingTop font-weight-light"
+                                                            htmlFor="customControlValidation2"
+                                                        >
+                                                             Music
+                                                        </label>
+                                                        <div className="invalid-feedback font-weight-light smallText">Event Type Required</div>
+                                                    </div>
+                                                    </MDBCol>
+                                                </MDBRow>
+                                                <MDBRow>
+                                                    <MDBCol>
+                                                        <MDBInput
+                                                            value={this.state.eventDetails}
+                                                            label="Event Details" 
+                                                            className="form-control"
+                                                            name="eventDetails"
+                                                            onChange={this.changeHandler}
+                                                            type="textarea"
+                                                            rows="3"
+                                                            required
+                                                        >
+                                                        <div className="invalid-feedback font-weight-light smallText">Event Details Required</div>
+                                                        </MDBInput>
+                                                    </MDBCol>
+                                                </MDBRow>
+                                                <MDBRow>
+                                                    <MDBCol className="ml-auto" md="4">
+                                                    <MDBBtn color="mdb-color darken-2" type="submit" onclick={this.submitHandler} className="ml-auto">Save</MDBBtn>
+                                                    <MDBBtn color="danger" onClick={this.toggle(2)} className="ml-auto">Close</MDBBtn>
                                                     </MDBCol>
                                                 </MDBRow>
                                             </form>
                                         </MDBContainer>
                                     </MDBModalBody>
-                                    <MDBModalFooter>
-                                        <MDBBtn color="mdb-color darken-2">Save</MDBBtn>
-                                        <MDBBtn color="danger" onClick={this.toggle(2)}>Cancel</MDBBtn>
-                                    </MDBModalFooter>
                                 </MDBModal>
                         <MDBBtn className="ml-5" outline size="sm" color="danger"><MDBIcon icon="trash-alt" /></MDBBtn>
                     </MDBCardBody>

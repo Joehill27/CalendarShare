@@ -248,3 +248,14 @@ img {
   background-color: #7283a7 ;
 }
 
+.smallText {
+  font-size: small;
+}
+
+.medText {
+  font-size: medium;
+}
+
+.paddingTop {
+  padding-top: 0.2em;
+}
