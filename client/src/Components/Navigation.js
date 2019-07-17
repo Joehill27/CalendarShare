@@ -55,6 +55,19 @@ class Navigation extends React.Component {
                   <MDBNavItem>
                       <MDBNavLink to="#">Groups</MDBNavLink>
                   </MDBNavItem>
+                  <MDBNavItem>
+                    <MDBDropdown>
+                      <MDBDropdownToggle nav caret>
+                        <span><MDBIcon icon="bell" className="mr-1" /></span>
+                      </MDBDropdownToggle>
+                      <MDBDropdownMenu>
+                        <MDBDropdownItem href="#!">Friends</MDBDropdownItem>
+                        <MDBDropdownItem href="#!">Groups</MDBDropdownItem>
+                        <MDBDropdownItem href="#!">New Events</MDBDropdownItem>
+                        <MDBDropdownItem href="#!">Something else here</MDBDropdownItem>
+                      </MDBDropdownMenu>
+                    </MDBDropdown>
+                  </MDBNavItem>
                 </MDBNavbarNav>
                 <MDBNavbarNav right>
                   <MDBNavItem>
