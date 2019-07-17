@@ -15,6 +15,16 @@ class Home extends React.Component {
     }
   }
 
+  renderEvents(props) {
+    return (
+      <div>
+        {props.events.map((Event, index) => (
+          <Event key={index} Event={Event} />
+        ))}
+      </div>
+    );
+  }
+
   render() {
     const bgNavy = {backgroundColor: '#2E4158'}
     const scrollContainerStyle = { width: "auto", maxHeight: "auto" };

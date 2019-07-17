@@ -72,7 +72,8 @@ class CreateAccount extends Component {
       if(response) {
         console.log(response.data.error);
         if(!response.data.error.localeCompare("Account with that username already exists") || 
-           !response.data.error.localeCompare("Invalid email address"))
+           !response.data.error.localeCompare("Invalid email address") ||
+           !response.data.error.localeCompare("User with email already exists"))
         {
           console.log(response.data.error);
           alert("Account name/email already exists or email is invalid");
