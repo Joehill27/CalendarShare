@@ -20,6 +20,20 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _bottomNavIndex=0;
 
+final initialEvents = <Event>[]
+  ..add(new Event('Concert', 'Amway Center', 'Biggest Hits of 2019'))
+  ..add(new Event('Family Reunion', 'Magic Kingdom', 'Smiths 11th Annual Disney Get-Together'))
+  ..add(new Event('Concert', 'Amway Center', 'Biggest s of 2019'))
+  ..add(new Event('Pool Party', 'Glen\'s Place', 'Summer\'s Hottest Event'));
+
+final initialGroupEvents = <Event>[]
+  ..add(new Event('Musical', 'Amway Center', 'Biggest Hits of 2019'))
+  ..add(new Event('Disney Day', 'Magic Kingdom', 'Smiths 11th Annual Disney Get-Together'))
+  ..add(new Event('Magics Game', 'Amway Center', 'Biggest hits of 2019'))
+  ..add(new Event('Study PARTY', 'Glen\'s Place', 'Summer\'s Hottest Event'));
+
+final initialPastEvents = <Event> [];
+
   @override
   Widget build(BuildContext context) {
     var key = new GlobalKey<ScaffoldState>();
@@ -61,31 +75,7 @@ class _HomePageState extends State<HomePage> {
           elevation: 0.0,
           title: new Text('Welcome, User'),
           iconTheme: new IconThemeData(color: Color(0xFF18D191))),
-      body: MainContent(),
-    );
-  }
-}
-
-class MainContent extends StatelessWidget {
- 
-final initialEvents = <Event>[]
-  ..add(new Event('Concert', 'Amway Center', 'Biggest Hits of 2019'))
-  ..add(new Event('Family Reunion', 'Magic Kingdom', 'Smiths 11th Annual Disney Get-Together'))
-  ..add(new Event('Concert', 'Amway Center', 'Biggest s of 2019'))
-  ..add(new Event('Pool Party', 'Glen\'s Place', 'Summer\'s Hottest Event'));
-
-final initialGroupEvents = <Event>[]
-  ..add(new Event('Musical', 'Amway Center', 'Biggest Hits of 2019'))
-  ..add(new Event('Disney Day', 'Magic Kingdom', 'Smiths 11th Annual Disney Get-Together'))
-  ..add(new Event('Magics Game', 'Amway Center', 'Biggest hits of 2019'))
-  ..add(new Event('Study PARTY', 'Glen\'s Place', 'Summer\'s Hottest Event'));
-
-final initialPastEvents = <Event> [];
-
-
-  @override
-  Widget build(BuildContext context) {
-    return new ListView(
+      body: new ListView(
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -249,54 +239,89 @@ final initialPastEvents = <Event> [];
               new SizedBox(
                 height: 30.0,
               ),
-        
-             
-            
-  
-              
-              
-              
+
 
             new SizedBox(
-                height: 15.0,
+                height: 10.0,
               ),
               new Container(
-              alignment: Alignment.centerLeft,
+              alignment: Alignment.bottomLeft,
               child: new Text("My Events", style: new TextStyle(
                 fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.indigo,)
               
               )),
+               
               
               Container(
         padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20.0),
-        height: MediaQuery.of(context).size.height * 0.35,
+        height: MediaQuery.of(context).size.height * 0.5,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
             itemCount: initialEvents.length, itemBuilder: (context, index) {
               return Container(
-                width: MediaQuery.of(context).size.width * .6,
+                width: MediaQuery.of(context).size.width * .7,
                 child: Card(
-                  
-                  color: Colors.yellow,     
-                             
-                    child: GestureDetector(
-                      onTap: () {
+                  child: Column(children: [ListTile(
+                    onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) => EventDetailPage(initialEvents[index]),
                         ));
                       },
-                      
-                      child: new Text(initialEvents[index].name + '\n'+ initialEvents[index].description),
-                     
-                )
-                ));
-              
-        }),
-      ),    
+                    title: Text(initialEvents[index].name),
+                    subtitle: Text(initialEvents[index].location),
+                    leading: Icon(Icons.event,
+                    color: Colors.blue,
+                    ),
+                  ),
+                  Divider(),
+                  ListTile(
+                    
+            title: Text('(408) 555-1212',
+                style: TextStyle(fontWeight: FontWeight.w500)), 
+            leading: Icon(
+              Icons.contact_phone,
+              color: Colors.blue[500],
+            ),
+          ),
+          ListTile(
+            title: Text('costa@example.com'),
+            leading: Icon(
+              Icons.contact_mail,
+              color: Colors.blue[500],
+            ),
+          ),
+
+                ],
+              ),
+            )
+          );
+            }
+        )
+              ),    
                             
-             
+
+      Container(
+                alignment: Alignment.centerRight,
+                child: FlatButton.icon(
+                  
+                  color: Colors.transparent,
+                  icon: Icon(Icons.add), //`Icon` to display
+          label: Text('Add an Event', style: new TextStyle(fontSize: 10.0)),
+           //`Text` to display
+           onPressed: () async {
+            Event newEvent = await Navigator.of(context).push(new MaterialPageRoute(
+                          builder: (context){ return new AddEventFormPage();
+                          }
+                        ),
+                        );
+                if (newEvent != null) {
+                initialEvents.add(newEvent);
+    }
+          },
+        )
+                ),       
                  
-                 
+//This is where my edits begin$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4                 
                     
               new SizedBox(
                 height: 15.0,
@@ -309,34 +334,82 @@ final initialPastEvents = <Event> [];
               )),
               Container(
         padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20.0),
-        height: MediaQuery.of(context).size.height * 0.35,
+        height: MediaQuery.of(context).size.height * 0.5,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
             itemCount: initialGroupEvents.length, itemBuilder: (context, index) {
               return Container(
-                width: MediaQuery.of(context).size.width * .6,
+                width: MediaQuery.of(context).size.width * .7,
                 child: Card(
-                  
-                  color: Colors.transparent,     
-                             
-                    child: GestureDetector(
-                      onTap: () {
+                  child: Column(children: [ListTile(
+                    onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) => EventDetailPage(initialGroupEvents[index]),
                         ));
                       },
-                      child: new Text(initialGroupEvents[index].name), 
-                )
-                ));
-              
-        }),
-      ),
+                    title: Text(initialGroupEvents[index].name),
+                    subtitle: Text(initialGroupEvents[index].location),
+                    leading: Icon(Icons.event,
+                    color: Colors.blue,
+                    ),
+                  ),
+                  Divider(),
+                  ListTile(
+                    
+            title: Text('(408) 555-1212',
+                style: TextStyle(fontWeight: FontWeight.w500)), 
+            leading: Icon(
+              Icons.contact_phone,
+              color: Colors.blue[500],
+            ),
+          ),
+          ListTile(
+            title: Text('costa@example.com'),
+            leading: Icon(
+              Icons.contact_mail,
+              color: Colors.blue[500],
+            ),
+          ),
+
+                ],
+              ),
+            )
+          );
+            }
+        )
+              ),
+
+
+          new SizedBox(
+            height: 0.0,
+          ),      
+          Container(
+                alignment: Alignment.centerRight,
+                child: FlatButton.icon(
+                  
+                  color: Colors.transparent,
+                  icon: Icon(Icons.add), //`Icon` to display
+          label: Text('Add an Event', style: new TextStyle(fontSize: 10.0)),
+           //`Text` to display
+           onPressed: () async {
+            Event newEvent = await Navigator.of(context).push(new MaterialPageRoute(
+                          builder: (context){ return new AddEventFormPage();
+                          }
+                        ),
+                        );
+                if (newEvent != null) {
+                initialGroupEvents.add(newEvent);
+    }
+          },
+        )
+                ),
+//                  
     
-  
+//this is where my edits end%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
               
              
               new SizedBox(
-                height: 15.0,
+                height: 25.0,
               ),
               new Container(
               alignment: Alignment.centerLeft,
@@ -344,30 +417,77 @@ final initialPastEvents = <Event> [];
                 fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.indigo,)
             
               )),
-              Container(
+             Container(
         padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20.0),
-        height: MediaQuery.of(context).size.height * 0.35,
+        height: MediaQuery.of(context).size.height * 0.5,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
             itemCount: initialPastEvents.length, itemBuilder: (context, index) {
               return Container(
-                width: MediaQuery.of(context).size.width * .6,
+                width: MediaQuery.of(context).size.width * .7,
                 child: Card(
-                  
-                  color: Colors.white,     
-                             
-                    child: GestureDetector(
-                      onTap: () {
+                  child: Column(children: [ListTile(
+                    onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) => EventDetailPage(initialPastEvents[index]),
                         ));
                       },
-                      child: new Text(initialEvents[index].name), 
-                )
-                ));
-              
-        }),
-      ),
+                    title: Text(initialPastEvents[index].name),
+                    subtitle: Text(initialPastEvents[index].location),
+                    leading: Icon(Icons.event,
+                    color: Colors.blue,
+                    ),
+                  ),
+                  Divider(),
+                  ListTile(
+                    
+            title: Text('(408) 555-1212',
+                style: TextStyle(fontWeight: FontWeight.w500)), 
+            leading: Icon(
+              Icons.contact_phone,
+              color: Colors.blue[500],
+            ),
+          ),
+          ListTile(
+            title: Text('costa@example.com'),
+            leading: Icon(
+              Icons.contact_mail,
+              color: Colors.blue[500],
+            ),
+          ),
+
+                ],
+              ),
+            )
+          );
+            }
+        )
+              ),
+
+
+          new SizedBox(
+            height: 0.0,
+          ),      
+          Container(
+                alignment: Alignment.centerRight,
+                child: FlatButton.icon(
+                  
+                  color: Colors.transparent,
+                  icon: Icon(Icons.add), //`Icon` to display
+          label: Text('Add an Event', style: new TextStyle(fontSize: 10.0)),
+           //`Text` to display
+           onPressed: () async {
+            Event newEvent = await Navigator.of(context).push(new MaterialPageRoute(
+                          builder: (context){ return new AddEventFormPage();
+                          }
+                        ),
+                        );
+                if (newEvent != null) {
+                initialPastEvents.add(newEvent);
+    }
+          },
+        )
+                ),
   
               
              
@@ -382,7 +502,8 @@ final initialPastEvents = <Event> [];
           )),
         )
       ],
+    ),
     );
   }
-  
 }
+
