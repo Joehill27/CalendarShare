@@ -54,6 +54,12 @@ router.post('/createAccount', (req, res) => {
         {
             User.findOne({'username': username}).exec(function(err, user) {
                 if(!user) {
+                    User.findOne({'email': req.body.email}, (err, user) => {
+                        if(user) {
+                            res.send({'error': 'User with email already exists'});
+                        }
+                    });
+
                     let newUser = new User(req.body);
                     newUser.save()
                     .then(newUser => {
