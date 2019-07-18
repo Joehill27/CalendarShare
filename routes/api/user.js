@@ -41,10 +41,10 @@ router.post('/createAccount', (req, res) => {
     // console.log(req);
     let username = req.body.username;
     let email = req.body.email;
-    console.log(email);
+    console.log('Here is the email that is being sent with the request ' +email);
 
     emailCheck(email).then(function(result) {
-        console.log(result);
+        console.log('Here is the result of passing in the email ' + result);
         result = true;
         if(result == true)
         {
