@@ -33,20 +33,37 @@ router.get('/get', (req, res) => {
 
 //Creates an account with given info
 router.post('/createAccount', (req, res) => {
-    let username = req.body.username;
 
-    emailCheck(req.body.email).then(function(result) {
+    emailCheck('jhaake18@gmail.com')
+    .then((result) => {console.log("Resulting test is :" + result)})
+    .catch((e)=> {console.log(e)});
+
+    // console.log(req);
+    let username = req.body.username;
+    let email = req.body.email;
+    console.log(email);
+
+    emailCheck(email).then(function(result) {
+        console.log(result);
+        result = true;
         if(result == true)
         {
             User.findOne({'username': username}).exec(function(err, user) {
                 if(!user) {
+                    console.log(user);
                     User.findOne({'email': req.body.email}, (err, user) => {
                         if(user) {
                             res.send({'error': 'User with email already exists'});
                         }
                     });
 
+                    let defaultSettings = {
+
+                    };
+
                     let newUser = new User(req.body);
+                    newUser.profilePicture = '1';
+                    newUser.settings = defaultSettings;
                     newUser.save()
                     .then(newUser => {
                         res.send({'user': newUser, 'error' : ''});
