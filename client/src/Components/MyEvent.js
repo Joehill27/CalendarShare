@@ -1,6 +1,6 @@
 import React from 'react';
 import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBIcon, MDBModal, MDBModalBody,
-MDBModalHeader, MDBModalFooter, MDBContainer, MDBRow, MDBInput } from 'mdbreact';
+MDBModalHeader, MDBModalFooter, MDBContainer, MDBRow, MDBInput, MDBSelect, MDBSelectInput, MDBSelectOptions, MDBSelectOption } from 'mdbreact';
 
 class MyEvent extends React.Component {
 
@@ -39,7 +39,7 @@ class MyEvent extends React.Component {
                 <MDBCard>
                     <MDBCardBody>
                         <MDBCol md="13">
-                            <img src="https://mdbootstrap.com/img/Others/documentation/forest-sm-mini.jpg" className="rounded mx-auto d-block img-fluid mt-0 mb-2" alt="aligment" />
+                            <MDBCardImage src="https://mdbootstrap.com/img/Others/documentation/forest-sm-mini.jpg" className="rounded mx-auto d-block img-fluid mt-0 mb-2" alt="Image"/>
                         </MDBCol>
                         <MDBCardTitle>Event Name</MDBCardTitle>
                         <MDBCardText><MDBIcon icon="calendar-day" className="mr-2"/>June 7, 2019 9:00 AM - 12:00 PM</MDBCardText>
@@ -47,7 +47,7 @@ class MyEvent extends React.Component {
                         <MDBCardText><MDBIcon icon="info-circle" className="mr-2"/>Event Summary</MDBCardText>
                         <MDBBtn size="sm" color="mdb-color darken-2" onClick={this.toggle(1)}>View</MDBBtn>
                             <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered>
-                                <MDBModalHeader toggle={this.toggle(1)}>Event Name</MDBModalHeader>
+                                <MDBModalHeader toggle={this.toggle(1)} className="mdb-color darken-2 white-text"></MDBModalHeader>
                                 <MDBModalBody>
                                     Place Holder
                                 </MDBModalBody>
@@ -57,7 +57,7 @@ class MyEvent extends React.Component {
                             </MDBModal>
                         <MDBBtn size="sm" color="mdb-color darken-2" onClick={this.toggle(2)}>Edit</MDBBtn>
                             <MDBModal isOpen={this.state.modal2} toggle={this.toggle(2)} size="lg" centered>
-                                    <MDBModalHeader toggle={this.toggle(2)}>Edit [Event Name]</MDBModalHeader>
+                                    <MDBModalHeader toggle={this.toggle(2)} className="mdb-color darken-2 white-text">Edit [Event Name]</MDBModalHeader>
                                     <MDBModalBody>
                                         <MDBContainer fluid className="">
                                             <form className="needs-validation" onSubmit={this.submitHandler} noValidate>
@@ -118,43 +118,20 @@ class MyEvent extends React.Component {
                                                     </MDBCol>
                                                 </MDBRow>
                                                 <MDBRow>
-                                                    <MDBCol>
-                                                    <label className="font-weight-light medText grey-text">Event Type</label>
-                                                    <div className="custom-control custom-radio">
-                                                        <input
-                                                            value="Sporting"
-                                                            onChange={this.changeHandler}
-                                                            type="radio"
-                                                            className="custom-control-input"
-                                                            id="customControlValidation1"
+                                                    <MDBCol md="5">
+                                                        <label className="medText grey-text font-weight-light ml-1">Event Type</label>
+                                                        <select 
+                                                            className="browser-default custom-select" 
                                                             name="eventType"
-                                                            required
-                                                        />
-                                                        <label
-                                                            className="custom-control-label medText paddingTop font-weight-light"
-                                                            htmlFor="customControlValidation1"
-                                                        >
-                                                            Sporting
-                                                        </label>
-                                                    </div>
-                                                    <div className="custom-control custom-radio ">
-                                                        <input
-                                                            value="Music"
                                                             onChange={this.changeHandler}
-                                                            type="radio"
-                                                            className="custom-control-input"
-                                                            id="customControlValidation2"
-                                                            name="eventType"
                                                             required
-                                                        />
-                                                        <label
-                                                            className="custom-control-label medText paddingTop font-weight-light"
-                                                            htmlFor="customControlValidation2"
-                                                        >
-                                                             Music
-                                                        </label>
+                                                            >
+                                                            <option value="">Choose Event Type</option>
+                                                            <option value="Sporting">Sporting</option>
+                                                            <option value="Music">Music</option>
+                                                            <option value="Meeting">Meeting</option>
+                                                        </select>
                                                         <div className="invalid-feedback font-weight-light smallText">Event Type Required</div>
-                                                    </div>
                                                     </MDBCol>
                                                 </MDBRow>
                                                 <MDBRow>
