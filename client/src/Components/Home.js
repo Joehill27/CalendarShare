@@ -156,13 +156,17 @@ class Home extends React.Component {
           </div>
         </div>
         <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
+        <div class="card-inline"><h2>
+          <MyEvent 
+            eventId={2} 
+            eventName={'Study Session'}
+            eventStart={'December 17, 1995 03:24:00'}
+            eventEnd={'December 17, 1995 03:29:00'}
+            eventType={'School'}
+            eventDetails={'Meeting at libary to study Chemistry'}
+            imageId={1}
+          />
+        </h2></div>
         </div>
         <Footer/>
       </div>

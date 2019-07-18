@@ -42,7 +42,7 @@ module.exports = {
     chooseEventImage (imageId) {
         switch(imageId) {
             default:
-                return require('../defaultImages/eventPics/1.jpg');
+                return require('../defaultImages/eventPics/2.jpg');
         }
     },
 
