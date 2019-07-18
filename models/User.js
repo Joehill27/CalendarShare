@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const EventScheme = require('./Event');
+const ImageScheme = require('./Image');
 //TODO update settings
 
 let UserSchema = new Schema({

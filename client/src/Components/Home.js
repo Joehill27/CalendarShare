@@ -6,6 +6,9 @@ import Navigation from './Navigation';
 import MyEvent from './MyEvent';
 import Event from './Event';
 import Footer from './Footer';
+import {convertBinaryToImage} from '../util/imageHelpers';
+import {getUser} from '../apiCalls/userAPI';
+import Image from './Image';
 
 class Home extends React.Component {
   constructor(props) {
@@ -15,6 +18,12 @@ class Home extends React.Component {
       this.props.history.push('');
     }
   }
+
+  componentDidMount() {
+    let user = getUser(localStorage.getItem('userName'));
+
+    this.setState({'user': user, fetchingImage: false});
+}
 
   renderEvents(props) {
     return (
@@ -31,7 +40,7 @@ class Home extends React.Component {
     const scrollContainerStyle = { width: "auto", maxHeight: "auto" };
     return (
       <div style={bgNavy}>
-        <Navigation/>
+        <Navigation imageId={'10'}/>
         <div className="d-flex">
           <div>
             <MDBDropdown dropright className="cardpadding ml-2">
@@ -147,6 +156,7 @@ class Home extends React.Component {
           </div>
         </div>
         <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
+          <Image type={'event'} imageId={'5'} ></Image>
           <div class="card-inline"><h2><MyEvent/></h2></div>
           <div class="card-inline"><h2><MyEvent/></h2></div>
           <div class="card-inline"><h2><MyEvent/></h2></div>

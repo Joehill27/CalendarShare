@@ -12,9 +12,9 @@
 
 }
 
-img {
-  margin-left: 27%;
-  margin-top: 25%;
+.profilePicture {
+  float: left;
+  padding-right: 10px;
 }
 
 .App__Form {

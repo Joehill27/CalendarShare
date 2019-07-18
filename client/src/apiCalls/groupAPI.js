@@ -31,9 +31,8 @@ export const getGroupEvents = async(groupId) => {
 }
 
 //Create group event
-export const createGroupEvent = async(groupId, event, image) => {
+export const createGroupEvent = async(groupId, event) => {
     try {
-        event.image = image;
         let result = await axios.post('/api/group/'+ groupId + '/addEvent', event);
         return result;
     } catch(e) {
@@ -44,7 +43,7 @@ export const createGroupEvent = async(groupId, event, image) => {
 //Update group event
 export const updateGroupEvent = async(groupId, event) => {
     try {
-        let result = await axios.put('/api/group/' + groupId + '/updateEvent/' + event.eventId);
+        let result = await axios.put('/api/group/' + groupId + '/updateEvent/' + event.eventId, event);
         return result;
     } catch(e) {
         console.log(e);
@@ -62,17 +61,26 @@ export const deleteGroupEvent = async(groupId, eventId) => {
 }
 
 //Add user to group
-export const addGroupMemeber = async(user) => {
+export const addMember = async(user) => {
     try {
-        let result = await axios.post('/api/group/' + groupId + '/addMember');
+        let result = await axios.post('/api/group/' + groupId + '/addMember', user);
         return result;
     } catch(e) {
         console.log(e);
     }
 }
 
+//Update member
+export const updateMember = async(groupId, member) => {
+    try {
+        let result = await axios.put('/api/group/');
+    } catch(e) {
+        console.log(e);
+    }
+}
+
 //Delete user from group
-export const deleteUserFromGroup = async(groupId, userId) => {
+export const deleteMember = async(groupId, userId) => {
     try {
         let result = await axios.delete('/api/group/' + groupId + '/deleteMember/' + userId);
         return result;
@@ -100,28 +108,11 @@ export const updateGroupPicture = async(groupId, image) => {
     }
 }
 
-//Delete group picture
-export const deleteGroupPicture = async(groupId) => {
-    try {
-
-    } catch(e) {
-        console.log(e);
-    }
-}
-
 //Update group settings
-export const updateGroupSettings = async(groupId) => {
+export const updateGroupSettings = async(groupId, settings) => {
     try {
-
-    } catch(e) {
-        console.log(e);
-    }
-}
-
-//Change member roles
-export const changeMemberRole = async(groupId, member) => {
-    try {
-
+        let result = await axios.put('/api/group/settings', settings);
+        return result;
     } catch(e) {
         console.log(e);
     }

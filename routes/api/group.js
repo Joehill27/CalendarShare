@@ -3,19 +3,6 @@ const router = express.Router();
 const Group = require('../../models/Group');
 const User = require('../../models/User');
 const Event = require('../../models/Event');
-const ImageSchema = require('../../models/Image');
-const mongoose = require('mongoose');
-const Image = mongoose.model('img', ImageSchema);
-
-//Setting up where to store new images
-const multer = require('multer');
-const storage = multer.diskStorage({
-    destination: function (req, res, cb) {
-        cb(null, 'uploads/')
-    }
-});
-const upload = multer({ storage: storage });
-const fs = require('fs');
 
 //Get all groups
 router.get('/getGroups', (req, res) => {
@@ -94,9 +81,32 @@ router.post('/:groupId/addMember', (req, res) => {
 
 });
 
+//Update group member
+router.put('/:groupId/updateMember:/:userId', (req, res) => {
+    let memberId = req.params.userId;
+    let groupId = req.params.groupId;
+
+    Group.findById(groupId, 'members', (err, group) => {
+        if(err) {
+            res.send({'error': 'Unable to find group' + err});
+        }
+        var member = user.memberss.id(memberId);
+        if(!member) 
+            res.send({'error': 'Unable to find member' + err});   
+        if(req.body)     
+            member.set(req.body);
+        group.save()
+        .then(
+            res.send({'member': member, 'error': ''})
+        ).catch(function(error) {
+            res.send({'error': error});
+        });
+    });
+});
+
 //Delete group member
 router.delete('/:groupId/deleteMember/:userId', (req, res) => {
-    let memberId = req.params.memberId;
+    let memberId = req.params.userId;
     let groupId = req.params.groupId;
 
     Group.findById(groupId, function(err, group) {
@@ -128,22 +138,10 @@ router.get('/:groupId/getEvents', (req, res) => {
 });
 
 //Add group event
-router.post('/:groupId/addEvent', upload.single('image'), (req, res) => {
+router.post('/:groupId/addEvent', (req, res) => {
     let groupId = req.params.groupId;
 
     let event = new Event(req.body);
-
-    if(req.file.path) {
-        new_img.img.data = fs.readFileSync(req.file.path)
-        new_img.img.contentType = 'image/jpeg';
-        new_img.save(function(err, img) {
-            if(err) {
-                res.send({'error': 'Unable to save picture' + err});
-            } else {
-                event.eventPicture = img.id;
-            }
-        });
-    }
 
     Group.findById(groupId, function(err, group) {
         if(err) {
@@ -180,7 +178,6 @@ router.put('/:groupId/updateEvent/:eventId', (req, res) => {
     });
 });
 
-//Delete event picture
 //Delete group event
 router.delete('/:groupId/deleteEvent/:eventId', (req, res) => {
     let eventId = req.params.eventId;
@@ -201,49 +198,17 @@ router.delete('/:groupId/deleteEvent/:eventId', (req, res) => {
     });
 });
 
-//TODO delete old picture
-//Update group event picture
-router.put('/:groupId/:eventId/picture', upload.single('image'), (req, res) => {
-    let groupId = req.params.groupId;
-    let eventId = req.params.eventId;
 
-        new_img.img.data = fs.readFileSync(req.file.path)
-        new_img.img.contentType = 'image/jpeg';
-        new_img.save(function(err, img) {
-            Group.findById(groupId, 'events', (err, events) => {
-                let event = group.events.id(eventId);
-
-                if(!event) {
-                    res.send({'error': 'Event does not exist'});
-                } else {
-                    event.eventPicture = img.id;
-                    res.send({'success!': 'Event picture updated'});
-                }
-            });
-        });
-});
-
-//TODO delete old picture
 //Update group picture
-router.put('/:groupId/groupPicture', upload.single('image'), (req, res) => {
+router.put('/:groupId/updateGroupPicture', (req, res) => {
     let groupId = req.params.groupId;
-    
-    new_img.img.data = fs.readFileSync(req.file.path)
-    new_img.img.contentType = 'image/jpeg';
-    new_img.save(function(err, img) {
+
+    Group.findById(groupId, 'groupPicture', (err, group) => {
         if(err) {
-            res.send({'error': 'Unable to save image' + err});
+            res.send({'error': 'Unable to find group'});
         } else {
-            Group.findById(groupId, 'groupPicture', (err, group) => {
-                group.groupPicture = img.id;
-                group.save()
-                .then(
-                    res.send({'success': 'Group picture updated'})
-                )
-                .catch((err) => {
-                    res.send({'error': err});
-                })
-            });
+            group.groupPicture = req.body;
+            res.send({'success': 'Group picture updated successfully'});
         }
     });
 });
