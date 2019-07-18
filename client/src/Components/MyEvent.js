@@ -13,7 +13,10 @@ class MyEvent extends React.Component {
         eventStart: "",
         eventEnd: "",
         eventType: "",
-        eventDetails: ""
+        eventDetails: "",
+        eventAddress: "",
+        eventZipCode: "",
+        eventCounrty: ""
     };
 
     toggle = nr => () => {
@@ -47,9 +50,10 @@ class MyEvent extends React.Component {
                         <MDBCardText><MDBIcon icon="info-circle" className="mr-2"/>Event Summary</MDBCardText>
                         <MDBBtn size="sm" color="mdb-color darken-2" onClick={this.toggle(1)}>View</MDBBtn>
                             <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered>
-                                <MDBModalHeader toggle={this.toggle(1)} className="mdb-color darken-2 white-text"></MDBModalHeader>
+                                <MDBModalHeader toggle={this.toggle(1)} className="mdb-color darken-2 white-text">Event Name</MDBModalHeader>
                                 <MDBModalBody>
-                                    Place Holder
+                                    <MDBCardText><MDBIcon icon="calendar-day" className="mr-2"/>Date</MDBCardText>
+                                    <MDBCardText><MDBIcon icon="calendar-day" className="mr-2"/>Event Type</MDBCardText>
                                 </MDBModalBody>
                                 <MDBModalFooter>
                                     <MDBBtn color="secondary" onClick={this.toggle(1)}>Close</MDBBtn>
@@ -114,6 +118,60 @@ class MyEvent extends React.Component {
                                                             required
                                                         >
                                                         <div className="invalid-feedback font-weight-light smallText">End Time Required</div>
+                                                        </MDBInput>
+                                                    </MDBCol>
+                                                </MDBRow>
+                                                <MDBRow>
+                                                    <MDBCol>
+                                                        <MDBInput
+                                                            value={this.state.eventAddress}
+                                                            label="Address" 
+                                                            className="form-control"
+                                                            name="eventAddress"
+                                                            onChange={this.changeHandler}
+                                                            type="text"
+                                                            required
+                                                            >
+                                                            <div className="invalid-feedback font-weight-light smallText">Address Required</div>
+                                                        </MDBInput>
+                                                    </MDBCol>
+                                                    <MDBCol>
+                                                        <MDBInput
+                                                            value={this.state.eventZipCode}
+                                                            label="Zip Code" 
+                                                            className="form-control"
+                                                            name="eventZipCode"
+                                                            onChange={this.changeHandler}
+                                                            type="text"
+                                                            required
+                                                            >
+                                                            <div className="invalid-feedback font-weight-light smallText">Zip Code Required</div>
+                                                        </MDBInput>
+                                                    </MDBCol>
+                                                    <MDBCol>
+                                                        <MDBInput
+                                                            value={this.state.eventCounrty}
+                                                            label="City" 
+                                                            className="form-control"
+                                                            name="eventCounrty"
+                                                            onChange={this.changeHandler}
+                                                            type="text"
+                                                            required
+                                                            >
+                                                            <div className="invalid-feedback font-weight-light smallText">City Required</div>
+                                                        </MDBInput>
+                                                    </MDBCol>
+                                                    <MDBCol>
+                                                        <MDBInput
+                                                            value={this.state.eventCounrty}
+                                                            label="Counrty" 
+                                                            className="form-control"
+                                                            name="eventCounrty"
+                                                            onChange={this.changeHandler}
+                                                            type="text"
+                                                            required
+                                                            >
+                                                            <div className="invalid-feedback font-weight-light smallText">Counrty Required</div>
                                                         </MDBInput>
                                                     </MDBCol>
                                                 </MDBRow>

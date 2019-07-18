@@ -36,14 +36,14 @@ class Image extends Component {
     render() {
         const {img} = this.state;
         return (
-            <div className="profilePicture">
+            <span className="profilePicture">
                 <img
                     src={img}
                     alt='Helpful alt text'
-                    width="50"
-                    height="50"
+                    width="25"
+                    height="25"
                 />
-            </div>
+            </span>
          )
     }
 }

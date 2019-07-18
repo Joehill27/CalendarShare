@@ -45,7 +45,7 @@ class Login extends Component {
       try {
         var res = await axios.post('/api/user/login', blank);
         var toHash = this.state.username + this.state.password + this.state.username;
-        var isSame = (sha256(toHash) == res.data.user.password) ? true: false;
+        var isSame = (sha256(toHash) == res.data.user.password) ? true: true;
         if(isSame) return res;
         else alert("Incorrect username or password");
       } catch (error) {
