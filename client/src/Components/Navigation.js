@@ -2,6 +2,7 @@ import React from 'react';
 import { MDBContainer, MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavbarToggler, MDBCollapse, MDBNavItem, MDBNavLink, MDBIcon, MDBBtn,
   MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBFormInline } from 'mdbreact';
 import { BrowserRouter as Router } from 'react-router-dom';
+import Image from './Image';
 
 class Navigation extends React.Component {
   constructor(props) {
@@ -73,7 +74,10 @@ class Navigation extends React.Component {
                   <MDBNavItem>
                     <MDBDropdown>
                       <MDBDropdownToggle nav caret>
-                        <span>{localStorage.getItem('userName')}</span>
+                        <span> 
+                          <Image imageId={1}></Image>
+                          {localStorage.getItem('userName')}
+                        </span>
                       </MDBDropdownToggle>
                       <MDBDropdownMenu>
                         <MDBDropdownItem href="#!">Settings<MDBIcon icon="cog" className="mdb-color-text ml-2" /></MDBDropdownItem>

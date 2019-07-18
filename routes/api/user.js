@@ -35,7 +35,7 @@ router.post('/login', (req, res) => {
 //Check if a user exists
 router.get('/get', (req, res) => {
     let name = req.body.username;
-    User.findOne({username: name}).select('-password -groups -friends -email -events -__v').exec(function(err, user) {
+    User.findOne({username: name}).exec(function(err, user) {
         if(!user) {
             res.send({'error' : 'user does not exist'});
         } else {
@@ -564,7 +564,7 @@ router.post('/:userId/addPicture', upload.single('image'), (req, res) => {
     new_img.save(function(err, img) {
 
         User.findById(userId, function(err, user) {
-            user.profilePicture = img.id;
+            user.profilePicture = img;
             user.save();
             res.send({'user profile picture updated': user});
         });
@@ -575,15 +575,11 @@ router.post('/:userId/addPicture', upload.single('image'), (req, res) => {
 router.get('/:userId/getProfilePicture', (req, res) => {
     let userId = req.params.userId;
     User.findById(userId, function(err, user) {
-        let imageId = user.profilePicture;
+        let image = user.profilePicture;
         if(!user)
             res.send({'error': 'user does not exist'});
-            Image.findById(imageId, function(err, img) {
-                if (err)
-                    res.send(err);
-                res.contentType('json');
-                res.send({'image': img});
-            });
+        else
+            res.send({'image': image});
     });
 });
 

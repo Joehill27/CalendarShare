@@ -53,7 +53,7 @@ export const denyFriendRequest = async(userId) => {
         let result = await axios.delete('/api/user/' + userId + '/deleteFriendRequest');
         return result;
     } catch(e) {
-        console.log(error);
+        console.log(e);
     } 
 }
 
@@ -87,8 +87,18 @@ export const updateUserSettings = async(userId, settings) => {
     }
 }
 
+export const getProfilePicture = async(userId) => {
+    try {
+        let picture = await axios.get('http://localhost:3001/api/user/'+userId+'/getProfilePicture');
+        let binary = picture.data.image.img.data.data;
+        return binary;
+    } catch(e) {
+        console.log(e);
+    }
+}
+
 //TODO figure out how image is going to be transferred?
-https://medium.com/@colinrlly/send-store-and-show-images-with-react-express-and-mongodb-592bc38a9ed
+//https://medium.com/@colinrlly/send-store-and-show-images-with-react-express-and-mongodb-592bc38a9ed
 //Update profile picture
 export const updateProfilePicture = async(userId, image) => {
     try {
