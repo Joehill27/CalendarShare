@@ -33,14 +33,44 @@ class Image extends Component {
 
     render() {
         const {img} = this.state;
-        return (
-            <img
-                src={img}
-                alt='Helpful alt text'
-                width="50"
-                height="50"
-            />
-         )
+
+        switch(this.props.type) {
+            case 'user':
+                return (
+                    <div>
+                        <img
+                            src={img}
+                            alt='Helpful alt text'
+                            width="50"
+                            height="50"
+                        />
+                    </div>
+                );
+            case 'group':
+                    return (
+                        <div>
+                            <img
+                                src={img}
+                                alt='Helpful alt text'
+                                width="50"
+                                height="50"
+                            />
+                        </div>
+                    );
+            case 'event':
+                    return (
+                        <div>
+                            <img
+                                src={img}
+                                alt='Helpful alt text'
+                                width="50"
+                                height="50"
+                            />
+                        </div>
+                    );
+        }
+
+        
     }
 }
 
