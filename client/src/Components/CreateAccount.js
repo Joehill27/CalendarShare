@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const emailCheck = require('email-check');
 const sha256 = require('js-sha256');
 
 class CreateAccount extends Component {
@@ -86,9 +85,6 @@ class CreateAccount extends Component {
     }
 
     const createAccountHandler = async() => {
-      // var toHash = this.state.username + this.state.password + this.state.username;
-      // console.log(toHash);
-
       const response = await createAccount();
       console.log(response);
       if(response) {
@@ -99,7 +95,6 @@ class CreateAccount extends Component {
         {
           console.log(response.data.error);
           alert("Account name/email already exists or email is invalid");
-          this.props.history.push('/createAccount');
           return;
         }
 
