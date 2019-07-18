@@ -74,8 +74,8 @@ class Navigation extends React.Component {
                   <MDBNavItem>
                     <MDBDropdown>
                       <MDBDropdownToggle nav caret>
-                        <span> 
-                          <Image imageId={1}></Image>
+                      <Image imageId={this.props.imageId}></Image>
+                        <span float="right">
                           {localStorage.getItem('userName')}
                         </span>
                       </MDBDropdownToggle>

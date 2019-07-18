@@ -50,7 +50,7 @@ let UserSchema = new Schema({
         }]
     },
     profilePicture: {
-        type: ImageScheme
+        type: String
     },
     settings: {
         type: String

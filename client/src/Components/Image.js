@@ -24,7 +24,7 @@ class Image extends Component {
                 this.setState({'img': chooseEventImage('1')});
                 break;
             default:
-                this.setState({'img': chooseUserImage('1')});
+                this.setState({'img': chooseUserImage(this.props.imageId)});
                 break;
                 
         }
@@ -33,11 +33,14 @@ class Image extends Component {
     render() {
         const {img} = this.state;
         return (
-            <img
-                src={img}
-                alt='Helpful alt text'
-                width="50"
-                height="50"/>
+            <div className="profilePicture">
+                <img
+                    src={img}
+                    alt='Helpful alt text'
+                    width="35"
+                    height="35"
+                />
+            </div>
          )
     }
 }

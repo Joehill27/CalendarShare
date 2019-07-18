@@ -11,6 +11,14 @@ export const getUser = async(userName) => {
 }
 
 //Delete user
+export const deleteUser = async(userId) => {
+    try {
+        let result = await axios.delete('/api/user/deleteAccount/'+userId);
+        return result;
+    } catch(e) {
+        console.log(e);
+    }
+}
 
 //Get all friend requests
 export const getFriendRequests = async(userId) => {
@@ -80,7 +88,7 @@ export const denyGroupRequest = async(userId, groupId) => {
 //Update User Settings
 export const updateUserSettings = async(userId, settings) => {
     try {
-        let result = await axios.update('/api/user/' + userId + 'updateSettings', settings);
+        let result = await axios.update('/api/user/' + userId + 'updateSettings', {'settings': settings});
         return result;
     } catch(e) {
         console.log(e);
@@ -89,20 +97,18 @@ export const updateUserSettings = async(userId, settings) => {
 
 export const getProfilePicture = async(userId) => {
     try {
-        let picture = await axios.get('http://localhost:3001/api/user/'+userId+'/getProfilePicture');
-        let binary = picture.data.image.img.data.data;
-        return binary;
+        let imageId = await axios.get('/api/user/'+userId+'/getProfilePicture');
+        return imageId;
     } catch(e) {
         console.log(e);
     }
 }
 
-//TODO figure out how image is going to be transferred?
-//https://medium.com/@colinrlly/send-store-and-show-images-with-react-express-and-mongodb-592bc38a9ed
 //Update profile picture
-export const updateProfilePicture = async(userId, image) => {
+export const updateProfilePicture = async(userId, imageId) => {
     try {
-
+        let result = await axios.put('/api/user/'+userId+'/updateProfilePicture', {'imageId': imageId});
+        return result;
     } catch(e) {
         console.log(e);
     }
@@ -111,7 +117,7 @@ export const updateProfilePicture = async(userId, image) => {
 //Get all user events
 export const getUserEvents = async(userId) => {
     try {
-        let events = await axios.get('/api/');
+        let events = await axios.get('/api/user/'+userId+'/events');
         return events;
     } catch(e) {
         console.log(e);
@@ -120,7 +126,7 @@ export const getUserEvents = async(userId) => {
 //Create user event
 export const createUserEvent = async(userId, event) => {
     try {
-        let result = await axios.post('/api/user/' + userId + '/updateEvent', event);
+        let result = await axios.post('/api/user/'+userId +'/updateEvent', event);
         return result;
     } catch(e) {
         console.log(e);

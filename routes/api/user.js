@@ -1,20 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../../models/User');
-const mongoose = require('mongoose');
-const ImageSchema = require('../../models/Image');
-const Image = mongoose.model('img', ImageSchema);
 const Group = require('../../models/Group');
-
-//Setting up where to store new images
-const multer = require('multer');
-const storage = multer.diskStorage({
-    destination: function (req, res, cb) {
-        cb(null, 'uploads/')
-    }
-});
-const upload = multer({ storage: storage });
-const fs = require('fs');
 
 //Used to check if emails exist when creating an account
 var emailCheck = require('email-check');
@@ -44,7 +31,6 @@ router.get('/get', (req, res) => {
     })
 });
 
-//TODO check if user exists with username OR email
 //Creates an account with given info
 router.post('/createAccount', (req, res) => {
     let username = req.body.username;
@@ -121,64 +107,25 @@ router.get('/:userId/events', (req, res) => {
     });
 });
 
-//Create user event
-router.post('/:userId/createEvent', upload.single('image'), (req, res) => {
-    let userId = req.params.userId;
-    var new_img = new Image;
 
-    if(req.file.path) {
-        new_img.img.data = fs.readFileSync(req.file.path)
-        new_img.img.contentType = 'image/jpeg';
-        new_img.save(function(err, img) {
-        if(err) {
-            res.send({'error': 'Unable to save picture' + err});
+//Create user event
+router.post('/:userId/createEvent', (req, res) => {
+    let userId = req.params.userId;
+
+    let event = new Event(req.body);
+    User.update(
+        { _id: userId }, 
+        { $push: { events: event }}
+        ).exec(function(err) {
+        if(err){
+            res.send({'error': 'Could not create event ' + err});
         } else {
-            var event = {
-                _id: mongoose.Types.ObjectId(),
-                'start': req.body.start,
-                'end': req.body.end,
-                'eventInfo': req.body.eventInfo,
-                'eventName': req.body.eventName,
-                'recurring': req.body.recurring,
-                'eventPicture': img.id
-            };
-        
-            User.update(
-                { _id: userId }, 
-                { $push: { events: event }}
-            ).exec(function(err) {
-                if(err){
-                    res.send({'error': 'Could not update event ' + err});
-                } else {
-                    res.send({'event created successfully' : event, 'error': ''});
-                }
-            });
+            res.send({'event created successfully' : event, 'error': ''});
         }
     });
-    } else {
-        var event = {
-            _id: mongoose.Types.ObjectId(),
-            'start': req.body.start,
-            'end': req.body.end,
-            'eventInfo': req.body.eventInfo,
-            'eventName': req.body.eventName,
-            'recurring': req.body.recurring,
-        };
-    
-        User.update(
-            { _id: userId }, 
-            { $push: { events: event }}
-        ).exec(function(err) {
-            if(err){
-                res.send({'error': 'Could not update event ' + err});
-            } else {
-                res.send({'event created successfully' : event, 'error': ''});
-            }
-        });
-    }
 });
 
-//Modify user event
+//Update user event
 router.put('/:userId/updateEvent/:eventId', (req, res) => {
     let eventId = req.params.eventId;
     let userId = req.params.userId;
@@ -198,7 +145,6 @@ router.put('/:userId/updateEvent/:eventId', (req, res) => {
     });
 });
 
-//TODO delete picture
 //Delete user event
 router.delete('/:userId/deleteEvent/:eventId', (req, res) => {
     let eventId = req.params.eventId;
@@ -215,41 +161,6 @@ router.delete('/:userId/deleteEvent/:eventId', (req, res) => {
         )
         .catch(function(err){
             res.send({'error': err});
-        });
-    });
-});
-
-//TODO delete previous picture
-//Choose picture for event
-router.put('/:userId/event/updatePicture', upload.single('image'), (req, res) => {
-    let userId = req.params.userId;
-
-    var new_img = new Image;
-    new_img.img.data = fs.readFileSync(req.file.path)
-    new_img.img.contentType = 'image/jpeg';
-    new_img.save(function(err, img) {
-
-        if(err) {
-            res.send({'error': 'unable to save image'});
-        }
-
-        User.findById(userId, 'events', (err, user) => {
-            if(err) {
-                res.send({'error': 'User does not exist'});
-            } else {
-                var event = user.events.id(eventId);
-                if(!event) 
-                res.send({'error': 'Unable to find event' + err});   
-                
-                event.profilePicture = img.id;
-
-                user.save()
-                .then(
-                    res.send({'event': event, 'error': ''})
-                ).catch(function(err) {
-                    res.send({'error': err});
-                });
-            }
         });
     });
 });
@@ -271,32 +182,6 @@ router.get('/:userId/groups', (req, res) => {
         }
     });
 });
-
-//TODO add user as a member to group
-//Add group to user
-router.post('/:userId/addGroup', (req, res) => {
-    let userId = req.params.userId;
-    let groupName = req.body.groupName;
-    
-    group.findOne({'groupName': groupName}, '_id', (err, group) => {
-        if(err) {
-            res.send({'error': 'Group does not exist'});
-            next();
-        } else {
-            User.update(
-                { _id: userId }, 
-                { $push: { groups: group }}
-            ).exec(function(err) {
-                if(err){
-                    res.send({'error': 'Could not add group ' + err});
-                } else {
-                    res.send({'group added successfully' : group});
-                }
-            });
-        }
-    });
-});
-
 
 //Delete group from user
 router.delete('/:userId/deleteGroup/:groupId', (req, res) => {
@@ -553,36 +438,6 @@ router.delete('/:userId/deleteFriend/:friendId', (req, res) => {
     });
 });
 
-//TODO delete old picture
-
-//Add/update user picture by updating the image id
-router.post('/:userId/addPicture', upload.single('image'), (req, res) => {
-    let userId = req.params.userId;
-    var new_img = new Image;
-    new_img.img.data = fs.readFileSync(req.file.path)
-    new_img.img.contentType = 'image/jpeg';
-    new_img.save(function(err, img) {
-
-        User.findById(userId, function(err, user) {
-            user.profilePicture = img;
-            user.save();
-            res.send({'user profile picture updated': user});
-        });
-    });
-});
-
-//Gets the users profile picture's image id, then gets the image by id
-router.get('/:userId/getProfilePicture', (req, res) => {
-    let userId = req.params.userId;
-    User.findById(userId, function(err, user) {
-        let image = user.profilePicture;
-        if(!user)
-            res.send({'error': 'user does not exist'});
-        else
-            res.send({'image': image});
-    });
-});
-
 //Get all of the user's friend's events
 router.get('/:userId/friends/events', (req, res) => {
     let userId = req.params.userId;
@@ -633,6 +488,33 @@ router.put('/:userId/updateSettings', (req, res) => {
             user.save();
             res.send({'success!': 'Update user settings'});
         }
+    });
+});
+
+//Update user's profile picture
+router.put('/:userId/updateProfilePicture', (req, res) => {
+    let userId = req.params.userId;
+
+    User.findById(userId, 'profilePicture', (err, user) => {
+        if(err) {
+            res.send({'error': 'Unable to find user' + err});
+        } else {
+            user.profilePicture = req.body.imageId;
+            user.save();
+            res.send({'success': 'profile picture updated', 'error':''});
+        }
+    })
+});
+
+//Gets the users profile picture's image id, then gets the image by id
+router.get('/:userId/getProfilePicture', (req, res) => {
+    let userId = req.params.userId;
+    User.findById(userId, function(err, user) {
+        let image = user.profilePicture;
+        if(!user)
+            res.send({'error': 'user does not exist'});
+        else
+            res.send({'image': image});
     });
 });
 
