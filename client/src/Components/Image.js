@@ -30,6 +30,9 @@ class Image extends Component {
         }
     }
 
+    //TODO use different styling depending on the type of image being passed
+    //Use conditional rendering
+
     render() {
         const {img} = this.state;
         return (
@@ -37,8 +40,8 @@ class Image extends Component {
                 <img
                     src={img}
                     alt='Helpful alt text'
-                    width="35"
-                    height="35"
+                    width="50"
+                    height="50"
                 />
             </div>
          )

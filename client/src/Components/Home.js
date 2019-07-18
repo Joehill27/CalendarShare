@@ -156,7 +156,6 @@ class Home extends React.Component {
           </div>
         </div>
         <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-          <Image type={'event'} imageId={'5'} ></Image>
           <div class="card-inline"><h2><MyEvent/></h2></div>
           <div class="card-inline"><h2><MyEvent/></h2></div>
           <div class="card-inline"><h2><MyEvent/></h2></div>
