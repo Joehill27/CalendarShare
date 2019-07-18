@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import {chooseUserImage, chooseEventImage, chooseGroupImage} from '../util/imageHelpers';
-import axios from "axios";
-import {getProfilePicture} from '../apiCalls/userAPI';
 
 const num = 2;
 

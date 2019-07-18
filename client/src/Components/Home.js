@@ -6,7 +6,6 @@ import Navigation from './Navigation';
 import MyEvent from './MyEvent';
 import Event from './Event';
 import Footer from './Footer';
-import {convertBinaryToImage} from '../util/imageHelpers';
 import {getUser} from '../apiCalls/userAPI';
 import Image from './Image';
 
@@ -160,8 +159,8 @@ class Home extends React.Component {
           <MyEvent 
             eventId={2} 
             eventName={'Study Session'}
-            eventStart={'December 17, 1995 03:24:00'}
-            eventEnd={'December 17, 1995 03:29:00'}
+            eventStart={'December 17, 1335 03:24:00'}
+            eventEnd={'December 17, 1335 18:24:00'}
             eventType={'School'}
             eventDetails={'Meeting at libary to study Chemistry'}
             imageId={1}

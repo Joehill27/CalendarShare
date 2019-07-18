@@ -2,6 +2,7 @@ import React from 'react';
 import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBIcon, MDBModal, MDBModalBody,
 MDBModalHeader, MDBModalFooter, MDBContainer, MDBRow, MDBInput } from 'mdbreact';
 import Image from './Image';
+import {convertDateToFormat} from '../util/eventHelpers';
 
 class MyEvent extends React.Component {
 
@@ -10,16 +11,26 @@ class MyEvent extends React.Component {
   
         this.state = {
             modal1: false,
-            modal2: false,
+            modal2: false
+        }
+        
+    }
+
+    componentDidMount() {
+
+        let startString = convertDateToFormat(this.props.eventStart);
+        let endString = convertDateToFormat(this.props.eventEnd);
+
+        this.setState({
             eventId : this.props.eventId,
             eventName: this.props.eventName,
-            eventStart: this.props.eventStart,
-            eventEnd: this.props.eventEnd,
+            // eventStart: this.props.eventStart,
+            eventStart: startString,
+            eventEnd: endString,
             eventType: this.props.eventType,
             eventDetails: this.props.eventDetails,
             eventImageID: this.props.imageId,
-        }
-        
+        });
     }
 
     toggle = nr => () => {
@@ -49,10 +60,9 @@ class MyEvent extends React.Component {
                                 <Image imageId={this.state.eventPicture} type={'event'}/>
                             </div>
                         </MDBCol>
-                        <MDBCardTitle>Event Name</MDBCardTitle>
+                        <MDBCardTitle>{this.state.eventName}</MDBCardTitle>
                         <MDBCardText><MDBIcon icon="calendar-day" className="mr-2"/>{this.state.eventStart}</MDBCardText>
                         <MDBCardText><MDBIcon icon="calendar-day" className="mr-2"/>{this.state.eventEnd}</MDBCardText>
-                        <MDBCardText><MDBIcon icon="users" className="mr-2"/>Event Group</MDBCardText>
                         <MDBCardText><MDBIcon icon="info-circle" className="mr-2"/>{this.state.eventDetails}</MDBCardText>
                         <MDBBtn size="sm" color="mdb-color darken-2" onClick={this.toggle(1)}>View</MDBBtn>
                             <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered>
