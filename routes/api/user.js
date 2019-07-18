@@ -34,27 +34,31 @@ router.get('/get', (req, res) => {
 //Creates an account with given info
 router.post('/createAccount', (req, res) => {
     let username = req.body.username;
+    let email = req.body.email;
 
     emailCheck(req.body.email).then(function(result) {
         if(result == true)
         {
+            // Check if username is taken
             User.findOne({'username': username}).exec(function(err, user) {
+                if(user) {
+                    res.send({'error': 'Account with that username already exists'});
+                    return;
+                }
+            });
+            
+            // Check if email has already been used
+            User.findOne({'email': email}).exec(function(err, user) {
                 if(!user) {
-                    User.findOne({'email': req.body.email}, (err, user) => {
-                        if(user) {
-                            res.send({'error': 'User with email already exists'});
-                        }
-                    });
-
                     let newUser = new User(req.body);
                     newUser.save()
                     .then(newUser => {
                         res.send({'user': newUser, 'error' : ''});
                     })
                 } else {
-                    res.send({'error': 'Account with that username already exists'});
+                    res.send({'error': 'User with email already exists'});
                 }
-            });
+            })
         } else {
             res.send({'error': 'Invalid email address'});
         }
