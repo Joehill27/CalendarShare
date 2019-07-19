@@ -89,7 +89,7 @@ router.post('/:groupId/addMember', (req, res) => {
 
     Group.update(
         { _id: groupId }, 
-        { $push: { users: user }}
+        { $push: { members: user }}
     ).exec(function(err) {
         if(err){
             res.send({'error': 'Could not add user ' + err});

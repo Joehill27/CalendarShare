@@ -79,6 +79,8 @@ export const createGroupRequest = async(userId, groupId) => {
     }
 }
 
+//Accept group request
+
 //Deny group request
 export const denyGroupRequest = async(userId, groupId) => {
     try {
@@ -199,13 +201,5 @@ export const getUserGroupEvents = async(user) => {
         })
         .catch(e => console.log(e));
     });
-
-
-    // try {
-    //     let groupEvents = await axios.get('/api/user/' + userId + '/groups/events');
-    //     return groupEvents;
-    // } catch(e) {
-    //     console.log(e);
-    // }
 }
 
