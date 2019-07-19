@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const User = require('../../models/User');
 const Group = require('../../models/Group');
+const EventScheme = require('../../models/Event');
+const mongoose = require('mongoose');
+const Event = mongoose.model('event', EventScheme);
 
 //Used to check if emails exist when creating an account
 var emailCheck = require('email-check');
@@ -14,16 +17,16 @@ router.post('/login', (req, res) => {
     if(!user) {
         res.send({'error' : 'user does not exist'});
     } else{
-        res.send({'user': user, 'error': ''});
+        res.send({user: user, error: ''});
     }
     });
 });
 
 //Check if a user exists
-router.get('/get', (req, res) => {
-    let name = req.body.username;
-    User.findOne({username: name}).exec(function(err, user) {
-        if(!user) {
+router.get('/get/:username', (req, res) => {
+    let name = req.params.username;
+    User.findOne({'username': name}, (err, user) => {
+        if(err) {
             res.send({'error' : 'user does not exist'});
         } else {
             res.send({'user': user, 'error': ''});
@@ -164,7 +167,7 @@ router.delete('/:userId/deleteEvent/:eventId', (req, res) => {
             res.send({'success': 'event deleted', 'error': ''})
         )
         .catch(function(err){
-            res.send({'error': err});
+            console.log(err);
         });
     });
 });

@@ -16,22 +16,36 @@ class Home extends React.Component {
       alert("Attempting to access a page without valid credentials.\nReturning to login page. Please log in to a valid account.");
       this.props.history.push('');
     }
+    this.state = {'fetching': true, 'events': ''};
+
+    this.renderEvents = this.renderEvents.bind(this);
+
   }
 
   componentDidMount() {
-    let user = getUser(localStorage.getItem('userName'));
+    getUser(localStorage.getItem('userName'))
+    .then((userJson) => {
+      let user = userJson;
+      console.log(user);
+      console.log('Here are the users events' + JSON.stringify(user.events));
+      this.setState({user: user, events: user.events, fetching:'false'});
+    });
 
-    this.setState({'user': user, fetchingImage: false});
+    
+
+    
 }
 
-  renderEvents(props) {
-    return (
-      <div>
-        {props.events.map((Event, index) => (
-          <Event key={index} Event={Event} />
-        ))}
-      </div>
-    );
+  renderEvents() {
+    if(this.state.events != ''){
+      return (
+        <div>
+          {this.state.events.map((Event, index) => (
+            <MyEvent key={index} event={Event} />
+          ))}
+        </div>
+      );
+    }
   }
 
   render() {
@@ -81,13 +95,13 @@ class Home extends React.Component {
           </div>
         </div>
         <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-          <div class="card-inline "><h2><MyEvent/></h2></div>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
+          <div className="card-inline "><h2><MyEvent/></h2></div>
+          <div className="card-inline"><h2><MyEvent/></h2></div>
+          <div className="card-inline"><h2><MyEvent/></h2></div>
+          <div className="card-inline"><h2><MyEvent/></h2></div>
+          <div className="card-inline"><h2><MyEvent/></h2></div>
+          <div className="card-inline"><h2><MyEvent/></h2></div>
+          <div className="card-inline"><h2><MyEvent/></h2></div>
         </div>
         <div className="d-flex">
           <div>
@@ -156,15 +170,7 @@ class Home extends React.Component {
         </div>
         <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
         <div class="card-inline"><h2>
-          <MyEvent 
-            eventId={2} 
-            eventName={'Study Session'}
-            eventStart={'December 17, 1335 03:24:00'}
-            eventEnd={'December 17, 1335 18:24:00'}
-            eventType={'School'}
-            eventDetails={'Meeting at libary to study Chemistry'}
-            imageId={1}
-          />
+          {this.renderEvents()}
         </h2></div>
         </div>
         <Footer/>

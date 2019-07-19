@@ -3,6 +3,7 @@ import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, 
 MDBModalHeader, MDBModalFooter, MDBContainer, MDBRow, MDBInput } from 'mdbreact';
 import Image from './Image';
 import {convertDateToFormat} from '../util/eventHelpers';
+import {deleteUserEvent} from '../apiCalls/userAPI';
 
 class MyEvent extends React.Component {
 
@@ -11,26 +12,33 @@ class MyEvent extends React.Component {
   
         this.state = {
             modal1: false,
-            modal2: false
+            modal2: false,
+            render: true
         }
         
     }
 
     componentDidMount() {
 
-        let startString = convertDateToFormat(this.props.eventStart);
-        let endString = convertDateToFormat(this.props.eventEnd);
+        let event = this.props.event;
 
-        this.setState({
-            eventId : this.props.eventId,
-            eventName: this.props.eventName,
-            // eventStart: this.props.eventStart,
-            eventStart: startString,
-            eventEnd: endString,
-            eventType: this.props.eventType,
-            eventDetails: this.props.eventDetails,
-            eventImageID: this.props.imageId,
-        });
+        
+        if(event){
+            console.log('Here is the event'+ JSON.stringify(event));
+
+            let startString = convertDateToFormat(event.start);
+            let endString = convertDateToFormat(event.end);
+
+            this.setState({
+                'eventId' : event._id,
+                'eventName': event.eventName,
+                'eventStart': startString,
+                'eventEnd': endString,
+                'eventType': event.eventType,
+                'eventDetails': event.eventDetails,
+                'eventImageID': event.imageId,
+            });
+        }
     }
 
     toggle = nr => () => {
@@ -49,9 +57,22 @@ class MyEvent extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
     };
 
+    deleteHandler = event => {
+        deleteUserEvent(localStorage.getItem('userId'), this.state.eventId)
+        .then(this.setState({render: false}))
+        .then(window.location.reload())
+        .catch((e) => {console.log(e)});
+    }
+
+
+
 
     render() {
+        const {render} = this.state.render;
+        if(render === false) return null;
+
         return (
+
             <MDBCol style={{ maxWidth: "23rem" }}>
                 <MDBCard>
                     <MDBCardBody>
@@ -202,7 +223,7 @@ class MyEvent extends React.Component {
                                         </MDBContainer>
                                     </MDBModalBody>
                                 </MDBModal>
-                        <MDBBtn className="ml-5" outline size="sm" color="danger"><MDBIcon icon="trash-alt" /></MDBBtn>
+                        <MDBBtn onClick={this.deleteHandler} className="ml-5" outline size="sm" color="danger"><MDBIcon icon="trash-alt" /></MDBBtn>
                     </MDBCardBody>
                 </MDBCard>
             </MDBCol>

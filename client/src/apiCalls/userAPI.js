@@ -1,10 +1,14 @@
 import axios from "axios";
 
+let hostUrl = 'http://localhost:3001';
+// let hostUrl = '';
+
 //Get user
 export const getUser = async(userName) => {
     try {
-        let user = await axios.get('/api/user/get', userName);
-        return user;
+        let user = await axios.get(hostUrl + '/api/user/get/' + userName);
+        console.log(user.data.user);
+        return user.data.user;
     } catch(e) {
         console.log(e);
     }
