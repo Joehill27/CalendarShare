@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../../models/User');
-const Group = require('../../models/Group');
-const EventScheme = require('../../models/Event');
 const mongoose = require('mongoose');
+const User = require('../../models/User');
+const GroupScheme = require('../../models/Group')
+const Group = mongoose.model('group', GroupScheme);
+const EventScheme = require('../../models/Event');
 const Event = mongoose.model('event', EventScheme);
 
 //Used to check if emails exist when creating an account

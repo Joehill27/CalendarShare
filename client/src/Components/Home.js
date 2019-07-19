@@ -6,7 +6,9 @@ import Navigation from './Navigation';
 import MyEvent from './MyEvent';
 import Event from './Event';
 import Footer from './Footer';
-import {getUser} from '../apiCalls/userAPI';
+import {getUser, createUserEvent, getUserGroupEvents} from '../apiCalls/userAPI';
+import {sortByDateAscending, sortByDateDescending,
+  sortByEventType, sortByPastAndFuture} from '../util/eventHelpers';
 import Image from './Image';
 
 class Home extends React.Component {
@@ -16,42 +18,87 @@ class Home extends React.Component {
       alert("Attempting to access a page without valid credentials.\nReturning to login page. Please log in to a valid account.");
       this.props.history.push('');
     }
-    this.state = {'fetching': true, 'events': ''};
+    this.state = {
+      'fetching': true,
+      'events': '',
+      'pastEvents': '',
+      'futureEvents': '',
+      'groupEvents': ''
+    };
 
-    this.renderMyEvents = this.renderMyEvents.bind(this);
-    this.renderEvents = this.renderEvents.bind(this);
+    this.renderPastEvents = this.renderPastEvents.bind(this);
+    this.renderFutureEvents = this.renderFutureEvents.bind(this);
+    this.renderGroupEvents = this.renderGroupEvents.bind(this);
 
 
   }
 
   componentDidMount() {
+    let user;
     getUser(localStorage.getItem('userName'))
     .then((userJson) => {
-      let user = userJson;
-      console.log(user);
-      console.log('Here are the users events' + JSON.stringify(user.events));
-      this.setState({user: user, events: user.events, fetching:'false'});
-    });
+      user = userJson;
+      let allEvents = sortByPastAndFuture(user.events);
+      this.setState({
+        user: user,
+        events: user.events,
+        pastEvents: allEvents.pastEvents,
+        futureEvents: allEvents.futureEvents,
+      });
+    }).then((blankety) => {
+      getUserGroupEvents(user)
+      .then(groupEvents => {
+        this.setState({
+          groupEvents: groupEvents,
+          fetching: false
+        });
+      })
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    
 }
 
-  renderMyEvents() {
-    if(this.state.events != ''){
+renderPastEvents() {
+  if(this.state.pastEvents != ''){
+    return (
+        this.state.pastEvents.map((e, index) => (
+          <MyEvent key={index} event={e} />
+        ))
+    );
+  }
+}  
+
+  renderFutureEvents() {
+    if(this.state.futureEvents != ''){
       return (
-          this.state.events.map((e, index) => (
+          this.state.futureEvents.map((e, index) => (
             <MyEvent key={index} event={e} />
           ))
       );
     }
   }
 
-  renderEvents() {
-    if(this.state.events != ''){
+  renderGroupEvents() {
+    if(this.state.groupEvents != ''){
       return (
+          //TODO change this.state.events to this.state.groupEvents and have it work
           this.state.events.map((e, index) => (
             <Event key={index} event={e} />
           ))
       );
     }
+  }
+
+  createEventHandler = event => {
+    createUserEvent(localStorage.getItem('userId', event))
+        .then((event) => {
+            console.log('Added event' + event);
+        })
+        .catch((e) => {
+            console.log(e);
+        });
   }
 
   render() {
@@ -101,7 +148,7 @@ class Home extends React.Component {
           </div>
         </div>
         <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-          {this.renderMyEvents()}
+          {this.renderFutureEvents()}
         </div>
         <div className="d-flex">
           <div>
@@ -132,7 +179,7 @@ class Home extends React.Component {
           </div>
         </div>
         <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-          {this.renderEvents()}
+          {this.renderGroupEvents()}
         </div>
         <div className="d-flex">
           <div>
@@ -163,7 +210,7 @@ class Home extends React.Component {
           </div>
         </div>
         <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>        
-          {this.renderMyEvents()}
+          {this.renderPastEvents()}
         </div>
         <Footer/>
       </div>

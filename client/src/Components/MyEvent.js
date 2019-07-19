@@ -24,7 +24,6 @@ class MyEvent extends React.Component {
 
         
         if(event){
-            console.log('Here is the event'+ JSON.stringify(event));
 
             let startString = convertDateToFormat(event.start);
             let endString = convertDateToFormat(event.end);
@@ -92,7 +91,7 @@ class MyEvent extends React.Component {
         if(render === false) return null;
 
         return (
-            <div class="card-inline"><h2>
+            <div className="card-inline"><h2>
             <MDBCol style={{ maxWidth: "23rem" }}>
                 <MDBCard>
                     <MDBCardBody>
@@ -107,7 +106,7 @@ class MyEvent extends React.Component {
                         <MDBCardText><MDBIcon icon="info-circle" className="mr-2"/>{this.state.eventDetails}</MDBCardText>
                         <MDBBtn size="sm" color="mdb-color darken-2" onClick={this.toggle(1)}>View</MDBBtn>
                             <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered>
-                                <MDBModalHeader toggle={this.toggle(1)}>Event Name</MDBModalHeader>
+                                <MDBModalHeader toggle={this.toggle(1)}>{this.state.eventName}</MDBModalHeader>
                                 <MDBModalBody>
                                     Place Holder
                                 </MDBModalBody>

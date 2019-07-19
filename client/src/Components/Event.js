@@ -3,6 +3,7 @@ import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, 
     MDBModalHeader, MDBModalFooter } from 'mdbreact';
 import {convertDateToFormat} from '../util/eventHelpers';
 import Image from './Image';
+import {createUserEvent} from '../apiCalls/userAPI';
 
 
 class Event extends React.Component {
@@ -41,6 +42,16 @@ class Event extends React.Component {
         let modalNumber = 'modal' + nr
         this.setState({
             [modalNumber]: !this.state[modalNumber]
+        });
+    }
+
+    joinHandler = event => {
+        createUserEvent(localStorage.getItem('userId', event))
+        .then((event) => {
+            console.log('Added event' + event);
+        })
+        .catch((e) => {
+            console.log(e);
         });
     }
 

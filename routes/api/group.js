@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const Group = require('../../models/Group');
 const User = require('../../models/User');
-const Event = require('../../models/Event');
+const EventScheme = require('../../models/Event');
+const mongoose = require('mongoose');
+const Event = mongoose.model('event', EventScheme);
+const GroupScheme = require('../../models/Group')
+const Group = mongoose.model('group', GroupScheme);
 
 //Get all groups
 router.get('/getGroups', (req, res) => {
@@ -18,26 +21,42 @@ router.get('/getGroups', (req, res) => {
 //Create group
 router.post('/createGroup', (req, res) => {
     let groupName = req.body.groupName;
+    let userId = req.body.creatorId;
 
     let creator = {
-        memberName: req.body.creatorName,
+        memberId: req.body.creatorId,
         memberPermission: 'owner'
     }
 
     Group.find({'groupName': groupName}, (err, group) => {
-        if(group) {
-            res.send({'error': group + 'group already exists'});
+        if(err) {
+            res.send({'error': 'group already exists'});
         }
     });
 
-    let newGroup = new Group(req.body);
-    newGroup.members.push(creator);
-    newGroup.save()
-    .then(newGroup => {
-        res.send({'success': 'new Group created' + group})
-    
-    }).catch(err => {
-        res.send({'error': err});
+    User.findById(userId, (error, user) => {
+        if(error) {
+            res.send({'error': 'User does not exist' + error});
+        }
+
+
+        let newGroup = new Group(req.body);
+        newGroup.members = [];
+        newGroup.members.push(creator);
+        newGroup.save()
+        .then(newGroup => {
+            User.update(
+                { _id: userId},
+                { $push : {groups: newGroup}}
+            ).then(
+                res.send({'success': 'new Group created' + newGroup})
+            ).catch(e => {
+                console.log(e);
+            })
+        
+        }).catch(err => {
+            console.log(err);
+        });
     });
 });
 
@@ -128,11 +147,12 @@ router.delete('/:groupId/deleteMember/:userId', (req, res) => {
 router.get('/:groupId/getEvents', (req, res) => {
     let groupId = req.params.groupId;
 
-    Group.findById(groupId, 'groupEvents', (err, group) => {
+    Group.findById(groupId, 'events', (err, group) => {
         if(err) {
             res.send({'error': 'Unable to find group ' + err});
         } else {
-            res.send({'events' :group.groupEvents, 'error': ''});
+            console.log(group);
+            res.send({'events' :group.events, 'error': ''});
         }
     });
 });

@@ -31,4 +31,4 @@ let GroupSchema = new Schema({
     
 });
 
-module.exports = Group = mongoose.model('group', GroupSchema);
+module.exports = GroupSchema;

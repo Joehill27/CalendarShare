@@ -1,4 +1,5 @@
 import axios from "axios";
+import {getGroupEvents} from './groupAPI';
 
 let hostUrl = 'http://localhost:3001';
 // let hostUrl = '';
@@ -7,7 +8,6 @@ let hostUrl = 'http://localhost:3001';
 export const getUser = async(userName) => {
     try {
         let user = await axios.get(hostUrl + '/api/user/get/' + userName);
-        console.log(user.data.user);
         return user.data.user;
     } catch(e) {
         console.log(e);
@@ -179,12 +179,33 @@ export const getFriendsEvents = async(userId) => {
 }
 
 //Get all groups events
-export const getUserGroupEvents = async(userId) => {
-    try {
-        let groupEvents = await axios.get('/api/user/' + userId + '/groups/events');
-        return groupEvents;
-    } catch(e) {
-        console.log(e);
-    }
+export const getUserGroupEvents = async(user) => {
+
+    let groups = user.groups;
+    console.log(user);
+    
+    let groupEvents = [];
+
+    groups.forEach(group => {
+        getGroupEvents(group._id)
+        .then((events) => {
+            events.forEach(event => {
+                groupEvents.push(event);
+            });
+        })
+        .then((err) => {
+            console.log(groupEvents);
+            return groupEvents;
+        })
+        .catch(e => console.log(e));
+    });
+
+
+    // try {
+    //     let groupEvents = await axios.get('/api/user/' + userId + '/groups/events');
+    //     return groupEvents;
+    // } catch(e) {
+    //     console.log(e);
+    // }
 }
 
