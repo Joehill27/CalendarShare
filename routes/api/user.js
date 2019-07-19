@@ -147,7 +147,7 @@ router.put('/:userId/updateEvent/:eventId', (req, res) => {
         .then(
             res.send({'event': event, 'error': ''})
         ).catch(function(err) {
-            res.send({'error': err});
+            console.log(err);
         });
     });
 });

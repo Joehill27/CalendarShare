@@ -3,7 +3,7 @@ import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, 
 MDBModalHeader, MDBModalFooter, MDBContainer, MDBRow, MDBInput } from 'mdbreact';
 import Image from './Image';
 import {convertDateToFormat} from '../util/eventHelpers';
-import {deleteUserEvent} from '../apiCalls/userAPI';
+import {deleteUserEvent, updateUserEvent} from '../apiCalls/userAPI';
 
 class MyEvent extends React.Component {
 
@@ -36,7 +36,7 @@ class MyEvent extends React.Component {
                 'eventEnd': endString,
                 'eventType': event.eventType,
                 'eventDetails': event.eventDetails,
-                'eventImageID': event.imageId,
+                'eventImageID': event.imageId
             });
         }
     }
@@ -51,11 +51,31 @@ class MyEvent extends React.Component {
     submitHandler = event => {
         event.preventDefault();
         event.target.className += " was-validated";
+
       };
 
     changeHandler = event => {
     this.setState({ [event.target.name]: event.target.value });
     };
+
+    updateHandler = event => {
+        updateUserEvent(localStorage.getItem('userId'), this.state.eventId, event)
+        .then((event) => {
+            let startString = convertDateToFormat(event.start);
+            let endString = convertDateToFormat(event.end);
+
+            this.setState({
+                'eventId' : event._id,
+                'eventName': event.eventName,
+                'eventStart': startString,
+                'eventEnd': endString,
+                'eventType': event.eventType,
+                'eventDetails': event.eventDetails,
+                'eventImageID': event.imageId
+            });
+
+        });
+    }
 
     deleteHandler = event => {
         deleteUserEvent(localStorage.getItem('userId'), this.state.eventId)
@@ -72,7 +92,7 @@ class MyEvent extends React.Component {
         if(render === false) return null;
 
         return (
-
+            <div class="card-inline"><h2>
             <MDBCol style={{ maxWidth: "23rem" }}>
                 <MDBCard>
                     <MDBCardBody>
@@ -215,7 +235,7 @@ class MyEvent extends React.Component {
                                                 </MDBRow>
                                                 <MDBRow>
                                                     <MDBCol className="ml-auto" md="4">
-                                                    <MDBBtn color="mdb-color darken-2" type="submit" onclick={this.submitHandler} className="ml-auto">Save</MDBBtn>
+                                                    <MDBBtn color="mdb-color darken-2" type="submit" onclick={this.updateHandler} className="ml-auto">Save</MDBBtn>
                                                     <MDBBtn color="danger" onClick={this.toggle(2)} className="ml-auto">Close</MDBBtn>
                                                     </MDBCol>
                                                 </MDBRow>
@@ -227,6 +247,7 @@ class MyEvent extends React.Component {
                     </MDBCardBody>
                 </MDBCard>
             </MDBCol>
+            </h2></div>
         );
     }
 }

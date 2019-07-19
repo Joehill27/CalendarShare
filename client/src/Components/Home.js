@@ -18,7 +18,9 @@ class Home extends React.Component {
     }
     this.state = {'fetching': true, 'events': ''};
 
+    this.renderMyEvents = this.renderMyEvents.bind(this);
     this.renderEvents = this.renderEvents.bind(this);
+
 
   }
 
@@ -30,20 +32,24 @@ class Home extends React.Component {
       console.log('Here are the users events' + JSON.stringify(user.events));
       this.setState({user: user, events: user.events, fetching:'false'});
     });
-
-    
-
-    
 }
+
+  renderMyEvents() {
+    if(this.state.events != ''){
+      return (
+          this.state.events.map((e, index) => (
+            <MyEvent key={index} event={e} />
+          ))
+      );
+    }
+  }
 
   renderEvents() {
     if(this.state.events != ''){
       return (
-        <div>
-          {this.state.events.map((Event, index) => (
-            <MyEvent key={index} event={Event} />
-          ))}
-        </div>
+          this.state.events.map((e, index) => (
+            <Event key={index} event={e} />
+          ))
       );
     }
   }
@@ -95,13 +101,7 @@ class Home extends React.Component {
           </div>
         </div>
         <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-          <div className="card-inline "><h2><MyEvent/></h2></div>
-          <div className="card-inline"><h2><MyEvent/></h2></div>
-          <div className="card-inline"><h2><MyEvent/></h2></div>
-          <div className="card-inline"><h2><MyEvent/></h2></div>
-          <div className="card-inline"><h2><MyEvent/></h2></div>
-          <div className="card-inline"><h2><MyEvent/></h2></div>
-          <div className="card-inline"><h2><MyEvent/></h2></div>
+          {this.renderMyEvents()}
         </div>
         <div className="d-flex">
           <div>
@@ -132,13 +132,7 @@ class Home extends React.Component {
           </div>
         </div>
         <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-          <div class="card-inline"><h2><Event/></h2></div>
-          <div class="card-inline"><h2><Event/></h2></div>
-          <div class="card-inline"><h2><Event/></h2></div>
-          <div class="card-inline"><h2><Event/></h2></div>
-          <div class="card-inline"><h2><Event/></h2></div>
-          <div class="card-inline"><h2><Event/></h2></div>
-          <div class="card-inline"><h2><Event/></h2></div>
+          {this.renderEvents()}
         </div>
         <div className="d-flex">
           <div>
@@ -168,10 +162,8 @@ class Home extends React.Component {
             </MDBDropdown>
           </div>
         </div>
-        <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-        <div class="card-inline"><h2>
-          {this.renderEvents()}
-        </h2></div>
+        <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>        
+          {this.renderMyEvents()}
         </div>
         <Footer/>
       </div>
