@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 
-import 'event_model.dart';
+import 'package:mobile_calendarshare/class_models/event_model.dart';
 
 class EventDetailPage extends StatefulWidget{
   final Event event;

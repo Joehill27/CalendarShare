@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile_calendarshare/event_card.dart';
 import 'package:mobile_calendarshare/event_detail_page.dart';
-import 'package:mobile_calendarshare/event_model.dart';
+import 'package:mobile_calendarshare/class_models/event_model.dart';
 import 'package:mobile_calendarshare/past_events.dart';
 import 'package:mobile_calendarshare/new_event_form.dart';
 

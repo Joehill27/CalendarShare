@@ -1,6 +1,7 @@
 import 'package:http/http.dart';
-import '../classes/event.dart';
-import '../classes/user.dart';
+import '../class_models/event_model.dart';
+import '../class_models/user_model.dart';
+import '../helper_functions/encrypt.dart';
 
 class UserApi {
 
@@ -9,10 +10,12 @@ class UserApi {
   static createAccountRequest(String username, String password, String email) async {
     String url = 'http://cop4331groupone.com/api/user/createAccount';
 
+    String encryptedPassword = Encrypt.encryptString(username, password);
+
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
     String request = '{"username":"' + username + '","password":"'
-        + password + '","email":"' + email + '"}';
+        + encryptedPassword + '","email":"' + email + '"}';
 
     print(request);
     try {

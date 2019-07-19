@@ -29,7 +29,7 @@ module.exports = {
     //Sort events by start time
     sortByDateAscending(events) {
         let result = events.sort(function(a, b) {
-            return new Date(b.date) - new Date(a.date);
+            return new Date(b.start) - new Date(a.start);
         });
         
         return result;
@@ -37,7 +37,16 @@ module.exports = {
 
     sortByDateDescending(events) {
         let result = events.sort(function(a, b) {
-            return new Date(a.date) - new Date(b.date);
+            return new Date(a.start) - new Date(b.start);
+        });
+        return result;
+    },
+
+    filterEventsbyDate(startDate, endDate, events) {
+        let result = events.filter(function(event){
+            if( (new Date(event.start) >= new Date(startDate)) 
+            &&  (new Date(event.start) <= new Date(endDate)) )
+                return event;     
         });
         return result;
     },
