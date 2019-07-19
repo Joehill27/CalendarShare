@@ -6,15 +6,16 @@ import Navigation from './Navigation';
 import MyEvent from './MyEvent';
 import Event from './Event';
 import Footer from './Footer';
-import {getUser, createUserEvent, getUserGroupEvents} from '../apiCalls/userAPI';
+import {getUser, createUserEvent, getUserGroupEvents, setUserGroupEvents, getUserGroupEvents2} from '../apiCalls/userAPI';
 import {sortByDateAscending, sortByDateDescending,
   sortByEventType, sortByPastAndFuture} from '../util/eventHelpers';
 import Image from './Image';
+import { get } from "mongoose";
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    if(localStorage.getItem('userId') == -1) {
+    if(localStorage.getItem('userId') === -1) {
       alert("Attempting to access a page without valid credentials.\nReturning to login page. Please log in to a valid account.");
       this.props.history.push('');
     }
@@ -43,25 +44,35 @@ class Home extends React.Component {
         user: user,
         events: user.events,
         pastEvents: allEvents.pastEvents,
-        futureEvents: allEvents.futureEvents,
+        futureEvents: allEvents.futureEvents
       });
-    }).then((blankety) => {
-      getUserGroupEvents(user)
-      .then(groupEvents => {
-        this.setState({
-          groupEvents: groupEvents,
-          fetching: false
-        });
-      })
     })
     .catch((err) => {
       console.log(err);
     })
     
+
+    getUser(localStorage.getItem('userName'))
+    .then((userJson) => {
+      user = userJson;
+      setUserGroupEvents(user);
+    })
+
+    getUser(localStorage.getItem('userName'))
+    .then((userJson) => {
+      var temp = getUserGroupEvents2(userJson)
+      console.log(temp);
+      temp.then((result) => {
+        console.log(result);
+        this.setState({
+          groupEvents: result,
+        });
+      })
+    })
 }
 
 renderPastEvents() {
-  if(this.state.pastEvents != ''){
+  if(this.state.pastEvents !== ''){
     return (
         this.state.pastEvents.map((e, index) => (
           <MyEvent key={index} event={e} />
@@ -71,7 +82,7 @@ renderPastEvents() {
 }  
 
   renderFutureEvents() {
-    if(this.state.futureEvents != ''){
+    if(this.state.futureEvents !== ''){
       return (
           this.state.futureEvents.map((e, index) => (
             <MyEvent key={index} event={e} />
@@ -81,10 +92,11 @@ renderPastEvents() {
   }
 
   renderGroupEvents() {
-    if(this.state.groupEvents != ''){
+    if(this.state.groupEvents !== ''){
+      console.log(this.state.groupEvents);
       return (
           //TODO change this.state.events to this.state.groupEvents and have it work
-          this.state.events.map((e, index) => (
+          this.state.groupEvents.map((e, index) => (
             <Event key={index} event={e} />
           ))
       );

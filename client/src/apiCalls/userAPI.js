@@ -2,6 +2,8 @@ import axios from "axios";
 import {getGroupEvents} from './groupAPI';
 
 let hostUrl = 'http://localhost:3001';
+
+let groupEvents = [];
 // let hostUrl = '';
 
 //Get user
@@ -176,6 +178,30 @@ export const getFriendsEvents = async(userId) => {
     } catch (e) {
         console.log(e);
     }
+}
+
+// Used to get the group events set before retrieving them (fixes an issue where getGroupEvents was returning an undefined over the completed array)
+export const setUserGroupEvents = async(user) => {
+    let groups = user.groups;
+    // console.log(user);
+
+    groups.forEach(group => {
+        getGroupEvents(group._id)
+        .then((events) => {
+            events.forEach(event => {
+                groupEvents.push(event);
+            });
+        })
+        .then((err) => {
+            console.log(groupEvents);
+        })
+        .catch(e => console.log(e));
+    });
+}
+
+// Returns the global that was set by setUserGroupEvents
+export const getUserGroupEvents2 = async(user) => {
+    return groupEvents;
 }
 
 //Get all groups events
