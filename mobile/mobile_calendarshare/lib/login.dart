@@ -26,22 +26,26 @@ class _LoginPageState extends State<LoginPage> {
   _login() async {
 
     String encryptedPassword = Encrypt.encryptString('admin', 'Kaijoe22!');
-    print(encryptedPassword);
+    print('User encrypted password' + encryptedPassword);
     var userJson = await UserApi.loginRequest('admin');
     Map<String, dynamic> userOuter = jsonDecode(userJson);
+    print('User outer: ' + userOuter.toString());
     if(userOuter.containsKey('error')) {
-      print('Oops theres an error:' + userOuter['error']);
-      _errorMessage = "Invalid username or password";
+      if(userOuter['error'] != '') {
+        print('Oops theres an error:' + userOuter['error']);
+        _errorMessage = "Invalid username or password";
+      }
     } else {
       Map<String, dynamic> user = userOuter['user'];
       print(user.toString());
-      print(user['password']);
+      print('Here is the users password:' + user['password']);
       if(user['password'] == encryptedPassword) {
         _errorMessage = "Invalid username or password";
         print(_errorMessage);
       } else {
         print('correct password');
         _userId = user['_id'];
+        _username = user['username'];
         _loggedIn = 'true';
       }
     }
@@ -64,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
       case 'true':
         return new HomePage(
           userId: _userId,
+          username: _username,
         );
       default:
     return new Scaffold(

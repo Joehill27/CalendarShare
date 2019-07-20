@@ -13,7 +13,7 @@ class UserApi {
 
   //Get all users
   static createAccountRequest(String username, String password, String email) async {
-    String url = 'http://cop4331groupone.com/api/user/createAccount';
+    String url = 'http://www.cop4331groupone.com/api/user/createAccount';
 
     String encryptedPassword = Encrypt.encryptString(username, password);
 
@@ -36,7 +36,7 @@ class UserApi {
   }
 
   static loginRequest(String username) async {
-    String url = 'http://cop4331groupone.com/api/user/login';
+    String url = 'http://www.cop4331groupone.com/api/user/login';
     String password = "";
     String json = "";
 
@@ -56,10 +56,28 @@ class UserApi {
     return json;
   }
 
+  static getUser(String username) async {
+    String url = 'http://www.cop4331groupone.com/api/user/get/'+username;
+    String json = "";
+    Response response;
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    try {
+      response = await get(url, headers: headers);
+    } catch(e) {
+      print(e);
+    } finally {
+      if(response != null) {
+        json = response.body;
+      }
+    }
+    return json;
+  }
+
   //TODO figure out settings
   //Update User Settings
-  static updateSettings(String userId, String settings) async{
-    String url = 'http://cop4331groupone.com/api/user/'+userId+'/updateSettings';
+  static updateSettings(String userId, String settings) async {
+    String url = 'http://www.cop4331groupone.com/api/user/'+userId+'/updateSettings';
     String json = "";
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -81,7 +99,7 @@ class UserApi {
   //TODO request
   //Create User Event
   static createEvent(String userId, Event event) async {
-    String url = 'http://cop4331groupone.com/api/user/'+userId+'/createEvent';
+    String url = 'http://www.cop4331groupone.com/api/user/'+userId+'/createEvent';
     String json = "";
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -103,7 +121,7 @@ class UserApi {
   //TODO request
   //Update User Event
   static updateEvent(String userId, Event event, String eventId) async {
-    String url = 'http://cop4331groupone.com/api/user/'+userId+'/updateEvent/'+eventId;
+    String url = 'http://www.cop4331groupone.com/api/user/'+userId+'/updateEvent/'+eventId;
     String json = "";
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -124,7 +142,7 @@ class UserApi {
 
   //Delete User Event
   static deleteUserEvent(String userId, String eventId) async {
-    String url = 'http://cop4331groupone.com/api/user/'+userId+'/createEvent';
+    String url = 'http://www.cop4331groupone.com/api/user/'+userId+'/createEvent';
     String json = "";
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};

@@ -6,15 +6,18 @@ import './class_models/user_model.dart';
 import 'package:mobile_calendarshare/class_models/event_model.dart';
 import 'package:mobile_calendarshare/past_events.dart';
 import 'package:mobile_calendarshare/new_event_form.dart';
+import './api_calls/user_api_calls.dart';
 
 
 import 'my_event_list.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title, this.userId}) : super(key: key);
+  HomePage({Key key, this.title, this.userId, this.username}) : super(key: key);
 
   final String title;
   final String userId;
+  final String username;
+
   @override
   _HomePageState createState() => new _HomePageState();
 }
@@ -25,13 +28,15 @@ class _HomePageState extends State<HomePage> {
   List<Event> pastEvents;
   List<Event> futureEvents;
   List<Event> groupEvents;
+  List<Event> userEvents;
   User user;
 
   @override
   void initState() {
     super.initState();
-    //TODO initialize lists with database calls here
-
+    pastEvents = new List();
+    futureEvents = new List();
+    groupEvents = new List();
   }
 
 final initialEvents = <Event>[]

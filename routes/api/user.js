@@ -18,7 +18,7 @@ router.post('/login', (req, res) => {
     if(!user) {
         res.send({'error' : 'user does not exist'});
     } else{
-        res.send({user: user, error: ''});
+        res.send({user: user});
     }
     });
 });
