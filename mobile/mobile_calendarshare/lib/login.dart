@@ -2,18 +2,53 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'stacked_icons.dart';
 import 'home.dart';
-
-
-
+import './api_calls/user_api_calls.dart';
+import './helper_functions/encrypt.dart';
+import 'dart:convert';
 
 class LoginPage extends StatelessWidget {
+
+  String _username;
+  String _password;
+  String _errorMessage;
+
+  _login() async {
+
+    String encryptedPassword = Encrypt.encryptString('admin', 'Kaijoe22!');
+    print(encryptedPassword);
+    var userJson = await UserApi.loginRequest('admin');
+    Map<String, dynamic> userOuter = jsonDecode(userJson);
+    if(userOuter.containsKey('error')) {
+      print('Oops theres an error:' + userOuter['error']);
+      _errorMessage = "Invalid username or password";
+    } else {
+      Map<String, dynamic> user = userOuter['user'];
+      print(user['password']);
+      if(user['password'] != encryptedPassword) {
+        _errorMessage = "Invalid username or password";
+        print(_errorMessage);
+      } else {
+        print('correct password');
+      }
+    }
+
+  }
+
+  _verifyPassword() {
+
+  }
+
+
   
   @override
   Widget build(BuildContext context) {
     
-SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-  statusBarColor: Colors.blue, //or set color with: Color(0xFF0000FF)
-));
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+    statusBarColor: Colors.blue, //or set color with: Color(0xFF0000FF)
+  ));
+
+
+
     return new Scaffold(
       appBar: new AppBar(
         backgroundColor:Colors.transparent,
@@ -41,7 +76,7 @@ SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
               child: new TextField(
-                decoration: new InputDecoration(labelText: 'Email'),
+                decoration: new InputDecoration(labelText: 'Username'),
               ),
             ),
             new SizedBox(
@@ -68,15 +103,22 @@ SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
                           builder: (context) => HomePage()
                         ));
                       },
-                                          child: new Container(
+                      child: new Container(
                             alignment: Alignment.center,
                             height: 60.0,
                             decoration: new BoxDecoration(
                                 color: Color(0xFF18D191),
                                 borderRadius: new BorderRadius.circular(9.0)),
-                            child: new Text("Login",
-                                style: new TextStyle(
-                                    fontSize: 20.0, color: Colors.white))),
+                            child: new FlatButton(
+                              child: new Text(
+                                  "Login",
+                                  style: new TextStyle(
+                                  fontSize: 20.0, color: Colors.white)
+                              ),
+                              onPressed: _login,
+                            ),
+                      ),
+
                     ),
                   ),
                 ),

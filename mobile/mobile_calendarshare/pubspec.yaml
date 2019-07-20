@@ -41,6 +41,7 @@ flutter:
   assets:
   - assets/images/logo.png
   - assets/images/friends.png
+  - assets/defaultImages/
 fonts:
   - family: Montserrat
     fonts:

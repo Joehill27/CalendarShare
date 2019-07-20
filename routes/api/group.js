@@ -101,7 +101,7 @@ router.post('/:groupId/addMember', (req, res) => {
 });
 
 //Update group member
-router.put('/:groupId/updateMember:/:userId', (req, res) => {
+router.put('/:groupId/updateMember/:userId', (req, res) => {
     let memberId = req.params.userId;
     let groupId = req.params.groupId;
 

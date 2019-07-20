@@ -55,6 +55,7 @@ router.post('/createAccount', (req, res) => {
             User.findOne({'email': email}).exec(function(err, user) {
                 if(!user) {
                     let newUser = new User(req.body);
+                    newUser.profilePicture = '1';
                     newUser.save()
                     .then(newUser => {
                         res.send({'user': newUser, 'error' : ''});

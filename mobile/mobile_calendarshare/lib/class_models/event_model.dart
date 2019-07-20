@@ -9,14 +9,14 @@ class Event {
   Event.detailed(this.id ,this.name, this.type, this.description, this.startDate,
       this.endDate, this.imageId);
 
-  fromJson(String json) {
-    Map<String, dynamic> serializedEvent = jsonDecode(json);
-    return new Event.detailed(serializedEvent['_id'],
-        serializedEvent['eventName'], serializedEvent['eventType'],
-        serializedEvent['eventDetails'],serializedEvent['start'],
-        serializedEvent['end'],  serializedEvent['eventPicture']
-    );
-  }
+  Event.fromJson(Map<String, dynamic> serializedEvent) :
+        id = serializedEvent['_id'],
+        name = serializedEvent['eventName'],
+        type = serializedEvent['eventType'],
+        description = serializedEvent['eventDetails'],
+        startDate = serializedEvent['start'],
+        endDate = serializedEvent['end'],
+        imageId = serializedEvent['eventPicture'];
 
   toJson() {
     return {
@@ -28,6 +28,11 @@ class Event {
       "end": endDate,
       "eventPicture": imageId
     };
+  }
+
+  //TODO
+  getPicture() {
+
   }
 
 }

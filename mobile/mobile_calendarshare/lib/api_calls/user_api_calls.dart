@@ -3,10 +3,15 @@ import '../class_models/event_model.dart';
 import '../class_models/user_model.dart';
 import '../helper_functions/encrypt.dart';
 
+void main(){
+//  UserApi.getEvents('5d2fa28c2f931610e489c951')
+//  .then((events) => UserApi.getEventsFromArray(events));
+
+}
+
 class UserApi {
 
   //Get all users
-
   static createAccountRequest(String username, String password, String email) async {
     String url = 'http://cop4331groupone.com/api/user/createAccount';
 
@@ -22,8 +27,7 @@ class UserApi {
       response = await post(url, headers: headers, body: request);
     } catch (e) {
       print(e);
-    }
-    finally {
+    } finally {
       if (response != null) {
         String json = response.body;
         print(json);
@@ -44,8 +48,7 @@ class UserApi {
       response = await post(url, headers: headers, body: request);
     } catch(e) {
       print(e);
-    }
-    finally {
+    } finally {
       if(response != null) {
         json = response.body;
       }
@@ -67,8 +70,7 @@ class UserApi {
       response = await put(url, headers: headers, body: request);
     } catch(e) {
       print(e);
-    }
-    finally {
+    } finally {
       if(response != null) {
         json = response.body;
       }
@@ -83,15 +85,14 @@ class UserApi {
     String json = "";
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
-    String request = '';
+    String request = event.toJson();
     print(request);
 
     try {
       response = await post(url, headers: headers, body: request);
     } catch(e) {
       print(e);
-    }
-    finally {
+    } finally {
       if(response != null) {
         json = response.body;
       }
@@ -113,8 +114,7 @@ class UserApi {
       response = await put(url, headers: headers, body: request);
     } catch(e) {
       print(e);
-    }
-    finally {
+    } finally {
       if(response != null) {
         json = response.body;
       }
@@ -133,8 +133,7 @@ class UserApi {
       response = await delete(url, headers: headers);
     } catch(e) {
       print(e);
-    }
-    finally {
+    } finally {
       if(response != null) {
         json = response.body;
       }
@@ -145,7 +144,7 @@ class UserApi {
 
   //Get all User Group events
   static getEvents(String userId) async {
-    String url = 'http://cop4331groupone.com/api/user/'+userId+'/events';
+    String url = 'http://www.cop4331groupone.com/api/user/'+userId+'/events';
     String json = "";
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -156,8 +155,7 @@ class UserApi {
       response = await get(url, headers: headers);
     } catch(e) {
       print(e);
-    }
-    finally {
+    } finally {
       if(response != null) {
         json = response.body;
       }
@@ -189,8 +187,7 @@ class UserApi {
       response = await post(url, headers: headers, body: request);
     } catch(e) {
       print(e);
-    }
-    finally {
+    } finally {
       if(response != null) {
         json = response.body;
       }
@@ -209,8 +206,7 @@ class UserApi {
       response = await delete(url, headers: headers);
     } catch(e) {
       print(e);
-    }
-    finally {
+    } finally {
       if(response != null) {
         json = response.body;
       }
@@ -232,8 +228,7 @@ class UserApi {
       response = await post(url, headers: headers, body: request);
     } catch(e) {
       print(e);
-    }
-    finally {
+    } finally {
       if(response != null) {
         json = response.body;
       }
@@ -263,8 +258,7 @@ class UserApi {
       response = await post(url, headers: headers, body: request);
     } catch(e) {
       print(e);
-    }
-    finally {
+    } finally {
       if(response != null) {
         json = response.body;
       }
@@ -284,8 +278,7 @@ class UserApi {
       response = await delete(url, headers: headers);
     } catch(e) {
       print(e);
-    }
-    finally {
+    } finally {
       if(response != null) {
         json = response.body;
       }

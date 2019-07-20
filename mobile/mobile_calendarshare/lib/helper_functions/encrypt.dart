@@ -4,7 +4,7 @@ import 'dart:convert';
 String main(String username, String password) {
 //  var username = 'bob';
 //  var password = '123456';
-  var string = username + password + username;
+  String string = username + password + username;
   print(string);
 
   var bytes = utf8.encode(string); // data being hashed
@@ -17,10 +17,11 @@ String main(String username, String password) {
 class Encrypt {
 
   static encryptString(String salt, String toEncrypt) {
-    var input = salt + toEncrypt + salt;
+    String input = salt + toEncrypt + salt;
 
     var bytes = utf8.encode(input); // data being hashed
     var encryptedString = sha256.convert(bytes).toString();
+
 
     return encryptedString;
   }
