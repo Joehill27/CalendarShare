@@ -167,6 +167,8 @@ router.post('/:groupId/addEvent', (req, res) => {
         if(err) {
             res.send({'error': 'can not find group'});
         }
+        
+        console.log(group.events);
         group.events.push(event);
         group.save()
         .then(

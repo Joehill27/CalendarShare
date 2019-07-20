@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile_calendarshare/event_card.dart';
 import 'package:mobile_calendarshare/event_detail_page.dart';
+import './class_models/user_model.dart';
 import 'package:mobile_calendarshare/class_models/event_model.dart';
 import 'package:mobile_calendarshare/past_events.dart';
 import 'package:mobile_calendarshare/new_event_form.dart';
@@ -10,15 +11,28 @@ import 'package:mobile_calendarshare/new_event_form.dart';
 import 'my_event_list.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
+  HomePage({Key key, this.title, this.userId}) : super(key: key);
 
   final String title;
+  final String userId;
   @override
   _HomePageState createState() => new _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   int _bottomNavIndex=0;
+
+  List<Event> pastEvents;
+  List<Event> futureEvents;
+  List<Event> groupEvents;
+  User user;
+
+  @override
+  void initState() {
+    super.initState();
+    //TODO initialize lists with database calls here
+
+  }
 
 final initialEvents = <Event>[]
   ..add(new Event('Concert', 'Amway Center', 'Biggest Hits of 2019'))
@@ -46,7 +60,7 @@ final initialPastEvents = <Event> [];
          onTap: (int index){
           setState((){
             _bottomNavIndex = index;
-            
+
           });
          },
          

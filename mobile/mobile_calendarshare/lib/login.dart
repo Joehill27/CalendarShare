@@ -6,11 +6,22 @@ import './api_calls/user_api_calls.dart';
 import './helper_functions/encrypt.dart';
 import 'dart:convert';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  LoginPage();
+
+
+  @override
+  State<StatefulWidget> createState() => new _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
 
   String _username;
   String _password;
   String _errorMessage;
+  String _userId;
+  String _loggedIn = 'false';
+
 
   _login() async {
 
@@ -23,12 +34,15 @@ class LoginPage extends StatelessWidget {
       _errorMessage = "Invalid username or password";
     } else {
       Map<String, dynamic> user = userOuter['user'];
+      print(user.toString());
       print(user['password']);
-      if(user['password'] != encryptedPassword) {
+      if(user['password'] == encryptedPassword) {
         _errorMessage = "Invalid username or password";
         print(_errorMessage);
       } else {
         print('correct password');
+        _userId = user['_id'];
+        _loggedIn = 'true';
       }
     }
 
@@ -42,16 +56,19 @@ class LoginPage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-    statusBarColor: Colors.blue, //or set color with: Color(0xFF0000FF)
-  ));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarColor: Colors.blue, //or set color with: Color(0xFF0000FF)
+    ));
 
-
-
+    switch (_loggedIn) {
+      case 'true':
+        return new HomePage(
+          userId: _userId,
+        );
+      default:
     return new Scaffold(
       appBar: new AppBar(
-        backgroundColor:Colors.transparent,
+          backgroundColor: Colors.transparent,
           elevation: 0.0,
           iconTheme: new IconThemeData(color: Color(0xFF18D191))),
       body: Container(
@@ -74,7 +91,7 @@ class LoginPage extends StatelessWidget {
             ),
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
+              const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
               child: new TextField(
                 decoration: new InputDecoration(labelText: 'Username'),
               ),
@@ -84,7 +101,7 @@ class LoginPage extends StatelessWidget {
             ),
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
+              const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
               child: new TextField(
                 obscureText: true,
                 decoration: new InputDecoration(labelText: 'Password'),
@@ -100,23 +117,23 @@ class LoginPage extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => HomePage()
+                            builder: (context) => HomePage(userId: _userId)
                         ));
                       },
                       child: new Container(
-                            alignment: Alignment.center,
-                            height: 60.0,
-                            decoration: new BoxDecoration(
-                                color: Color(0xFF18D191),
-                                borderRadius: new BorderRadius.circular(9.0)),
-                            child: new FlatButton(
-                              child: new Text(
-                                  "Login",
-                                  style: new TextStyle(
+                        alignment: Alignment.center,
+                        height: 60.0,
+                        decoration: new BoxDecoration(
+                            color: Color(0xFF18D191),
+                            borderRadius: new BorderRadius.circular(9.0)),
+                        child: new FlatButton(
+                          child: new Text(
+                              "Login",
+                              style: new TextStyle(
                                   fontSize: 20.0, color: Colors.white)
-                              ),
-                              onPressed: _login,
-                            ),
+                          ),
+                          onPressed: _login,
+                        ),
                       ),
 
                     ),
@@ -141,9 +158,12 @@ class LoginPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(bottom:18.0),
-                    child: new Text("Create A New Account ",style: new TextStyle(
-                                fontSize: 17.0, color: Color(0xFF18D191),fontWeight: FontWeight.bold)),
+                    padding: const EdgeInsets.only(bottom: 18.0),
+                    child: new Text(
+                        "Create A New Account ", style: new TextStyle(
+                        fontSize: 17.0,
+                        color: Color(0xFF18D191),
+                        fontWeight: FontWeight.bold)),
                   ),
                 ],
               ),
@@ -152,5 +172,6 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  }
   }
 }

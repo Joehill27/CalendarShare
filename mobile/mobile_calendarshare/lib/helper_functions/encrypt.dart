@@ -20,7 +20,7 @@ class Encrypt {
     String input = salt + toEncrypt + salt;
 
     var bytes = utf8.encode(input); // data being hashed
-    var encryptedString = sha256.convert(bytes).toString();
+    String encryptedString = sha256.convert(bytes).toString();
 
 
     return encryptedString;
