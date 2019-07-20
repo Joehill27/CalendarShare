@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
   final String userId;
   final String username;
   String user;
-  List<Event> events = new List();
+  List<Event> events;
 
   @override
   _HomePageState createState() => new _HomePageState();
@@ -37,16 +37,33 @@ class _HomePageState extends State<HomePage> {
   List<Event> userEvents;
   User user;
 
+  _splitEventList() {
+    DateTime now = DateTime.now();
+    if(widget.events.length > 0) {
+      for (Event event in initialEvents) {
+        if (DateTime.parse(event.startDate).isAfter(now)) {
+          userEvents.add(event);
+        } else {
+          pastEvents.add(event);
+        }
+      }
+    } else {
+      print('Event list is empty');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     pastEvents = new List();
-//    futureEvents = new List();
     groupEvents = new List();
+    userEvents = new List();
     initialEvents = widget.events;
+    print(initialEvents.toString());
+    _splitEventList();
   }
 
-//final initialEvents = <Event>[]
+//final userEvents = <Event>[]
 //  ..add(new Event('Concert', 'Amway Center', 'Biggest Hits of 2019'))
 //  ..add(new Event('Family Reunion', 'Magic Kingdom', 'Smiths 11th Annual Disney Get-Together'))
 //  ..add(new Event('Concert', 'Amway Center', 'Biggest s of 2019'))
@@ -57,8 +74,6 @@ final initialGroupEvents = <Event>[]
   ..add(new Event('Disney Day', 'Magic Kingdom', 'Smiths 11th Annual Disney Get-Together'))
   ..add(new Event('Magics Game', 'Amway Center', 'Biggest hits of 2019'))
   ..add(new Event('Study PARTY', 'Glen\'s Place', 'Summer\'s Hottest Event'));
-
-final initialPastEvents = <Event> [];
 
   @override
   Widget build(BuildContext context) {
@@ -197,40 +212,41 @@ final initialPastEvents = <Event> [];
         height: MediaQuery.of(context).size.height * 0.5,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-            itemCount: initialEvents.length, itemBuilder: (context, index) {
+            itemCount: userEvents.length, itemBuilder: (context, index) {
               return Container(
                 width: MediaQuery.of(context).size.width * .7,
                 child: Card(
                   child: Column(children: [ListTile(
                     onTap: () {
                         Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => EventDetailPage(initialEvents[index]),
+                          builder: (context) => EventDetailPage(userEvents[index]),
                         ));
                       },
-                    title: Text(initialEvents[index].name),
-                    subtitle: Text(initialEvents[index].type),
+                    title: Text(userEvents[index].name),
+                    subtitle: Text(userEvents[index].type),
                     leading: Icon(Icons.event,
                     color: Colors.blue,
                     ),
                   ),
                   Divider(),
                   ListTile(
-                    
-            title: Text(TimeFunctions.convertToEventFormat(initialEvents[index].startDate),
-                style: TextStyle(fontWeight: FontWeight.w500)), 
-            leading: Icon(
-              Icons.calendar_today,
-              color: Colors.blue[500],
-            ),
-          ),
-          ListTile(
-            title: Text(TimeFunctions.convertToEventFormat(initialEvents[index].endDate),
-                style: TextStyle(fontWeight: FontWeight.w500)),
-            leading: Icon(
-              Icons.calendar_today,
-              color: Colors.blue[500],
-            ),
-          ),
+                    title: Text(TimeFunctions.convertToEventFormat(
+                        userEvents[index].startDate),
+                        style: TextStyle(fontWeight: FontWeight.w500)),
+                    leading: Icon(
+                      Icons.calendar_today,
+                      color: Colors.blue[500],
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(TimeFunctions.convertToEventFormat(
+                        userEvents[index].endDate),
+                        style: TextStyle(fontWeight: FontWeight.w500)),
+                    leading: Icon(
+                      Icons.calendar_today,
+                      color: Colors.blue[500],
+                    ),
+                  ),
 
                 ],
               ),
@@ -256,7 +272,7 @@ final initialPastEvents = <Event> [];
                         ),
                         );
                 if (newEvent != null) {
-                initialEvents.add(newEvent);
+                userEvents.add(newEvent);
     }
           },
         )
@@ -359,39 +375,41 @@ final initialPastEvents = <Event> [];
         height: MediaQuery.of(context).size.height * 0.5,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-            itemCount: initialPastEvents.length, itemBuilder: (context, index) {
+            itemCount: pastEvents.length, itemBuilder: (context, index) {
               return Container(
                 width: MediaQuery.of(context).size.width * .7,
                 child: Card(
                   child: Column(children: [ListTile(
                     onTap: () {
                         Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => EventDetailPage(initialPastEvents[index]),
+                          builder: (context) => EventDetailPage(pastEvents[index]),
                         ));
                       },
-                    title: Text(initialPastEvents[index].name),
-                    subtitle: Text(initialPastEvents[index].location),
+                    title: Text(pastEvents[index].name),
+                    subtitle: Text(pastEvents[index].type),
                     leading: Icon(Icons.event,
                     color: Colors.blue,
                     ),
                   ),
                   Divider(),
                   ListTile(
-                    
-            title: Text('(408) 555-1212',
-                style: TextStyle(fontWeight: FontWeight.w500)), 
-            leading: Icon(
-              Icons.contact_phone,
-              color: Colors.blue[500],
-            ),
-          ),
-          ListTile(
-            title: Text('costa@example.com'),
-            leading: Icon(
-              Icons.contact_mail,
-              color: Colors.blue[500],
-            ),
-          ),
+                    title: Text(TimeFunctions.convertToEventFormat(
+                        pastEvents[index].startDate),
+                        style: TextStyle(fontWeight: FontWeight.w500)),
+                    leading: Icon(
+                      Icons.calendar_today,
+                      color: Colors.blue[500],
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(TimeFunctions.convertToEventFormat(
+                        pastEvents[index].endDate),
+                        style: TextStyle(fontWeight: FontWeight.w500)),
+                    leading: Icon(
+                      Icons.calendar_today,
+                      color: Colors.blue[500],
+                    ),
+                  ),
 
                 ],
               ),
@@ -420,7 +438,7 @@ final initialPastEvents = <Event> [];
                         ),
                         );
                 if (newEvent != null) {
-                initialPastEvents.add(newEvent);
+                pastEvents.add(newEvent);
     }
           },
         )

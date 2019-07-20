@@ -11,7 +11,6 @@ import './helper_functions/json_parsing.dart';
 class LoginPage extends StatefulWidget {
   LoginPage();
 
-
   @override
   State<StatefulWidget> createState() => new _LoginPageState();
 }
@@ -24,16 +23,14 @@ class _LoginPageState extends State<LoginPage> {
   String _userId;
   String _loggedIn = 'false';
   String _user;
-  List<Event> _events = new List();
+  List<Event> _events;
 
 
   _login() async {
 
     String encryptedPassword = Encrypt.encryptString('admin', 'Kaijoe22!');
-    print('User encrypted password' + encryptedPassword);
     var userJson = await UserApi.loginRequest('admin');
     Map<String, dynamic> userOuter = jsonDecode(userJson);
-    print('User outer: ' + userOuter.toString());
     if(userOuter.containsKey('error')) {
       if(userOuter['error'] != '') {
         print('Oops theres an error:' + userOuter['error']);
@@ -41,22 +38,20 @@ class _LoginPageState extends State<LoginPage> {
       }
     } else {
       Map<String, dynamic> user = userOuter['user'];
-      print(user.toString());
-      print('Here is the users password:' + user['password']);
       if(user['password'] != encryptedPassword) {
         _errorMessage = "Invalid username or password";
         print(_errorMessage);
       } else {
-        print('correct password');
         _userId = user['_id'];
         _username = user['username'];
-        _loggedIn = 'true';
-        _user = user.toString();
         List eventsVar = user['events'];
+        _events = new List();
         for(var e in eventsVar) {
           _events.add(Event.fromJson(e));
-          print(e);
+          print('Printing events' + e.toString());
         }
+        _user = user.toString();
+        _loggedIn = 'true';
       }
     }
 
