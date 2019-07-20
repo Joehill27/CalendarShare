@@ -417,33 +417,7 @@ final initialGroupEvents = <Event>[]
             }
         )
               ),
-
-
-          new SizedBox(
-            height: 0.0,
-          ),      
-          Container(
-                alignment: Alignment.centerRight,
-                child: FlatButton.icon(
-                  
-                  color: Colors.transparent,
-                  icon: Icon(Icons.add, color: Colors.white,), //`Icon` to display
-          label: Text('Add an Event', style: new TextStyle(fontSize: 10.0, color: Colors.white)),
-           //`Text` to display
-           onPressed: () async {
-            Event newEvent = await Navigator.of(context).push(new MaterialPageRoute(
-                          builder: (context){ return new AddEventFormPage();
-                          }
-                        ),
-                        );
-                if (newEvent != null) {
-                pastEvents.add(newEvent);
-    }
-          },
-        )
-                ),
-  
-              
+             
              
               new SizedBox(
                 height: 10.0,
