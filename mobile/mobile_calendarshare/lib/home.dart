@@ -29,7 +29,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _bottomNavIndex=0;
 
   List<Event> pastEvents;
   List<Event> initialEvents;
@@ -83,7 +82,7 @@ final initialGroupEvents = <Event>[]
       key:  key,
       
       appBar: new AppBar(
-          backgroundColor: Colors.lightBlue[900],
+          backgroundColor: Colors.cyanAccent[700],
           elevation: 0.0,
            title: new Container(
           

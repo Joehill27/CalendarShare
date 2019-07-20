@@ -74,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
         );
       default:
     return new Scaffold(
+      backgroundColor: Colors.cyan[900],
       appBar: new AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0.0,
@@ -91,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.only(top: 0.0, bottom: 40.0),
                   child: new Text(
                     "Calendar Share",
-                    style: new TextStyle(fontSize: 30.0),
+                    style: new TextStyle(fontSize: 30.0, color: Colors.white),
                   ),
                 )
               ],
@@ -100,7 +101,8 @@ class _LoginPageState extends State<LoginPage> {
               padding:
               const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
               child: new TextField(
-                decoration: new InputDecoration(labelText: 'Username'),
+                decoration: new InputDecoration(labelText: 'Username',),
+                style: TextStyle(color: Colors.white),
               ),
             ),
             new SizedBox(
@@ -131,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                         alignment: Alignment.center,
                         height: 60.0,
                         decoration: new BoxDecoration(
-                            color: Color(0xFF18D191),
+                            color: Colors.cyanAccent[700],
                             borderRadius: new BorderRadius.circular(9.0)),
                         child: new FlatButton(
                           child: new Text(
@@ -155,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 30.0,
                         child: new Text("Forgot Password?",
                             style: new TextStyle(
-                                fontSize: 12.0, color: Color(0xFF18D191)))),
+                                fontSize: 12.0, color: Colors.white))),
                   ),
                 )
               ],
@@ -173,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
                         )
                       );
                     }, 
-                    child: new Text("Create Account?"), 
+                    child: new Text("Create Account?", style: TextStyle(color: Colors.white),), 
                   )
 
                   )
