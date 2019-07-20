@@ -5,14 +5,16 @@ import '../helper_functions/encrypt.dart';
 
 class JsonParsing {
 
-  static getEventsFromArray(eventsJson) {
+  static getEventsFromArray(Map<String, dynamic> eventsJson) {
+    print('Here is the events JSON!! ' + eventsJson.toString());
     List<Event> eventObjects;
-    Map<String, dynamic> events = jsonDecode(eventsJson);
-    var eventsArray = events['events'];
+    var eventsArray = eventsJson['events'];
     print('Here are the events!' + eventsArray.toString());
     for (Map<String, dynamic> event in eventsArray) {
       eventObjects.add(new Event.fromJson(event));
     }
+
+    return eventObjects;
   }
 
   static getGroupsFromArray(groupsJSon) {

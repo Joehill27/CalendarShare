@@ -5,6 +5,8 @@ import 'home.dart';
 import './api_calls/user_api_calls.dart';
 import './helper_functions/encrypt.dart';
 import 'dart:convert';
+import './class_models/event_model.dart';
+import './helper_functions/json_parsing.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage();
@@ -21,6 +23,8 @@ class _LoginPageState extends State<LoginPage> {
   String _errorMessage;
   String _userId;
   String _loggedIn = 'false';
+  String _user;
+  List<Event> _events = new List();
 
 
   _login() async {
@@ -39,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
       Map<String, dynamic> user = userOuter['user'];
       print(user.toString());
       print('Here is the users password:' + user['password']);
-      if(user['password'] == encryptedPassword) {
+      if(user['password'] != encryptedPassword) {
         _errorMessage = "Invalid username or password";
         print(_errorMessage);
       } else {
@@ -47,16 +51,16 @@ class _LoginPageState extends State<LoginPage> {
         _userId = user['_id'];
         _username = user['username'];
         _loggedIn = 'true';
+        _user = user.toString();
+        List eventsVar = user['events'];
+        for(var e in eventsVar) {
+          _events.add(Event.fromJson(e));
+          print(e);
+        }
       }
     }
 
   }
-
-  _verifyPassword() {
-
-  }
-
-
   
   @override
   Widget build(BuildContext context) {
@@ -69,6 +73,8 @@ class _LoginPageState extends State<LoginPage> {
         return new HomePage(
           userId: _userId,
           username: _username,
+          user: _user,
+          events: _events,
         );
       default:
     return new Scaffold(

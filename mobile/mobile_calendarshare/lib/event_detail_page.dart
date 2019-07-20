@@ -41,7 +41,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
             textAlign: TextAlign.center,
           ),
           new Text(
-            widget.event.location,
+            widget.event.type,
             style: new TextStyle(fontSize: 25.0, color: Colors.white),
           ),
           new Padding(

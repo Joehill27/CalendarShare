@@ -7,16 +7,20 @@ import 'package:mobile_calendarshare/class_models/event_model.dart';
 import 'package:mobile_calendarshare/past_events.dart';
 import 'package:mobile_calendarshare/new_event_form.dart';
 import './api_calls/user_api_calls.dart';
+import './helper_functions/convert_time.dart';
 
 
 import 'my_event_list.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title, this.userId, this.username}) : super(key: key);
+  HomePage({Key key, this.title,
+    this.userId, this.username, this.user, this.events}) : super(key: key);
 
   final String title;
   final String userId;
   final String username;
+  String user;
+  List<Event> events = new List();
 
   @override
   _HomePageState createState() => new _HomePageState();
@@ -26,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   int _bottomNavIndex=0;
 
   List<Event> pastEvents;
-  List<Event> futureEvents;
+  List<Event> initialEvents;
   List<Event> groupEvents;
   List<Event> userEvents;
   User user;
@@ -35,15 +39,16 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     pastEvents = new List();
-    futureEvents = new List();
+//    futureEvents = new List();
     groupEvents = new List();
+    initialEvents = widget.events;
   }
 
-final initialEvents = <Event>[]
-  ..add(new Event('Concert', 'Amway Center', 'Biggest Hits of 2019'))
-  ..add(new Event('Family Reunion', 'Magic Kingdom', 'Smiths 11th Annual Disney Get-Together'))
-  ..add(new Event('Concert', 'Amway Center', 'Biggest s of 2019'))
-  ..add(new Event('Pool Party', 'Glen\'s Place', 'Summer\'s Hottest Event'));
+//final initialEvents = <Event>[]
+//  ..add(new Event('Concert', 'Amway Center', 'Biggest Hits of 2019'))
+//  ..add(new Event('Family Reunion', 'Magic Kingdom', 'Smiths 11th Annual Disney Get-Together'))
+//  ..add(new Event('Concert', 'Amway Center', 'Biggest s of 2019'))
+//  ..add(new Event('Pool Party', 'Glen\'s Place', 'Summer\'s Hottest Event'));
 
 final initialGroupEvents = <Event>[]
   ..add(new Event('Musical', 'Amway Center', 'Biggest Hits of 2019'))
@@ -92,7 +97,7 @@ final initialPastEvents = <Event> [];
       appBar: new AppBar(
           backgroundColor: Colors.teal,
           elevation: 0.0,
-          title: new Text('Welcome, User'),
+          title: new Text('Welcome, ' + widget.username),
           iconTheme: new IconThemeData(color: Color(0xFF18D191))),
       body: new ListView(
       children: <Widget>[
@@ -287,7 +292,7 @@ final initialPastEvents = <Event> [];
                         ));
                       },
                     title: Text(initialEvents[index].name),
-                    subtitle: Text(initialEvents[index].location),
+                    subtitle: Text(initialEvents[index].type),
                     leading: Icon(Icons.event,
                     color: Colors.blue,
                     ),
@@ -295,17 +300,18 @@ final initialPastEvents = <Event> [];
                   Divider(),
                   ListTile(
                     
-            title: Text('(408) 555-1212',
+            title: Text(TimeFunctions.convertToEventFormat(initialEvents[index].startDate),
                 style: TextStyle(fontWeight: FontWeight.w500)), 
             leading: Icon(
-              Icons.contact_phone,
+              Icons.calendar_today,
               color: Colors.blue[500],
             ),
           ),
           ListTile(
-            title: Text('costa@example.com'),
+            title: Text(TimeFunctions.convertToEventFormat(initialEvents[index].endDate),
+                style: TextStyle(fontWeight: FontWeight.w500)),
             leading: Icon(
-              Icons.contact_mail,
+              Icons.calendar_today,
               color: Colors.blue[500],
             ),
           ),
