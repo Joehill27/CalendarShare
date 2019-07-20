@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile_calendarshare/user_registration.dart';
 import 'stacked_icons.dart';
 import 'home.dart';
 import './api_calls/user_api_calls.dart';
@@ -161,16 +162,21 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Expanded(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 18.0),
-                    child: new Text(
-                        "Create A New Account ", style: new TextStyle(
-                        fontSize: 17.0,
-                        color: Color(0xFF18D191),
-                        fontWeight: FontWeight.bold)),
-                  ),
+                    padding: const EdgeInsets.only(bottom:18.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => UserRegistration(),
+                        )
+                      );
+                    }, 
+                    child: new Text("Create Account?"), 
+                  )
+
+                  )
                 ],
               ),
             )
