@@ -120,7 +120,7 @@ final initialGroupEvents = <Event>[]
                     GestureDetector(
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => FriendsPage(),
+                          builder: (context) => FriendPage(),
                          )
                        );
                       }, 

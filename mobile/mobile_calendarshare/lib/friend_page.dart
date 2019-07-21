@@ -11,75 +11,68 @@ class Friend{
   Friend(this.userName);
 }
 
-class FriendsPage extends StatefulWidget {
-  FriendsPage({Key key, this.title}) : super(key: key);
+ class FriendPage extends StatelessWidget {
 
-  final String title;
-  @override
-  _FriendsPageState createState() => new _FriendsPageState();
-}
-
-class _FriendsPageState extends State<FriendsPage> {
-final initialBuds = <Friend>[]
-..add(new Friend('CoolGuy'))
-..add(new Friend('RadGal'));
+ final initialFriends = <Friend>[]
+ ..add(new Friend("Miguel"))
+ ..add(new Friend("Sam"))
+ ..add(new Friend("Joe"))
+ ..add(new Friend("NoobMaster69"))
+ ..add(new Friend("GodofThunder53"))
+ ..add(new Friend("SuperSerium_Soldier"))
+ ..add(new Friend("X-23"))
+ ..add(new Friend("T.Stark_AKA_IronMAN"))
+ ..add(new Friend("That guy"))
+ ..add(new Friend("thats_what_she_said"))
+ ..add(new Friend("User1_"))
+ ..add(new Friend("Brendi"));
 
   @override
   Widget build(BuildContext context) {
     
-SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-  statusBarColor: Colors.blue, //or set color with: Color(0xFF0000FF)
-));
     return new Scaffold(
+      backgroundColor: Colors.teal[300],
       appBar: new AppBar(
+        centerTitle: true,
         backgroundColor:Colors.transparent,
           elevation: 0.0,
-          iconTheme: new IconThemeData(color: Color(0xFF18D191))),
-      body: new ListView(
-        children: <Widget>[
-          Container(
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: initialBuds.length,
-              itemBuilder: (context, index){
-                return Container(
-                  width: MediaQuery.of(context).size.width * .7,
-                child: Card(
-                  child: Column(children: [ListTile(
-                    title: Text(initialBuds[index].userName),
-                    
-                    leading: Icon(Icons.people,
-                    color: Colors.blue,
+          iconTheme: new IconThemeData(color: Color(0xFF18D191)),
+          title: Text("My Friends"),
+          ),
+          
+          body: new ListView(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Container(
+                  //  padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20.0),
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: initialFriends.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          width: MediaQuery.of(context).size.width * .7,
+                          child: Card(
+                            child: Column(children: [ListTile(
+                              title: new Text(initialFriends[index].userName),
+                              leading: CircleAvatar(backgroundImage: ExactAssetImage('assets/images/logo.png'),
+                minRadius: 5,
+                maxRadius: 20,),
+                            )
+                              
+                            ],)
+                          )
+                        );
+                      }
                     ),
-                  ),
-                  Divider(),
-                  ListTile(
-                    
-            title: Text('(408) 555-1212',
-                style: TextStyle(fontWeight: FontWeight.w500)), 
-            leading: Icon(
-              Icons.contact_phone,
-              color: Colors.blue[500],
-            ),
-          ),
-          ListTile(
-            title: Text('costa@example.com'),
-            leading: Icon(
-              Icons.contact_mail,
-              color: Colors.blue[500],
-            ),
-          ),
-
+                  )
                 ],
-              ),
-            )
-          );
-                
-          },
-            ),
-      )
-        ],
-      )
+              )
+            ],
+          )
+       
+      
     );
-}
+  }
 }
