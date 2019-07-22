@@ -69,10 +69,11 @@ class _HomePageState extends State<HomePage> {
 //  ..add(new Event('Pool Party', 'Glen\'s Place', 'Summer\'s Hottest Event'));
 
 final initialGroupEvents = <Event>[]
-  ..add(new Event('Musical', 'Amway Center', 'Biggest Hits of 2019'))
-  ..add(new Event('Disney Day', 'Magic Kingdom', 'Smiths 11th Annual Disney Get-Together'))
-  ..add(new Event('Magics Game', 'Amway Center', 'Biggest hits of 2019'))
-  ..add(new Event('Study PARTY', 'Glen\'s Place', 'Summer\'s Hottest Event'));
+
+  ..add(new Event('Musical', 'Amway Center', 'Biggest Hits of 2019', ))
+  ..add(new Event('Disney Day', 'Magic Kingdom', 'Smiths 11th Annual Disney Get-Together', ))
+  ..add(new Event('Magics Game', 'Amway Center', 'Biggest hits of 2019', ))
+  ..add(new Event('Study PARTY', 'Glen\'s Place', 'Summer\'s Hottest Event', ));
 
   @override
   Widget build(BuildContext context) {

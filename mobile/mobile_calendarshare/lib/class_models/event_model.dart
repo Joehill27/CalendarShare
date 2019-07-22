@@ -3,11 +3,11 @@ import 'dart:convert';
 class Event {
   String id, name, type, description, startDate, endDate, imageId,
     formattedStart, formattedEnd, location;
-
+ 
   Event(this.type, this.location, this.name);
 
   Event.detailed(this.id ,this.name, this.type, this.description, this.startDate,
-      this.endDate, this.imageId);
+      this.endDate, this.imageId, this.location);
 
   Event.fromJson(Map<String, dynamic> serializedEvent) :
         id = serializedEvent['_id'],
@@ -16,7 +16,9 @@ class Event {
         description = serializedEvent['eventDetails'],
         startDate = serializedEvent['start'],
         endDate = serializedEvent['end'],
-        imageId = serializedEvent['eventPicture'];
+        imageId = serializedEvent['eventPicture'],
+        location = serializedEvent['eventLocation'];
+       
 
   toJson() {
     return {
@@ -26,7 +28,8 @@ class Event {
       "eventDetails": description,
       "start": startDate,
       "end": endDate,
-      "eventPicture": imageId
+      "eventPicture": imageId,
+      "eventLocation": location
     };
   }
 
