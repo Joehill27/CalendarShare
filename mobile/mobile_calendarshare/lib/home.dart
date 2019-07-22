@@ -20,8 +20,13 @@ import 'my_event_list.dart';
 
 class HomePage extends StatefulWidget {
   HomePage(
-      {Key key, this.title, this.userId,
-        this.username, this.user, this.events, this.profilePicture})
+      {Key key,
+      this.title,
+      this.userId,
+      this.username,
+      this.user,
+      this.events,
+      this.profilePicture})
       : super(key: key);
 
   final String title;
@@ -75,12 +80,27 @@ class _HomePageState extends State<HomePage> {
 //  ..add(new Event('Concert', 'Amway Center', 'Biggest s of 2019'))
 //  ..add(new Event('Pool Party', 'Glen\'s Place', 'Summer\'s Hottest Event'));
 
-final initialGroupEvents = <Event>[]
-
-  ..add(new Event('Musical', 'Amway Center', 'Biggest Hits of 2019', ))
-  ..add(new Event('Disney Day', 'Magic Kingdom', 'Smiths 11th Annual Disney Get-Together', ))
-  ..add(new Event('Magics Game', 'Amway Center', 'Biggest hits of 2019', ))
-  ..add(new Event('Study PARTY', 'Glen\'s Place', 'Summer\'s Hottest Event', ));
+  final initialGroupEvents = <Event>[]
+    ..add(new Event(
+      'Musical',
+      'Amway Center',
+      'Biggest Hits of 2019',
+    ))
+    ..add(new Event(
+      'Disney Day',
+      'Magic Kingdom',
+      'Smiths 11th Annual Disney Get-Together',
+    ))
+    ..add(new Event(
+      'Magics Game',
+      'Amway Center',
+      'Biggest hits of 2019',
+    ))
+    ..add(new Event(
+      'Study PARTY',
+      'Glen\'s Place',
+      'Summer\'s Hottest Event',
+    ));
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +116,8 @@ final initialGroupEvents = <Event>[]
           //   mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             CircleAvatar(
-              backgroundImage: ExactAssetImage('assets/defaultImages/userProfilePics/1.png'),
+              backgroundImage:
+                  ExactAssetImage('assets/defaultImages/userProfilePics/1.png'),
               minRadius: 5,
               maxRadius: 20,
             ),
@@ -117,78 +138,75 @@ final initialGroupEvents = <Event>[]
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 PopupMenuButton(
-                  itemBuilder: (context) => [
-                    PopupMenuItem(
-                        child: Row(children: <Widget>[
-                      Icon(Icons.person_pin),
-                      SizedBox(
-                        width: 7,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => FriendPage(),
-                              ));
-                        },
-                        child: new Text("Friends"),
-                     ),
-                    ]
-                  )
-                ),
-                
-                PopupMenuItem(
-                  
-                  child: Row(children: <Widget>[
-                    Icon(Icons.group),
-                    SizedBox(
-                      width: 7,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => GroupPage(),
-                         )
-                       );
-                      }, 
-                      child: new Text("Groups"),
-                    ),
-                  ],
-                )
-              ),
-                
-                PopupMenuItem(
-                  child: Row(children: <Widget>[
-                    Icon(Icons.search),
-                    SizedBox(
-                      width: 7,
-                    ),
-                    GestureDetector(
-                      
-                      child: new Text("Search"),
-                    ),
-                  ],
-                )
-              ),
-
-                PopupMenuItem(
-                  child: Row(children: <Widget>[
-                    Icon(Icons.power_settings_new),
-                    SizedBox(
-                      width: 7,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => LoginPage(),
-                         )
-                       );
-                      }, 
-                      child: new Text("Logout"),
-                    ),
-                  ],
-                )
+                    itemBuilder: (context) => [
+                          PopupMenuItem(
+                              child: Row(children: <Widget>[
+                            Icon(Icons.person_pin),
+                            SizedBox(
+                              width: 7,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => FriendPage(),
+                                    ));
+                              },
+                              child: new Text("Friends"),
+                            ),
+                          ])),
+                          PopupMenuItem(
+                              child: Row(
+                            children: <Widget>[
+                              Icon(Icons.group),
+                              SizedBox(
+                                width: 7,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => GroupPage(),
+                                      ));
+                                },
+                                child: new Text("Groups"),
+                              ),
+                            ],
+                          )),
+                          PopupMenuItem(
+                              child: Row(
+                            children: <Widget>[
+                              Icon(Icons.search),
+                              SizedBox(
+                                width: 7,
+                              ),
+                              GestureDetector(
+                                child: new Text("Search"),
+                              ),
+                            ],
+                          )),
+                          PopupMenuItem(
+                              child: Row(
+                            children: <Widget>[
+                              Icon(Icons.power_settings_new),
+                              SizedBox(
+                                width: 7,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => LoginPage(),
+                                      ));
+                                },
+                                child: new Text("Logout"),
+                              ),
+                            ],
+                          ))
+                        ])
               ],
             ),
           ],
