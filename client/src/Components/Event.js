@@ -1,14 +1,42 @@
 import React from 'react';
 import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBIcon, MDBModal, MDBModalBody,
     MDBModalHeader, MDBModalFooter } from 'mdbreact';
+import {convertDateToFormat} from '../util/eventHelpers';
+import Image from './Image';
+import {createUserEvent} from '../apiCalls/userAPI';
+
 
 class Event extends React.Component {
 
-    state = {
- 
-        modal1: false
+    constructor(props) {
+        super(props);
+  
+        this.state = {
+            modal1: false,
+            render: true
+        }
         
-    };
+    }
+
+    componentDidMount() {
+        let event = this.props.event;
+        if(event){
+            console.log('Here is the event'+ JSON.stringify(event));
+
+            let startString = convertDateToFormat(event.start);
+            let endString = convertDateToFormat(event.end);
+
+            this.setState({
+                'eventId' : event._id,
+                'eventName': event.eventName,
+                'eventStart': startString,
+                'eventEnd': endString,
+                'eventType': event.eventType,
+                'eventDetails': event.eventDetails,
+                'eventImageID': event.imageId
+            });
+        }
+    }
 
     toggle = nr => () => {
         let modalNumber = 'modal' + nr
@@ -17,21 +45,36 @@ class Event extends React.Component {
         });
     }
 
+    joinHandler = event => {
+        createUserEvent(localStorage.getItem('userId', event))
+        .then((event) => {
+            console.log('Added event' + event);
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    }
+
     render() {
+        const {render} = this.state.render;
+        if(render === false) return null;
+
         return (
             <MDBCol style={{ maxWidth: "23rem" }}>
                 <MDBCard>
                     <MDBCardBody>
                         <MDBCol md="13">
-                            <MDBCardImage src="https://mdbootstrap.com/img/Others/documentation/forest-sm-mini.jpg" className="rounded mx-auto d-block img-fluid mt-0 mb-2" alt="aligment" />
+                            <div className="rounded mx-auto d-block img-fluid mt-0 mb-2" alt="aligment">
+                                <Image imageId={this.state.eventPicture} type={'event'}/>
+                            </div>
                         </MDBCol>
-                        <MDBCardTitle>Event Name</MDBCardTitle>
-                        <MDBCardText><MDBIcon icon="calendar-day" className="mr-2"/>June 7, 2019 9:00 AM - 12:00 PM</MDBCardText>
-                        <MDBCardText><MDBIcon icon="users" className="mr-2"/>Event Group</MDBCardText>
-                        <MDBCardText><MDBIcon icon="info-circle" className="mr-2"/>Event Summary</MDBCardText>
+                        <MDBCardTitle>{this.state.eventName}</MDBCardTitle>
+                        <MDBCardText><MDBIcon icon="calendar-day" className="mr-2"/>{this.state.eventStart}</MDBCardText>
+                        <MDBCardText><MDBIcon icon="calendar-day" className="mr-2"/>{this.state.eventEnd}</MDBCardText>
+                        <MDBCardText><MDBIcon icon="info-circle" className="mr-2"/>{this.state.eventDetails}</MDBCardText>
                         <MDBBtn size="sm" color="mdb-color darken-2" onClick={this.toggle(1)}>View</MDBBtn>
                             <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered>
-                                <MDBModalHeader toggle={this.toggle(1)} className="mdb-color darken-2 white-text"></MDBModalHeader>
+                                <MDBModalHeader toggle={this.toggle(1)} className="mdb-color darken-2 white-text">{this.state.eventName}</MDBModalHeader>
                                 <MDBModalBody>
                                     Place Holder
                                 </MDBModalBody>

@@ -6,32 +6,111 @@ import Navigation from './Navigation';
 import MyEvent from './MyEvent';
 import Event from './Event';
 import Footer from './Footer';
-import {getUser} from '../apiCalls/userAPI';
+import {getUser, createUserEvent, getUserGroupEvents, setUserGroupEvents, getUserGroupEvents2} from '../apiCalls/userAPI';
+import {sortByDateAscending, sortByDateDescending,
+  sortByEventType, sortByPastAndFuture} from '../util/eventHelpers';
 import Image from './Image';
+import { get } from "mongoose";
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    if(localStorage.getItem('userId') == -1) {
+    if(localStorage.getItem('userId') === -1) {
       alert("Attempting to access a page without valid credentials.\nReturning to login page. Please log in to a valid account.");
       this.props.history.push('');
     }
+    this.state = {
+      'fetching': true,
+      'events': '',
+      'pastEvents': '',
+      'futureEvents': '',
+      'groupEvents': ''
+    };
+
+    this.renderPastEvents = this.renderPastEvents.bind(this);
+    this.renderFutureEvents = this.renderFutureEvents.bind(this);
+    this.renderGroupEvents = this.renderGroupEvents.bind(this);
+
+
   }
 
   componentDidMount() {
-    let user = getUser(localStorage.getItem('userName'));
+    let user;
+    getUser(localStorage.getItem('userName'))
+    .then((userJson) => {
+      user = userJson;
+      let allEvents = sortByPastAndFuture(user.events);
+      this.setState({
+        user: user,
+        events: user.events,
+        pastEvents: allEvents.pastEvents,
+        futureEvents: allEvents.futureEvents
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    
 
-    this.setState({'user': user, fetchingImage: false});
+    getUser(localStorage.getItem('userName'))
+    .then((userJson) => {
+      user = userJson;
+      setUserGroupEvents(user);
+    })
+
+    getUser(localStorage.getItem('userName'))
+    .then((userJson) => {
+      var temp = getUserGroupEvents2(userJson)
+      console.log(temp);
+      temp.then((result) => {
+        console.log(result);
+        this.setState({
+          groupEvents: result,
+        });
+      })
+    })
 }
 
-  renderEvents(props) {
+renderPastEvents() {
+  if(this.state.pastEvents !== ''){
     return (
-      <div>
-        {props.events.map((Event, index) => (
-          <Event key={index} Event={Event} />
-        ))}
-      </div>
+        this.state.pastEvents.map((e, index) => (
+          <MyEvent key={index} event={e} />
+        ))
     );
+  }
+}  
+
+  renderFutureEvents() {
+    if(this.state.futureEvents !== ''){
+      return (
+          this.state.futureEvents.map((e, index) => (
+            <MyEvent key={index} event={e} />
+          ))
+      );
+    }
+  }
+
+  renderGroupEvents() {
+    if(this.state.groupEvents !== ''){
+      console.log(this.state.groupEvents);
+      return (
+          //TODO change this.state.events to this.state.groupEvents and have it work
+          this.state.groupEvents.map((e, index) => (
+            <Event key={index} event={e} />
+          ))
+      );
+    }
+  }
+
+  createEventHandler = event => {
+    createUserEvent(localStorage.getItem('userId', event))
+        .then((event) => {
+            console.log('Added event' + event);
+        })
+        .catch((e) => {
+            console.log(e);
+        });
   }
 
   render() {
@@ -81,13 +160,7 @@ class Home extends React.Component {
           </div>
         </div>
         <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-          <div class="card-inline "><h2><MyEvent/></h2></div>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
-          <div class="card-inline"><h2><MyEvent/></h2></div>
+          {this.renderFutureEvents()}
         </div>
         <div className="d-flex">
           <div>
@@ -118,13 +191,7 @@ class Home extends React.Component {
           </div>
         </div>
         <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-          <div class="card-inline"><h2><Event/></h2></div>
-          <div class="card-inline"><h2><Event/></h2></div>
-          <div class="card-inline"><h2><Event/></h2></div>
-          <div class="card-inline"><h2><Event/></h2></div>
-          <div class="card-inline"><h2><Event/></h2></div>
-          <div class="card-inline"><h2><Event/></h2></div>
-          <div class="card-inline"><h2><Event/></h2></div>
+          {this.renderGroupEvents()}
         </div>
         <div className="d-flex">
           <div>
@@ -154,18 +221,8 @@ class Home extends React.Component {
             </MDBDropdown>
           </div>
         </div>
-        <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-        <div class="card-inline"><h2>
-          <MyEvent 
-            eventId={2} 
-            eventName={'Study Session'}
-            eventStart={'December 17, 1335 03:24:00'}
-            eventEnd={'December 17, 1335 18:24:00'}
-            eventType={'School'}
-            eventDetails={'Meeting at libary to study Chemistry'}
-            imageId={1}
-          />
-        </h2></div>
+        <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>        
+          {this.renderPastEvents()}
         </div>
         <Footer/>
       </div>

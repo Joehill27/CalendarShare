@@ -28,11 +28,15 @@ let UserSchema = new Schema({
     },
     groups: {
         type: [
-            {
-                groupId : {
-                    type: String
+                {
+                    group: {
+                        type: {
+                            groupId : {
+                                type: String
+                            }
+                        }
+                    }
                 }
-            }
         ]
     },
     friendRequests : {

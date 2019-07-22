@@ -1,10 +1,16 @@
 import axios from "axios";
+import {getGroupEvents} from './groupAPI';
+
+let hostUrl = 'http://localhost:3001';
+
+let groupEvents = [];
+// let hostUrl = '';
 
 //Get user
 export const getUser = async(userName) => {
     try {
-        let user = await axios.get('/api/user/get', userName);
-        return user;
+        let user = await axios.get(hostUrl + '/api/user/get/' + userName);
+        return user.data.user;
     } catch(e) {
         console.log(e);
     }
@@ -74,6 +80,8 @@ export const createGroupRequest = async(userId, groupId) => {
         console.log(e);
     }
 }
+
+//Accept group request
 
 //Deny group request
 export const denyGroupRequest = async(userId, groupId) => {
@@ -174,13 +182,50 @@ export const getFriendsEvents = async(userId) => {
     }
 }
 
+// Used to get the group events set before retrieving them (fixes an issue where getGroupEvents was returning an undefined over the completed array)
+export const setUserGroupEvents = async(user) => {
+    let groups = user.groups;
+    // console.log(user);
+
+    groups.forEach(group => {
+        getGroupEvents(group._id)
+        .then((events) => {
+            events.forEach(event => {
+                groupEvents.push(event);
+            });
+        })
+        .then((err) => {
+            console.log(groupEvents);
+        })
+        .catch(e => console.log(e));
+    });
+}
+
+// Returns the global that was set by setUserGroupEvents
+export const getUserGroupEvents2 = async(user) => {
+    return groupEvents;
+}
+
 //Get all groups events
-export const getUserGroupEvents = async(userId) => {
-    try {
-        let groupEvents = await axios.get('/api/user/' + userId + '/groups/events');
-        return groupEvents;
-    } catch(e) {
-        console.log(e);
-    }
+export const getUserGroupEvents = async(user) => {
+
+    let groups = user.groups;
+    console.log(user);
+    
+    let groupEvents = [];
+
+    groups.forEach(group => {
+        getGroupEvents(group._id)
+        .then((events) => {
+            events.forEach(event => {
+                groupEvents.push(event);
+            });
+        })
+        .then((err) => {
+            console.log(groupEvents);
+            return groupEvents;
+        })
+        .catch(e => console.log(e));
+    });
 }
 

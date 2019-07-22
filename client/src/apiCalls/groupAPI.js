@@ -1,5 +1,8 @@
 import axios from "axios";
 
+let hostUrl = 'http://localhost:3001';
+// let hostUrl = '';
+
 //Create group
 export const createGroup = async(group) => {
     try {
@@ -23,8 +26,8 @@ export const deleteGroup = async(groupId) => {
 //Get all group events
 export const getGroupEvents = async(groupId) => {
     try {
-        let groupEvents = await axios.get('/api/group/' + groupId + '/getEvents');
-        return groupEvents;
+        let groupEvents = await axios.get(hostUrl + '/api/group/' + groupId + '/getEvents');
+        return groupEvents.data.events;
     } catch(e) {
         console.log(e);
     }
@@ -61,7 +64,7 @@ export const deleteGroupEvent = async(groupId, eventId) => {
 }
 
 //Add user to group
-export const addMember = async(user) => {
+export const addMember = async(user, groupId) => {
     try {
         let result = await axios.post('/api/group/' + groupId + '/addMember', user);
         return result;

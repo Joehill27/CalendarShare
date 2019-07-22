@@ -8,10 +8,10 @@ let Event = new Schema({
     end : {
         type: String
     },
-    eventname: {
+    eventName: {
         type: String
     },
-    eventInfo: {
+    eventDetails: {
         type: String
     },
     recurring : {

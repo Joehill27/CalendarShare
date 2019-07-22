@@ -3,6 +3,7 @@ import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, 
 MDBModalHeader, MDBModalFooter, MDBContainer, MDBRow, MDBInput } from 'mdbreact';
 import Image from './Image';
 import {convertDateToFormat} from '../util/eventHelpers';
+import {deleteUserEvent, updateUserEvent} from '../apiCalls/userAPI';
 
 class MyEvent extends React.Component {
 
@@ -11,31 +12,32 @@ class MyEvent extends React.Component {
   
         this.state = {
             modal1: false,
-            modal2: false
+            modal2: false,
+            render: true
         }
         
     }
 
     componentDidMount() {
 
-        let startString = convertDateToFormat(this.props.eventStart);
-        let endString = convertDateToFormat(this.props.eventEnd);
+        let event = this.props.event;
 
-        this.setState({
-            eventId : this.props.eventId,
-            eventName: this.props.eventName,
-            // eventStart: this.props.eventStart,
-            eventStart: startString,
-            eventEnd: endString,
-            eventType: this.props.eventType,
-            eventDetails: this.props.eventDetails,
-            eventImageID: this.props.imageId,
-            eventAddress: this.props.eventAddress,
-            eventZipCode: this.props.eventZipCode,
-            eventCounrty: this.props.eventCounrty,
-            eventCity: this.props.eventCity
-        });
         
+        if(event){
+
+            let startString = convertDateToFormat(event.start);
+            let endString = convertDateToFormat(event.end);
+
+            this.setState({
+                'eventId' : event._id,
+                'eventName': event.eventName,
+                'eventStart': startString,
+                'eventEnd': endString,
+                'eventType': event.eventType,
+                'eventDetails': event.eventDetails,
+                'eventImageID': event.imageId
+            });
+        }
     }
 
     toggle = nr => () => {
@@ -48,15 +50,48 @@ class MyEvent extends React.Component {
     submitHandler = event => {
         event.preventDefault();
         event.target.className += " was-validated";
+
       };
 
     changeHandler = event => {
     this.setState({ [event.target.name]: event.target.value });
     };
 
+    updateHandler = event => {
+        updateUserEvent(localStorage.getItem('userId'), this.state.eventId, event)
+        .then((event) => {
+            let startString = convertDateToFormat(event.start);
+            let endString = convertDateToFormat(event.end);
+
+            this.setState({
+                'eventId' : event._id,
+                'eventName': event.eventName,
+                'eventStart': startString,
+                'eventEnd': endString,
+                'eventType': event.eventType,
+                'eventDetails': event.eventDetails,
+                'eventImageID': event.imageId
+            });
+
+        });
+    }
+
+    deleteHandler = event => {
+        deleteUserEvent(localStorage.getItem('userId'), this.state.eventId)
+        .then(this.setState({render: false}))
+        .then(window.location.reload())
+        .catch((e) => {console.log(e)});
+    }
+
+
+
 
     render() {
+        const {render} = this.state.render;
+        if(render === false) return null;
+
         return (
+            <div className="card-inline"><h2>
             <MDBCol style={{ maxWidth: "23rem" }}>
                 <MDBCard>
                     <MDBCardBody>
@@ -73,7 +108,7 @@ class MyEvent extends React.Component {
                         <MDBCardText><MDBIcon icon="info-circle" className="mr-2"/>{this.state.eventDetails}</MDBCardText>
                         <MDBBtn size="sm" color="mdb-color darken-2" onClick={this.toggle(1)}>View</MDBBtn>
                             <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered>
-                                <MDBModalHeader toggle={this.toggle(1)} className="mdb-color darken-2 white-text">Event Name</MDBModalHeader>
+                                <MDBModalHeader toggle={this.toggle(1)}>{this.state.eventName}</MDBModalHeader>
                                 <MDBModalBody>
                                     <MDBCardText><MDBIcon icon="calendar-day" className="mr-2"/>Date</MDBCardText>                                    
                                     <MDBCardText><MDBIcon icon="clock" className="mr-2"/>Time</MDBCardText>
@@ -236,7 +271,7 @@ class MyEvent extends React.Component {
                                                 </MDBRow>
                                                 <MDBRow>
                                                     <MDBCol className="ml-auto" md="4">
-                                                    <MDBBtn color="mdb-color darken-2" type="submit" onclick={this.submitHandler} className="ml-auto">Save</MDBBtn>
+                                                    <MDBBtn color="mdb-color darken-2" type="submit" onclick={this.updateHandler} className="ml-auto">Save</MDBBtn>
                                                     <MDBBtn color="danger" onClick={this.toggle(2)} className="ml-auto">Close</MDBBtn>
                                                     </MDBCol>
                                                 </MDBRow>
@@ -244,10 +279,11 @@ class MyEvent extends React.Component {
                                         </MDBContainer>
                                     </MDBModalBody>
                                 </MDBModal>
-                        <MDBBtn className="ml-5" outline size="sm" color="danger"><MDBIcon icon="trash-alt" /></MDBBtn>
+                        <MDBBtn onClick={this.deleteHandler} className="ml-5" outline size="sm" color="danger"><MDBIcon icon="trash-alt" /></MDBBtn>
                     </MDBCardBody>
                 </MDBCard>
             </MDBCol>
+            </h2></div>
         );
     }
 }

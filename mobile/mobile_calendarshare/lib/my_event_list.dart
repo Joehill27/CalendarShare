@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_calendarshare/event_card.dart';
-import 'package:mobile_calendarshare/event_model.dart';
+import 'package:mobile_calendarshare/class_models/event_model.dart';
 
 class MyEventList extends StatelessWidget {
   final List<Event> events;

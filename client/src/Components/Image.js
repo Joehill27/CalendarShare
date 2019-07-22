@@ -68,6 +68,17 @@ class Image extends Component {
                             />
                         </div>
                     );
+            default:
+                    return (
+                        <div>
+                            <img
+                                src={img}
+                                alt='Helpful alt text'
+                                width="50"
+                                height="50"
+                            />
+                        </div>
+                    );
         }
 
         

@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const User = require('../../models/User');
-const Group = require('../../models/Group');
+const GroupScheme = require('../../models/Group')
+const Group = mongoose.model('group', GroupScheme);
+const EventScheme = require('../../models/Event');
+const Event = mongoose.model('event', EventScheme);
 
 //Used to check if emails exist when creating an account
 var emailCheck = require('email-check');
@@ -14,16 +18,16 @@ router.post('/login', (req, res) => {
     if(!user) {
         res.send({'error' : 'user does not exist'});
     } else{
-        res.send({'user': user, 'error': ''});
+        res.send({user: user});
     }
     });
 });
 
 //Check if a user exists
-router.get('/get', (req, res) => {
-    let name = req.body.username;
-    User.findOne({username: name}).exec(function(err, user) {
-        if(!user) {
+router.get('/get/:username', (req, res) => {
+    let name = req.params.username;
+    User.findOne({'username': name}, (err, user) => {
+        if(err) {
             res.send({'error' : 'user does not exist'});
         } else {
             res.send({'user': user, 'error': ''});
@@ -51,6 +55,7 @@ router.post('/createAccount', (req, res) => {
             User.findOne({'email': email}).exec(function(err, user) {
                 if(!user) {
                     let newUser = new User(req.body);
+                    newUser.profilePicture = '1';
                     newUser.save()
                     .then(newUser => {
                         res.send({'user': newUser, 'error' : ''});
@@ -144,7 +149,7 @@ router.put('/:userId/updateEvent/:eventId', (req, res) => {
         .then(
             res.send({'event': event, 'error': ''})
         ).catch(function(err) {
-            res.send({'error': err});
+            console.log(err);
         });
     });
 });
@@ -164,7 +169,7 @@ router.delete('/:userId/deleteEvent/:eventId', (req, res) => {
             res.send({'success': 'event deleted', 'error': ''})
         )
         .catch(function(err){
-            res.send({'error': err});
+            console.log(err);
         });
     });
 });

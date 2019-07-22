@@ -68,7 +68,7 @@ class CreateAccount extends Component {
       if(this.state.passconfirmed == '1')
       {
         var toHash = this.state.username + this.state.password + this.state.username;
-        var hash = sha256(toHash);
+        var hash = sha256(toHash).toString();
         var hashedInfo = {
           username: this.state.username,
           password: hash,
