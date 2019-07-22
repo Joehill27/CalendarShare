@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import {chooseUserImage, chooseEventImage, chooseGroupImage} from '../util/imageHelpers';
-import axios from "axios";
-import {getProfilePicture} from '../apiCalls/userAPI';
 
 const num = 2;
 
@@ -35,16 +33,44 @@ class Image extends Component {
 
     render() {
         const {img} = this.state;
-        return (
-            <span className="profilePicture">
-                <img
-                    src={img}
-                    alt='Helpful alt text'
-                    width="25"
-                    height="25"
-                />
-            </span>
-         )
+
+        switch(this.props.type) {
+            case 'user':
+                return (
+                    <div>
+                        <img
+                            src={img}
+                            alt='Helpful alt text'
+                            width="50"
+                            height="50"
+                        />
+                    </div>
+                );
+            case 'group':
+                    return (
+                        <div>
+                            <img
+                                src={img}
+                                alt='Helpful alt text'
+                                width="50"
+                                height="50"
+                            />
+                        </div>
+                    );
+            case 'event':
+                    return (
+                        <div>
+                            <img
+                                src={img}
+                                alt='Helpful alt text'
+                                width="50"
+                                height="50"
+                            />
+                        </div>
+                    );
+        }
+
+        
     }
 }
 

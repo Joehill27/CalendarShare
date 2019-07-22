@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 let Event = new Schema({
     start : {
-        type: Date
+        type: String
     },
     end : {
-        type: Date
+        type: String
     },
     eventname: {
         type: String
