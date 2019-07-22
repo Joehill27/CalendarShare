@@ -4,27 +4,23 @@ import 'stacked_icons.dart';
 import 'home.dart';
 
 
-class Friend{
-  String userName;
+class Group{
+  String groupName;
+  int numEvents, members;
 
-  Friend(this.userName);
+  Group(this.groupName, this.members, this.numEvents);
 }
 
- class FriendPage extends StatelessWidget {
+ class GroupPage extends StatelessWidget {
 
- final initialFriends = <Friend>[]
- ..add(new Friend("Miguel"))
- ..add(new Friend("Sam"))
- ..add(new Friend("Joe"))
- ..add(new Friend("NoobMaster69"))
- ..add(new Friend("GodofThunder53"))
- ..add(new Friend("SuperSerium_Soldier"))
- ..add(new Friend("X-23"))
- ..add(new Friend("T.Stark_AKA_IronMAN"))
- ..add(new Friend("That guy"))
- ..add(new Friend("thats_what_she_said"))
- ..add(new Friend("User1_"))
- ..add(new Friend("Brendi"));
+ final initialGroups = <Group>[]
+ ..add(new Group("Avengers", 7, 3))
+ ..add(new Group("Area_51_Raiders", 251, 1))
+ ..add(new Group("Non-humans", 3, 50))
+ ..add(new Group("Jock", 15, 2))
+ ..add(new Group("Homies", 5, 6))
+ ..add(new Group("TMNT", 4, 1000))
+ ..add(new Group("RANDOS", 4, 11));
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +32,7 @@ class Friend{
         backgroundColor:Colors.transparent,
           elevation: 0.0,
           iconTheme: new IconThemeData(color: Color(0xFF18D191)),
-          title: Text("My Friends"),
+          title: Text("My Groups"),
           ),
           
           body: new ListView(
@@ -48,13 +44,15 @@ class Friend{
                     height: MediaQuery.of(context).size.height * 0.8,
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
-                      itemCount: initialFriends.length,
+                      itemCount: initialGroups.length,
                       itemBuilder: (context, index) {
                         return Container(
                           width: MediaQuery.of(context).size.width * .7,
                           child: Card(
                             child: Column(children: [ListTile(
-                              title: new Text(initialFriends[index].userName),
+                              title: new Text(initialGroups[index].groupName),
+                              subtitle: new Text("Members: " + initialGroups[index].members.toString()),
+                              
                               leading: CircleAvatar(backgroundImage: ExactAssetImage('assets/images/logo.png'),
                 minRadius: 5,
                 maxRadius: 20,),

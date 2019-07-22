@@ -137,7 +137,7 @@ renderPastEvents() {
           <div>
             <MDBDropdown dropright className="cardpadding m-0" size="sm">
               <MDBDropdownToggle color="transparent">
-                <h6 className="text-white"><MDBIcon icon="filter m-0 p-0" className="mdb-color-text"/></h6>
+                <h7 className="text-white"><MDBIcon icon="filter m-0 p-0" className="mdb-color-text"/></h7>
               </MDBDropdownToggle>
               <MDBDropdownMenu>
                 <MDBDropdownItem header>Filter</MDBDropdownItem>
@@ -149,8 +149,10 @@ renderPastEvents() {
                 <MDBDropdownItem href="#!">Place Holder<MDBIcon icon="chevron-circle-down ml-2" className="green-text"/></MDBDropdownItem>
               </MDBDropdownMenu>
             </MDBDropdown>
+            <MDBBtn size="sm" color="dark-green">New</MDBBtn>
           </div>
           <div className="ml-auto">
+            
             <MDBFormInline className="md-form cardpadding pr-3">
               <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
               <MDBBtn outline color="white" size="sm" type="submit" className="mr-auto">

@@ -11,6 +11,7 @@ class _AddEventFormPageState extends State<AddEventFormPage> {
   TextEditingController nameController = new TextEditingController();
   TextEditingController locationController = new TextEditingController();
   TextEditingController descriptionController = new TextEditingController();
+  
 
   void submitEvent(context) {
     if (nameController.text.isEmpty) {
@@ -22,7 +23,7 @@ class _AddEventFormPageState extends State<AddEventFormPage> {
           );
     } else {
       var newEvent = new Event(nameController.text, locationController.text,
-          descriptionController.text);
+          descriptionController.text,);
       Navigator.of(context).pop(newEvent);
     }
   }
