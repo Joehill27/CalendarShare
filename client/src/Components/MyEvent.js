@@ -89,7 +89,6 @@ class MyEvent extends React.Component {
     render() {
         const {render} = this.state.render;
         if(render === false) return null;
-
         return (
             <div className="card-inline"><h2>
             <MDBCol style={{ maxWidth: "23rem" }}>
