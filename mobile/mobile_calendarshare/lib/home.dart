@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:mobile_calendarshare/event_card.dart';
 import 'package:mobile_calendarshare/event_detail_page.dart';
 import 'package:mobile_calendarshare/friend_page.dart';
+import 'package:mobile_calendarshare/group_page.dart';
+import 'package:mobile_calendarshare/login.dart';
 import './class_models/user_model.dart';
 import 'package:mobile_calendarshare/class_models/event_model.dart';
 import 'package:mobile_calendarshare/past_events.dart';
@@ -139,7 +141,12 @@ final initialGroupEvents = <Event>[]
                       width: 7,
                     ),
                     GestureDetector(
-                      
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => GroupPage(),
+                         )
+                       );
+                      }, 
                       child: new Text("Groups"),
                     ),
                   ],
@@ -167,7 +174,12 @@ final initialGroupEvents = <Event>[]
                       width: 7,
                     ),
                     GestureDetector(
-                      
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => LoginPage(),
+                         )
+                       );
+                      }, 
                       child: new Text("Logout"),
                     ),
                   ],
