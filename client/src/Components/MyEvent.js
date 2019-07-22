@@ -36,6 +36,11 @@ class MyEvent extends React.Component {
                 'eventType': event.eventType,
                 'eventDetails': event.eventDetails,
                 'eventImageID': event.imageId
+                // NEEDS TO BE ADDED
+                // Address
+                // Zipcode
+                // Country
+                // City
             });
         }
     }

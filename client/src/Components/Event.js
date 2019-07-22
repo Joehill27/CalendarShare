@@ -76,10 +76,13 @@ class Event extends React.Component {
                             <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered>
                                 <MDBModalHeader toggle={this.toggle(1)} className="mdb-color darken-2 white-text">{this.state.eventName}</MDBModalHeader>
                                 <MDBModalBody>
-                                    Place Holder
+                                    <MDBCardText><MDBIcon icon="calendar-day" className="mr-2"/>Date</MDBCardText>                                    
+                                    <MDBCardText><MDBIcon icon="clock" className="mr-2"/>Time</MDBCardText>
+                                    <MDBCardText><MDBIcon icon="clipboard-list" className="mr-2"/>Event Type</MDBCardText>
+                                    <MDBCardText><MDBIcon icon="info-circle" className="mr-2"/>Details</MDBCardText>
                                 </MDBModalBody>
                                 <MDBModalFooter>
-                                    <MDBBtn color="secondary" onClick={this.toggle(1)}>Close</MDBBtn>
+                                    <MDBBtn color="danger" onClick={this.toggle(1)}>Close</MDBBtn>
                                 </MDBModalFooter>
                             </MDBModal>
                         <MDBBtn size="sm" color="green darken-4" href="#">Join</MDBBtn>
