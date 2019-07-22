@@ -41,8 +41,8 @@ class Image extends Component {
                         <img
                             src={img}
                             alt='Helpful alt text'
-                            width="50"
-                            height="50"
+                            width="25"
+                            height="25"
                         />
                     </div>
                 );
@@ -52,8 +52,9 @@ class Image extends Component {
                             <img
                                 src={img}
                                 alt='Helpful alt text'
-                                width="50"
-                                height="50"
+                                width="285"
+                                height="285"
+                                className="rounded img-fluid ml-3"
                             />
                         </div>
                     );
@@ -63,21 +64,21 @@ class Image extends Component {
                             <img
                                 src={img}
                                 alt='Helpful alt text'
-                                width="50"
-                                height="50"
+                                width="285"
+                                height="285"
+                                className="rounded img-fluid ml-3"
                             />
                         </div>
                     );
             default:
                     return (
-                        <div>
                             <img
                                 src={img}
                                 alt='Helpful alt text'
-                                width="50"
-                                height="50"
+                                width="25"
+                                height="25"
+                                className="mr-2"
                             />
-                        </div>
                     );
         }
 
