@@ -75,7 +75,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
 
               Column(children: <Widget>[
               Row(children: <Widget>[
-                Icon(Icons.access_time),
+                Icon(Icons.location_on),
                 SizedBox(
                   width: 10,
                 ),
@@ -95,7 +95,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                   width: 10,
                 ),
                 Container(child: Expanded(
-                 child: Text("widget.event.description"),
+                 child: Text(widget.event.description),
                 ),)
               ],)
            
