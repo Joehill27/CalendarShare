@@ -5,6 +5,10 @@ import Image from './Image';
 import one from '../defaultImages/userProfilePics/8.png';
 
 class Friend extends React.Component {
+    constructor(props)
+    {
+        super(props);
+    }
 
     render() {
         return(
@@ -21,7 +25,7 @@ class Friend extends React.Component {
                         </MDBRow>
                         <MDBCardTitle className="text-center pt-1">Username</MDBCardTitle>
                         <div className="pl-1">
-                            <MDBBtn size="sm" color="mdb-color darken-2">View Page</MDBBtn>
+                            <MDBBtn onClick = {this.props.onClick} size="sm" color="mdb-color darken-2">View Page</MDBBtn>
                         </div>
                     </MDBCardBody>
                 </MDBCard>

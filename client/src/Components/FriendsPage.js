@@ -11,6 +11,19 @@ import FriendRequest from "./FriendRequest";
 
   class FriendsPage extends React.Component {
 
+    constructor(props)
+    {
+        super(props);
+
+        console.log(props);
+        this.onClick = this.onClick.bind(this);
+    }
+
+    onClick()
+    {
+        this.props.history.push('/friend');
+    }
+
     render() {
         const bgNavy = {backgroundColor: '#2E4158'}
         const scrollContainerStyle = { width: "auto", maxHeight: "auto" };
@@ -39,7 +52,7 @@ import FriendRequest from "./FriendRequest";
                 </div>
             </div>
                 <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-                    <Friend/>
+                    <Friend onClick = {this.onClick}/>
                     <Friend/>
                     <Friend/>
                     <Friend/>
