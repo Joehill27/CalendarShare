@@ -12,6 +12,23 @@ import Group from "./Group";
 import GroupRequest from "./GroupRequest";
 
   class FriendsPage extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.logoutHandler = this.logoutHandler.bind(this);
+    }
+
+    componentDidMount() {
+        if(localStorage.getItem('userId') === -1)
+            this.props.history.push('/');
+    }
+
+    logoutHandler = async () => {
+        console.log('Logging out');
+        localStorage.setItem('userId', -1);
+        localStorage.setItem('user', '');
+        this.props.history.push('/');
+      };
 
     state = {
         modal1: false,
@@ -35,7 +52,7 @@ import GroupRequest from "./GroupRequest";
         const scrollContainerStyle = { width: "auto", maxHeight: "auto" };
         return(
             <div style={bgNavy}>
-                <Navigation imageId={localStorage.getItem('profilePicture')}/>
+                <Navigation imageId={localStorage.getItem('profilePicture') } logoutHandler={this.logoutHandler}/>
                 <div className="d-flex">
                 <MDBDropdown dropright className="cardpadding ml-2">
                     <MDBDropdownToggle color="transparent">

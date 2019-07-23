@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { MDBIcon, MDBDropdown,
   MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBFormInline, MDBBtn,
   MDBContainer, MDBRow, MDBCol, MDBModal, MDBModalBody,
-  MDBModalHeader, MDBInput  } from 'mdbreact';
+  MDBModalHeader, MDBInput, MDBModalFooter } from 'mdbreact';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Navigation from './Navigation';
 import MyEvent from './MyEvent';
@@ -31,7 +31,17 @@ class Home extends React.Component {
       'groupEvents': '',
       'eventSortType': 'MyEvent',
       'sortBy': '',
-      'filterType': ''
+      'filterType': '',
+      'newEventName': '',
+      'newEventStart': '',
+      'newEventStartTime': '',
+      'newEventEnd': '',
+      'newEventEndTime': '',
+      'newEventAddress': '',
+      'newEventZipCode': '',
+      'newEventType': '',
+      'newEventDetails': ''
+
       //Can add filtering for each list to state
     };
 
@@ -42,15 +52,22 @@ class Home extends React.Component {
     this.renderFutureEvents = this.renderFutureEvents.bind(this);
     this.renderGroupEvents = this.renderGroupEvents.bind(this);
     this.sortEvents = this.sortEvents.bind(this);
+    this.logoutHandler = this.logoutHandler.bind(this);
 
   }
 
+
+
   componentDidMount() {
+    if(localStorage.getItem('userId') == -1)
+      this.props.history.push('/');
+
     let user;
     getUser(localStorage.getItem('userName'))
     .then((userJson) => {
       user = userJson;
       let allEvents = sortByPastAndFuture(user.events);
+      console.log('Here are the future events: ' +allEvents.futureEvents);
       this.setState({
         user: user,
         events: user.events,
@@ -81,6 +98,13 @@ class Home extends React.Component {
       })
     })
   }
+
+  logoutHandler = async () => {
+    console.log('Logging out');
+    localStorage.setItem('userId', -1);
+    localStorage.setItem('user', '');
+    this.props.history.push('/');
+  };
 
 renderPastEvents() {
   if(this.state.pastEvents !== ''){
@@ -119,6 +143,10 @@ renderPastEvents() {
         [modalNumber]: !this.state[modalNumber]
     });
   }
+
+  changeHandler = (settings) => {
+		this.setState({ [settings.target.name]: settings.target.value });
+  };
 
   createEventHandler = event => {
     createUserEvent(localStorage.getItem('userId', event))
@@ -176,7 +204,7 @@ renderPastEvents() {
     const scrollContainerStyle = { width: "auto", maxHeight: "auto" };
     return (
       <div style={bgNavy}>
-        <Navigation imageId={localStorage.getItem('profilePicture')}/>
+        <Navigation imageId={localStorage.getItem('profilePicture')} logoutHandler={this.logoutHandler}/>
         <div className="d-flex">
           <div>
             <MDBDropdown dropright className="cardpadding ml-2">
@@ -290,7 +318,7 @@ renderPastEvents() {
           {this.renderGroupEvents()} 
         </div>
         <Footer/>
-        <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} size="lg" centered>
+        <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} size="med" centered>
                                     <MDBModalHeader toggle={this.toggle(1)} className="mdb-color darken-2 white-text">Create Event</MDBModalHeader>
                                     <MDBModalBody>
                                         <MDBContainer fluid className="">
@@ -298,10 +326,10 @@ renderPastEvents() {
                                                 <MDBRow>
                                                     <MDBCol>
                                                         <MDBInput
-                                                            value={''}
+                                                            value={this.state.newEventName}
                                                             label="Event Name" 
                                                             className="form-control"
-                                                            name="eventName"
+                                                            name="newEventName"
                                                             onChange={this.changeHandler}
                                                             type="text"
                                                             required
@@ -313,8 +341,8 @@ renderPastEvents() {
                                                 <MDBRow>
                                                     <MDBCol>
                                                         <MDBInput
-                                                            value={''}
-                                                            label="Event Date" 
+                                                            value={this.state.newEventStart}
+                                                            label="Event Start" 
                                                             className="form-control"
                                                             name="eventDate"
                                                             onChange={this.changeHandler}
@@ -396,14 +424,14 @@ renderPastEvents() {
                                                     <MDBCol>
                                                         <MDBInput
                                                             value={''}
-                                                            label="Counrty" 
+                                                            label="Country" 
                                                             className="form-control"
                                                             name="eventCounrty"
                                                             onChange={this.changeHandler}
                                                             type="text"
                                                             required
                                                             >
-                                                            <div className="invalid-feedback font-weight-light smallText">Counrty Required</div>
+                                                            <div className="invalid-feedback font-weight-light smallText">Country Required</div>
                                                         </MDBInput>
                                                     </MDBCol>
                                                 </MDBRow>
@@ -415,7 +443,6 @@ renderPastEvents() {
                                                             name="eventType"
                                                             required
                                                         >
-
                                                             <option value="">Choose Event Type</option>
                                                             <option value="Sporting">Sporting</option>
                                                             <option value="Music">Music</option>
@@ -432,20 +459,18 @@ renderPastEvents() {
                                                             name="eventDetails"
                                                             onChange={this.changeHandler}
                                                             type="textarea"
-                                                            rows="3"
                                                             required
                                                         >
                                                         <div className="invalid-feedback font-weight-light smallText">Event Details Required</div>
                                                         </MDBInput>
                                                     </MDBCol>
                                                 </MDBRow>
-                                                <MDBRow>
-                                                    <MDBCol className="ml-auto" md="5">
-                                                    <MDBBtn color="mdb-color darken-2" type="submit" onclick={this.updateHandler} className="ml-auto">Create</MDBBtn>
-                                                    <MDBBtn color="danger" onClick={this.toggle(1)} className="ml-auto">Close</MDBBtn>
-                                                    </MDBCol>
-                                                </MDBRow>
-                                            </form>
+                                              </form>
+							                                  <MDBModalFooter>
+                                                    <MDBBtn color="green" type="submit" onclick={this.updateHandler} >Create</MDBBtn>
+                                                    <MDBBtn color="danger" onClick={this.toggle(1)} >Close</MDBBtn>
+                                                </MDBModalFooter>
+                                            
                                         </MDBContainer>
                                     </MDBModalBody>
                                 </MDBModal>
@@ -453,5 +478,4 @@ renderPastEvents() {
     );
   }
 }
-
 export default Home;
