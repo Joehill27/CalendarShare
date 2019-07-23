@@ -60,6 +60,7 @@ class Event extends React.Component {
         if(render === false) return null;
 
         return (
+            <div className="card-inline"><h2>
             <MDBCol style={{ maxWidth: "23rem" }}>
                 <MDBCard>
                     <MDBCardBody>
@@ -89,6 +90,7 @@ class Event extends React.Component {
                     </MDBCardBody>
                 </MDBCard>
             </MDBCol>
+            </h2></div>
         );
     }
 }

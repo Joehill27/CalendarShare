@@ -40,10 +40,13 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-  - assets/images/logo.png
-  - assets/images/friends.png
-  - assets/defaultImages/
+    - assets/images/logo.png
+    - assets/images/friends.png
+    - assets/defaultImages/userProfilePics/
+    - assets/defaultImages/groupProfilePics/
+    - assets/defaultImages/eventPics/
+
 fonts:
   - family: Montserrat
     fonts:
-    - asset: fonts/Montserrat-Regular.ttf
+      - asset: fonts/Montserrat-Regular.ttf

@@ -17,10 +17,6 @@ class Login extends Component {
     };
 
     localStorage.setItem('userId', -1);
-    localStorage.setItem('contactId', '');
-    localStorage.setItem('contactName', '');
-    localStorage.setItem('contactPhone', '');
-    localStorage.setItem('contactEmail', '');
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -35,7 +31,6 @@ class Login extends Component {
   }
 
   render() {
-    // localStorage.setItem('userId', 0);
     const login = async() => {
       var blank = {
         username: this.state.username,

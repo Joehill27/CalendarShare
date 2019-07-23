@@ -150,6 +150,28 @@
   font-weight: 500;
 }
 
+.FilterTypeGreen{
+  float: right;
+  color: green;
+}
+
+.FilterTypeRed{
+  float: right;
+  color: red;
+}
+
+.grid-container {
+  display: grid;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(2, 5vw);
+    cursor: pointer;
+    grid-gap: 5px;
+}
+
 .Contact__Button {
   background-color: #52C4B9;
   color: white;
@@ -270,4 +292,7 @@
 
 .paddingt {
   padding-top: 13rem;
+}
+.footerpadding {
+  padding-top: 4.0rem
 }
