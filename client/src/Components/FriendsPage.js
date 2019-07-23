@@ -8,6 +8,8 @@ import { MDBIcon, MDBDropdown,
 import MyEvent from "./MyEvent";
 import Friend from "./Friend";
 import FriendRequest from "./FriendRequest";
+import Group from "./Group";
+import GroupRequest from "./GroupRequest";
 
   class FriendsPage extends React.Component {
     constructor(props) {
@@ -28,6 +30,23 @@ import FriendRequest from "./FriendRequest";
         this.props.history.push('/');
       };
 
+    state = {
+        modal1: false,
+        searchTerm: ""
+    }
+
+    toggle = nr => () => {
+        let modalNumber = 'modal' + nr
+        this.setState({
+            [modalNumber]: !this.state[modalNumber]
+        });
+    }
+
+    changeHandler = event => {
+        this.setState({ [event.target.name]: event.target.value });
+    };
+
+
     render() {
         const bgNavy = {backgroundColor: '#2E4158'}
         const scrollContainerStyle = { width: "auto", maxHeight: "auto" };
@@ -47,16 +66,37 @@ import FriendRequest from "./FriendRequest";
                     </MDBDropdown>
                 
                 <div className="ml-auto">
-                    <MDBFormInline className="md-form cardpadding pr-3">
-                        <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
-                        <MDBBtn outline color="white" size="sm" type="submit" className="mr-auto">
-                            Search
+                    <div className="md-form cardpadding pr-3">
+                        <MDBBtn outline color="white" size="sm" className="mr-auto" onClick={this.toggle(1)}>
+                            Search Users
                         </MDBBtn>
-                    </MDBFormInline>
+                    </div>
+                    <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered>
+                        <MDBModalHeader toggle={this.toggle(1)}>Search Users</MDBModalHeader>
+                            <MDBModalBody>
+                                <MDBContainer fluid>
+                                    <MDBRow>
+                                        <MDBCol>
+                                            <MDBInput
+                                                value={this.state.searchTerm}
+                                                label="Search"
+                                                name="searchTerm"
+                                                onChange={this.changeHandler}
+                                                type="text"
+                                                >
+                                            </MDBInput>
+                                        </MDBCol>
+                                    </MDBRow>
+                                    <MDBRow>
+                                        Place Holder for each list
+                                    </MDBRow>
+                                </MDBContainer>
+                            </MDBModalBody>
+                    </MDBModal>
                 </div>
             </div>
                 <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-                    <Friend/>
+                    <Group/>
                     <Friend/>
                     <Friend/>
                     <Friend/>
@@ -82,7 +122,7 @@ import FriendRequest from "./FriendRequest";
                     </MDBDropdown>
                 </div>
                 <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-                    <FriendRequest/>
+                    <GroupRequest/>
                     <FriendRequest/>
                     <FriendRequest/>
                     <FriendRequest/>
