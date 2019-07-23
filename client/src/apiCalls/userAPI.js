@@ -228,4 +228,3 @@ export const getUserGroupEvents = async(user) => {
         .catch(e => console.log(e));
     });
 }
-

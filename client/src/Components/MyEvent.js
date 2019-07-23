@@ -59,7 +59,7 @@ class MyEvent extends React.Component {
       };
 
     changeHandler = event => {
-    this.setState({ [event.target.name]: event.target.value });
+        this.setState({ [event.target.name]: event.target.value });
     };
 
     updateHandler = event => {
@@ -275,7 +275,7 @@ class MyEvent extends React.Component {
                                                 </MDBRow>
                                                 <MDBRow>
                                                     <MDBCol className="ml-auto" md="4">
-                                                    <MDBBtn color="mdb-color darken-2" type="submit" onclick={this.updateHandler} className="ml-auto">Save</MDBBtn>
+                                                    <MDBBtn color="mdb-color darken-2" type="submit" onClick={this.updateHandler} className="ml-auto">Save</MDBBtn>
                                                     <MDBBtn color="danger" onClick={this.toggle(2)} className="ml-auto">Close</MDBBtn>
                                                     </MDBCol>
                                                 </MDBRow>

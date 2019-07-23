@@ -13,13 +13,13 @@ class Image extends Component {
     componentDidMount() {
         switch(this.props.type){
             case 'user':
-                this.setState({'img': chooseUserImage('1')});
+                this.setState({'img': chooseUserImage(this.props.imageId)});
                 break;
             case 'group':
-                this.setState({'img': chooseGroupImage('1')});
+                this.setState({'img': chooseGroupImage(this.props.imageId)});
                 break;
             case 'event':
-                this.setState({'img': chooseEventImage('1')});
+                this.setState({'img': chooseEventImage(this.props.imageId)});
                 break;
             default:
                 this.setState({'img': chooseUserImage(this.props.imageId)});
@@ -41,11 +41,22 @@ class Image extends Component {
                         <img
                             src={img}
                             alt='Helpful alt text'
-                            width="25"
-                            height="25"
+                            width="50"
+                            height="50"
                         />
                     </div>
                 );
+                case 'userBigger':
+                        return (
+                            <div className="grid-item">
+                                <img
+                                    src={img}
+                                    alt='Helpful alt text'
+                                    width="50"
+                                    height="50"
+                                />
+                            </div>
+                        );
             case 'group':
                     return (
                         <div>
@@ -75,8 +86,8 @@ class Image extends Component {
                             <img
                                 src={img}
                                 alt='Helpful alt text'
-                                width="25"
-                                height="25"
+                                width="30"
+                                height="30"
                                 className="mr-2"
                             />
                     );

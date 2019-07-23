@@ -28,10 +28,27 @@ module.exports = {
 
     //Sort events by start time
     sortByDateAscending(events) {
-        let result = events.sort(function(a, b) {
-            return new Date(b.start) - new Date(a.start);
-        });
-        
+        console.log('Starting with unsorted: ' + events);
+    
+    var swapp;
+    var n = events.length-1;
+    var result = events;
+    do {
+        swapp = false;
+        for (var i = 0; i < n; i++) {
+            console.log(result[i].start);
+            console.log(result[i+1].start);
+            if (new Date(result[i].start) > new Date(result[i + 1].start)) {
+                console.log('Swapping!');
+                var temp = result[i];
+                result[i] = result[i+1];
+                result[i+1] = temp;
+                swapp = true;
+            }
+        }
+        n--;
+    } while (swapp);
+        console.log('Ending with: ' + result);
         return result;
     },
 

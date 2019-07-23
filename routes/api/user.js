@@ -469,20 +469,31 @@ router.get('/:userId/friends/events', (req, res) => {
 //Get all of the user's group's events
 router.get('/:userId/groups/events', (req, res) => {
     let userId = req.params.userId;
+    let allGroupEvents = [];
 
     User.findById(userId, (err, user) => {
         if(err) {
             res.send({'error': 'User does not exist'});
-        } else {
-            Group.find({'memberId': userId}, 'events', (err, events) => {
-                if(err) {
-                    res.send({'error': err});
-                } else {
-                    res.send({'groupEvents': events});
-                }
-            });
         }
-    })
+        let groups = user.groups;
+        console.log('Here is groups' + groups);
+        var i;
+        groups.forEach(g => {
+            console.log('Here is g' + g);
+            Group.findById(g._id, 'events', (err, group) => {
+                if(err) {
+                    console.log(err);
+                    res.send({'error':err});
+                }
+                    var events = group.events;
+                    // console.log(group.events);
+                    events.forEach((event) => {
+                        console.log('Adding the event: '+ event);
+                        allGroupEvents.push(event);
+                    });
+                })
+            });
+        })
 });
 
 //Update user settings

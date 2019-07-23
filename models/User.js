@@ -37,6 +37,7 @@ let UserSchema = new Schema({
                         }
                     }
                 }
+
         ]
     },
     friendRequests : {
