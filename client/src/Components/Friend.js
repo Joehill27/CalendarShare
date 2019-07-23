@@ -35,7 +35,7 @@ class Friend extends React.Component {
                             <MDBBtn size="sm" color="mdb-color darken-2">View Page</MDBBtn>
                             <MDBBtn color="transparent" className="p-1 m-0" onClick={this.toggle(1)}><MDBIcon icon="trash-alt" className="red-text py-1 px-1"/></MDBBtn>
                             <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered size="sm">
-                            <MDBModalHeader toggle={this.toggle(1)}>Remove Friend</MDBModalHeader>
+                            <MDBModalHeader toggle={this.toggle(1)} className="danger-color-dark white-text">Remove Friend</MDBModalHeader>
                                     <MDBModalBody>
                                         <MDBContainer fluid>
                                             <MDBRow>

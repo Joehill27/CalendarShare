@@ -3,15 +3,12 @@ import { MDBIcon, MDBDropdown,
   MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBFormInline, MDBBtn,
   MDBContainer, MDBRow, MDBCol, MDBModal, MDBModalBody,
   MDBModalHeader, MDBInput  } from 'mdbreact';
-  import Navigation from './Navigation';
-  import Footer from './Footer';
-import MyEvent from "./MyEvent";
-import Friend from "./Friend";
-import FriendRequest from "./FriendRequest";
+import Navigation from './Navigation';
+import Footer from './Footer';
 import Group from "./Group";
 import GroupRequest from "./GroupRequest";
 
-  class FriendsPage extends React.Component {
+  class GroupPage extends React.Component {
 
     state = {
         modal1: false,
@@ -39,23 +36,23 @@ import GroupRequest from "./GroupRequest";
                 <div className="d-flex">
                 <MDBDropdown dropright className="cardpadding ml-2">
                     <MDBDropdownToggle color="transparent">
-                        <h3 className="text-white">My Friends<MDBIcon icon="sort-amount-down ml-2" className="ml-2 mdb-color-text"/></h3>
+                        <h3 className="text-white">My Groups<MDBIcon icon="sort-amount-down ml-2" className="ml-2 mdb-color-text"/></h3>
                     </MDBDropdownToggle>
                     <MDBDropdownMenu>
                         <MDBDropdownItem header>Sort</MDBDropdownItem>
-                        <MDBDropdownItem href="#!">Username<MDBIcon icon="sort-alpha-down ml-2" className=""/></MDBDropdownItem>
-                        <MDBDropdownItem href="#!">Username<MDBIcon icon="sort-alpha-up ml-2" className=""/></MDBDropdownItem>
+                        <MDBDropdownItem href="#!">Group Name<MDBIcon icon="sort-alpha-down ml-2" className=""/></MDBDropdownItem>
+                        <MDBDropdownItem href="#!">Group Name<MDBIcon icon="sort-alpha-up ml-2" className=""/></MDBDropdownItem>
                     </MDBDropdownMenu>
                     </MDBDropdown>
                 
                 <div className="ml-auto">
                     <div className="md-form cardpadding pr-3">
                         <MDBBtn outline color="dark-green" size="sm" className="mr-auto" onClick={this.toggle(1)}>
-                            Add Friends
+                            Search Groups
                         </MDBBtn>
                     </div>
                     <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered>
-                        <MDBModalHeader toggle={this.toggle(1)} className="success-color-dark white-text">Search Users</MDBModalHeader>
+                        <MDBModalHeader toggle={this.toggle(1)} className="success-color-dark white-text">Search Groups</MDBModalHeader>
                             <MDBModalBody>
                                 <MDBContainer fluid>
                                     <MDBRow>
@@ -79,23 +76,23 @@ import GroupRequest from "./GroupRequest";
                 </div>
             </div>
                 <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
+                    <Group/>
+                    <Group/>
+                    <Group/>
+                    <Group/>
+                    <Group/>
+                    <Group/>
+                    <Group/>
+                    <Group/>
+                    <Group/>
+                    <Group/>
+                    <Group/>
+                    <Group/>
                 </div>
                 <div className="d-flex">
                 <MDBDropdown dropright className="pb-3 pt-3">
                     <MDBDropdownToggle color="transparent">
-                        <h3 className="text-white">Friend Request<MDBIcon icon="sort-amount-down ml-2" className="ml-2 mdb-color-text"/></h3>
+                        <h3 className="text-white">Group Request<MDBIcon icon="sort-amount-down ml-2" className="ml-2 mdb-color-text"/></h3>
                     </MDBDropdownToggle>
                     <MDBDropdownMenu>
                         <MDBDropdownItem header>Sort</MDBDropdownItem>
@@ -105,21 +102,21 @@ import GroupRequest from "./GroupRequest";
                     </MDBDropdown>
                 </div>
                 <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-                    <FriendRequest/>
-                    <FriendRequest/>
-                    <FriendRequest/>
-                    <FriendRequest/>
-                    <FriendRequest/>
-                    <FriendRequest/>
-                    <FriendRequest/>
-                    <FriendRequest/>
-                    <FriendRequest/>
-                    <FriendRequest/>
-                    <FriendRequest/>
+                    <GroupRequest/>
+                    <GroupRequest/>
+                    <GroupRequest/>
+                    <GroupRequest/>
+                    <GroupRequest/>
+                    <GroupRequest/>
+                    <GroupRequest/>
+                    <GroupRequest/>
+                    <GroupRequest/>
+                    <GroupRequest/>
+                    <GroupRequest/>
                 </div>
                 <Footer/>
             </div>
         );
     }
 
-  } export default FriendsPage;
+  } export default GroupPage;
