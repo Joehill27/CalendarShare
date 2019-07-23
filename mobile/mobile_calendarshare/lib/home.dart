@@ -81,39 +81,19 @@ final initialGroupEvents = <Event>[]
   Widget build(BuildContext context) {
     var key = new GlobalKey<ScaffoldState>();
     return new Scaffold(
-      backgroundColor: Colors.cyan[900],
+      backgroundColor: Colors.cyanAccent[700],
       key:  key,
       
       appBar: new AppBar(
-          backgroundColor: Colors.cyanAccent[700],
+          backgroundColor: Colors.teal[300],
           elevation: 0.0,
-           title: new Container(
           
-            child: new Row(
-           //   mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-              
-              CircleAvatar(
-                
-                backgroundImage: ExactAssetImage('assets/images/logo.png'),
-                minRadius: 5,
-                maxRadius: 20,),
-                Align(alignment: Alignment.centerRight,),
-              new SizedBox(
-                width: 5,
-              ),
-              Text("Welcome, " + widget.username, style: TextStyle(color: Colors.white), ),
-              new SizedBox(
-                width: 45,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-            
-              PopupMenuButton(
+          title: new Container(
+          
+            child: new Row(children: <Widget>[
+          PopupMenuButton(
                 icon: Icon(Icons.menu),
                 itemBuilder: (context) => [
-                
                 PopupMenuItem(
                   child: ListTile(
                     onTap: () {
@@ -128,7 +108,6 @@ final initialGroupEvents = <Event>[]
                 ),
                 
                 PopupMenuItem(
-                  
                   child: ListTile(
                     onTap: () {
                         Navigator.push(context, MaterialPageRoute(
@@ -141,19 +120,7 @@ final initialGroupEvents = <Event>[]
                   )
               ),
                 
-                PopupMenuItem(
-                  child: Row(children: <Widget>[
-                    Icon(Icons.search),
-                    SizedBox(
-                      width: 7,
-                    ),
-                    GestureDetector(
-                      
-                      child: new Text("Search"),
-                    ),
-                  ],
-                )
-              ),
+                
 
                 PopupMenuItem(
                   child: ListTile(
@@ -168,13 +135,26 @@ final initialGroupEvents = <Event>[]
                   )
               ),
               ],
-            )
-              ],
+            ),
+            
+              Spacer(),
+              CircleAvatar(
+                
+                backgroundImage: ExactAssetImage('assets/images/logo.png'),
+                minRadius: 5,
+                maxRadius: 20,),
+              
+              new SizedBox(
+                width: 10,
               ),
+              Text(" User"),
+              
+            
         ],
        )
       ),
-            automaticallyImplyLeading: false,
+          automaticallyImplyLeading: false,
+      
       ),
 
       body: new ListView(
