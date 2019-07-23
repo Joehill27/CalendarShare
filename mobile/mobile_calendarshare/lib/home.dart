@@ -111,46 +111,34 @@ final initialGroupEvents = <Event>[]
                 children: <Widget>[
             
               PopupMenuButton(
-                
+                icon: Icon(Icons.menu),
                 itemBuilder: (context) => [
                 
                 PopupMenuItem(
-                  child: Row(children: <Widget>[
-                    Icon(Icons.person_pin),
-                    SizedBox(
-                      width: 7,
-                    ),
-                    GestureDetector(
-                      onTap: () {
+                  child: ListTile(
+                    onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) => FriendPage(),
                          )
                        );
                       }, 
-                        child: new Text("Friends"),
-                     ),
-                    ]
+                      leading: Icon(Icons.person),
+                      title: Text("Friends"),
                   )
                 ),
                 
                 PopupMenuItem(
                   
-                  child: Row(children: <Widget>[
-                    Icon(Icons.group),
-                    SizedBox(
-                      width: 7,
-                    ),
-                    GestureDetector(
-                      onTap: () {
+                  child: ListTile(
+                    onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) => GroupPage(),
                          )
                        );
                       }, 
-                      child: new Text("Groups"),
-                    ),
-                  ],
-                )
+                      leading: Icon(Icons.group),
+                      title: Text("Groups"),
+                  )
               ),
                 
                 PopupMenuItem(
@@ -168,22 +156,16 @@ final initialGroupEvents = <Event>[]
               ),
 
                 PopupMenuItem(
-                  child: Row(children: <Widget>[
-                    Icon(Icons.power_settings_new),
-                    SizedBox(
-                      width: 7,
-                    ),
-                    GestureDetector(
-                      onTap: () {
+                  child: ListTile(
+                    onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) => LoginPage(),
                          )
                        );
                       }, 
-                      child: new Text("Logout"),
-                    ),
-                  ],
-                )
+                      leading: Icon(Icons.power_settings_new),
+                      title: Text("Logout"),
+                  )
               ),
               ],
             )
