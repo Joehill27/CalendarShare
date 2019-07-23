@@ -91,8 +91,8 @@ class Navigation extends React.Component {
 
 	changeHandler = (settings) => {
 		this.setState({ [settings.target.name]: settings.target.value });
-	};
-
+  };
+  
 	render() {
 		const logoutHandler = async () => {
 			localStorage.setItem('userId', -1);

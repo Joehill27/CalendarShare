@@ -225,12 +225,12 @@ renderPastEvents() {
           <div>
             <MDBDropdown dropright className="ml-2">
               <MDBDropdownToggle color="transparent">
-                <h3 className="text-white">Group Events<MDBIcon icon="sort-amount-down ml-2" className="ml-2 mdb-color-text"/></h3>
+                <h3 className="text-white">Past Events<MDBIcon icon="sort-amount-down ml-2" className="ml-2 mdb-color-text"/></h3>
               </MDBDropdownToggle>
               <MDBDropdownMenu>
                 <MDBDropdownItem header>Sort</MDBDropdownItem>
-                <MDBDropdownItem onClick={(meow) => {this.setState({eventSortType: 'GroupEvent', sortBy: 'Ascending'}); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen"/></MDBDropdownItem>
-                <MDBDropdownItem onClick={(meow) => {this.setState({eventSortType: 'GroupEvent', sortBy: 'Descending'}); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed"/></MDBDropdownItem>
+                <MDBDropdownItem onClick={(meow) => {this.setState({eventSortType: 'PastEvent', sortBy: 'Ascending'}); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen"/></MDBDropdownItem>
+                <MDBDropdownItem onClick={(meow) => {this.setState({eventSortType: 'PastEvent', sortBy: 'Descending'}); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed"/></MDBDropdownItem>
                 <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen"/></MDBDropdownItem>
                 <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed"/></MDBDropdownItem>
               </MDBDropdownMenu>
@@ -253,20 +253,20 @@ renderPastEvents() {
           </div>
         </div>
         <div id="group" className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-          {this.renderGroupEvents()}
+          {this.renderPastEvents()}
         </div>
         <div className="d-flex">
           <div>
             <MDBDropdown dropright className="ml-2">
               <MDBDropdownToggle color="transparent">
-                <h3 className="text-white">Past Events<MDBIcon icon="sort-amount-down ml-2" className="ml-2 mdb-color-text"/></h3>
+                <h3 className="text-white">Group Events<MDBIcon icon="sort-amount-down ml-2" className="ml-2 mdb-color-text"/></h3>
               </MDBDropdownToggle>
               <MDBDropdownMenu>
-              <MDBDropdownItem href="#!">School<MDBIcon icon="school" className="float-right"/></MDBDropdownItem>
-                <MDBDropdownItem href="#!">Work<MDBIcon icon="business-time" className="float-right"/></MDBDropdownItem>
-                <MDBDropdownItem href="#!">Sports<MDBIcon icon="football-ball" className="float-right"/></MDBDropdownItem>
-                <MDBDropdownItem href="#!">Eating Out<MDBIcon icon="bread-slice" className="float-right"/></MDBDropdownItem>
-                <MDBDropdownItem href="#!">Misc<MDBIcon icon="chevron-circle-down ml-2" className="float-right"/></MDBDropdownItem>
+              <MDBDropdownItem header>Sort</MDBDropdownItem>
+                <MDBDropdownItem onClick={(meow) => {this.setState({eventSortType: 'PastEvent', sortBy: 'Ascending'}); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen"/></MDBDropdownItem>
+                <MDBDropdownItem onClick={(meow) => {this.setState({eventSortType: 'PastEvent', sortBy: 'Descending'}); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed"/></MDBDropdownItem>
+                <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen"/></MDBDropdownItem>
+                <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed"/></MDBDropdownItem>
               </MDBDropdownMenu>
             </MDBDropdown>
           </div>
@@ -287,7 +287,7 @@ renderPastEvents() {
           </div>
         </div>
         <div id="past" className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>        
-          {this.renderPastEvents()}
+          {this.renderGroupEvents()} 
         </div>
         <Footer/>
         <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} size="lg" centered>

@@ -108,6 +108,37 @@ class _HomePageState extends State<HomePage> {
     return new Scaffold(
       backgroundColor: Colors.cyan[900],
       key: key,
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the Drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text('Drawer Header', style: TextStyle(color: Colors.white)),
+              decoration: BoxDecoration(
+                color: Colors.indigo,
+              ),
+            ),
+            ListTile(
+              title: Text('Item 1', style: TextStyle(color: Colors.black)),
+              onTap: () {
+                // Update the state of the app
+                // ...
+              },
+            ),
+            ListTile(
+              title: Text('Item 2', style: TextStyle(color: Colors.black)),
+              onTap: () {
+                // Update the state of the app
+                // ...
+              },
+            ),
+          ],
+        ),
+      ),
       appBar: new AppBar(
         backgroundColor: Colors.cyanAccent[700],
         elevation: 0.0,
