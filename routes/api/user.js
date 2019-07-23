@@ -122,6 +122,7 @@ router.post('/:userId/createEvent', (req, res) => {
     let userId = req.params.userId;
 
     let event = new Event(req.body);
+    console.log('New Event Created!' + event);
     User.update(
         { _id: userId }, 
         { $push: { events: event }}

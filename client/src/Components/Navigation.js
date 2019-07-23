@@ -55,7 +55,7 @@ class Navigation extends React.Component {
 			country: 'USA',
 			city: 'Orlando'
 		};
-		this.onClick = this.onClick.bind(this);
+    this.onClick = this.onClick.bind(this);
 	}
 
 	onClick() {
@@ -94,11 +94,7 @@ class Navigation extends React.Component {
   };
   
 	render() {
-		const logoutHandler = async () => {
-			localStorage.setItem('userId', -1);
-			localStorage.setItem('user', '');
-			this.props.history.push('/');
-		};
+		
 
 		const bgNavy = { backgroundColor: '#2E4158' };
 		const container = { height: 1300 };
@@ -142,10 +138,14 @@ class Navigation extends React.Component {
 											</MDBDropdownToggle>
 											<MDBDropdownMenu>
 												<MDBDropdownItem onClick={this.toggle(1)}>
-													Settings<MDBIcon icon="cog" className="mdb-color-text ml-2" />
+                          <div className="userDropdown">
+													Settings
+                          <MDBIcon icon="cog" className="mdb-color-text ml-2" />
+                          </div>
 												</MDBDropdownItem>
-												<MDBDropdownItem href="/">
-													Sign Out<MDBIcon icon="sign-out-alt" className="red-text ml-2" />
+												<MDBDropdownItem onClick={this.props.logoutHandler}>
+													Sign Out
+                          <MDBIcon icon="sign-out-alt" className="text-danger ml-2" />
 												</MDBDropdownItem>
 											</MDBDropdownMenu>
 										</MDBDropdown>

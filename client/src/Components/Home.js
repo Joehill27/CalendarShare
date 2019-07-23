@@ -52,15 +52,22 @@ class Home extends React.Component {
     this.renderFutureEvents = this.renderFutureEvents.bind(this);
     this.renderGroupEvents = this.renderGroupEvents.bind(this);
     this.sortEvents = this.sortEvents.bind(this);
+    this.logoutHandler = this.logoutHandler.bind(this);
 
   }
 
+
+
   componentDidMount() {
+    if(localStorage.getItem('userId') == -1)
+      this.props.history.push('/');
+
     let user;
     getUser(localStorage.getItem('userName'))
     .then((userJson) => {
       user = userJson;
       let allEvents = sortByPastAndFuture(user.events);
+      console.log('Here are the future events: ' +allEvents.futureEvents);
       this.setState({
         user: user,
         events: user.events,
@@ -91,6 +98,13 @@ class Home extends React.Component {
       })
     })
   }
+
+  logoutHandler = async () => {
+    console.log('Logging out');
+    localStorage.setItem('userId', -1);
+    localStorage.setItem('user', '');
+    this.props.history.push('/');
+  };
 
 renderPastEvents() {
   if(this.state.pastEvents !== ''){
@@ -190,7 +204,7 @@ renderPastEvents() {
     const scrollContainerStyle = { width: "auto", maxHeight: "auto" };
     return (
       <div style={bgNavy}>
-        <Navigation imageId={localStorage.getItem('profilePicture')}/>
+        <Navigation imageId={localStorage.getItem('profilePicture')} logoutHandler={this.logoutHandler}/>
         <div className="d-flex">
           <div>
             <MDBDropdown dropright className="cardpadding ml-2">
@@ -464,5 +478,4 @@ renderPastEvents() {
     );
   }
 }
-
 export default Home;
