@@ -9,7 +9,7 @@ class Footer extends React.Component {
   render () {
     const bgNavy = {backgroundColor: '#2E41582'}
       return(
-        <MDBFooter style={bgNavy} className="font-small pt-3 mt-3">
+        <MDBFooter style={bgNavy} className="font-small footerpadding mt-3">
         {/* <MDBContainer fluid className="text-center text-md-left">
             <MDBRow>
             <MDBCol md="5">

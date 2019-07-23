@@ -202,8 +202,8 @@ renderPastEvents() {
                 <MDBDropdownItem href="#!">School<MDBIcon icon="school" className="float-right"/></MDBDropdownItem>
                 <MDBDropdownItem href="#!">Work<MDBIcon icon="business-time" className="float-right"/></MDBDropdownItem>
                 <MDBDropdownItem href="#!">Sports<MDBIcon icon="football-ball" className="float-right"/></MDBDropdownItem>
-                <MDBDropdownItem href="#!">Place Holder<MDBIcon icon="chevron-circle-down ml-2" className="green-text"/></MDBDropdownItem>
-                <MDBDropdownItem href="#!">Place Holder<MDBIcon icon="chevron-circle-down ml-2" className="green-text"/></MDBDropdownItem>
+                <MDBDropdownItem href="#!">Eating Out<MDBIcon icon="bread-slice" className="float-right"/></MDBDropdownItem>
+                <MDBDropdownItem href="#!">Misc<MDBIcon icon="chevron-circle-down ml-2" className="float-right"/></MDBDropdownItem>
               </MDBDropdownMenu>
             </MDBDropdown>
             <MDBBtn onClick={this.toggle(1)}size="sm" color="dark-green">New</MDBBtn>
@@ -211,7 +211,7 @@ renderPastEvents() {
           <div className="ml-auto">
             
             <MDBFormInline className="md-form cardpadding pr-3">
-              <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
+              <input className="form-control mr-sm-2 white-text" type="text" placeholder="Search" aria-label="Search" />
               <MDBBtn outline color="white" size="sm" type="submit" className="mr-auto">
                 Search
               </MDBBtn>
@@ -290,7 +290,7 @@ renderPastEvents() {
           {this.renderPastEvents()}
         </div>
         <Footer/>
-        <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} size="med" centered>
+        <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} size="lg" centered>
                                     <MDBModalHeader toggle={this.toggle(1)} className="mdb-color darken-2 white-text">Create Event</MDBModalHeader>
                                     <MDBModalBody>
                                         <MDBContainer fluid className="">
@@ -440,8 +440,8 @@ renderPastEvents() {
                                                     </MDBCol>
                                                 </MDBRow>
                                                 <MDBRow>
-                                                    <MDBCol className="ml-auto" md="4">
-                                                    <MDBBtn color="mdb-color darken-2" type="submit" onclick={this.updateHandler} className="ml-auto">Save</MDBBtn>
+                                                    <MDBCol className="ml-auto" md="5">
+                                                    <MDBBtn color="mdb-color darken-2" type="submit" onclick={this.updateHandler} className="ml-auto">Create</MDBBtn>
                                                     <MDBBtn color="danger" onClick={this.toggle(1)} className="ml-auto">Close</MDBBtn>
                                                     </MDBCol>
                                                 </MDBRow>

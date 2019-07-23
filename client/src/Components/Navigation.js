@@ -114,7 +114,7 @@ class Navigation extends React.Component {
 							<MDBCollapse isOpen={this.state.collapse} navbar>
 								<MDBNavbarNav left>
 									<MDBNavItem>
-										<MDBNavLink to="#">Friends</MDBNavLink>
+										<MDBNavLink to="/friends">Friends</MDBNavLink>
 									</MDBNavItem>
 									<MDBNavItem>
 										<MDBNavLink to="#">Groups</MDBNavLink>

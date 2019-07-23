@@ -10,6 +10,7 @@ import Facebook from './Components/OAuth/Facebook';
 import Logout from './Components/OAuth/Logout';
 import LoginV2 from "./Components/LoginV2";
 import CreateAccountV2 from "./Components/CreateAccountV2";
+import FriendsPage from "./Components/FriendsPage";
 
 export default() => {
     return(
@@ -25,6 +26,7 @@ export default() => {
                     <Route path = "/auth/logout" component={Logout} />
                     <Route path = "/loginv2" component={LoginV2} />
                     <Route path = "/createaccountv2" component={CreateAccountV2} />
+                    <Route path = "/friends" component={FriendsPage} />
                 </Switch>
             </div>
         </BrowserRouter>
