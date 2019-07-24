@@ -7,6 +7,7 @@ import Navigation from './Navigation';
 import Footer from './Footer';
 import Group from "./Group";
 import GroupRequest from "./GroupRequest";
+import GroupItem from "./GroupItem";
 
   class GroupPage extends React.Component {
 
@@ -68,7 +69,20 @@ import GroupRequest from "./GroupRequest";
                                         </MDBCol>
                                     </MDBRow>
                                     <MDBRow>
-                                        Place Holder for each list
+                                        <GroupItem/>
+                                        <GroupItem/>
+                                        <GroupItem/>
+                                        <GroupItem/>
+                                        <GroupItem/>
+                                        <GroupItem/>
+                                        <GroupItem/>
+                                        <GroupItem/>
+                                        <GroupItem/>
+                                        <GroupItem/>
+                                        <GroupItem/>
+                                        <GroupItem/>
+                                        <GroupItem/>
+                                        <GroupItem/>
                                     </MDBRow>
                                 </MDBContainer>
                             </MDBModalBody>
@@ -92,7 +106,7 @@ import GroupRequest from "./GroupRequest";
                 <div className="d-flex">
                 <MDBDropdown dropright className="pb-3 pt-3">
                     <MDBDropdownToggle color="transparent">
-                        <h3 className="text-white">Group Request<MDBIcon icon="sort-amount-down ml-2" className="ml-2 mdb-color-text"/></h3>
+                        <h3 className="text-white">Group Invites<MDBIcon icon="sort-amount-down ml-2" className="ml-2 mdb-color-text"/></h3>
                     </MDBDropdownToggle>
                     <MDBDropdownMenu>
                         <MDBDropdownItem header>Sort</MDBDropdownItem>

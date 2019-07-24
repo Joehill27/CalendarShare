@@ -10,6 +10,7 @@ import Friend from "./Friend";
 import FriendRequest from "./FriendRequest";
 import Group from "./Group";
 import GroupRequest from "./GroupRequest";
+import UserItem from "./UserItem";
 
   class FriendsPage extends React.Component {
     constructor(props) {
@@ -71,7 +72,7 @@ import GroupRequest from "./GroupRequest";
                             Add Friends
                         </MDBBtn>
                     </div>
-                    <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered>
+                    <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered size="med">
                         <MDBModalHeader toggle={this.toggle(1)} className="success-color-dark white-text">Search Users</MDBModalHeader>
                             <MDBModalBody>
                                 <MDBContainer fluid>
@@ -88,7 +89,20 @@ import GroupRequest from "./GroupRequest";
                                         </MDBCol>
                                     </MDBRow>
                                     <MDBRow>
-                                        Place Holder for each list
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
                                     </MDBRow>
                                 </MDBContainer>
                             </MDBModalBody>
