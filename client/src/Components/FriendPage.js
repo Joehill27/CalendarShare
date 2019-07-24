@@ -1,13 +1,32 @@
 import React, { Fragment, Component } from "react";
 import {
-    MDBIcon, MDBDropdown,
-    MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBFormInline, MDBBtn,
-    MDBContainer, MDBRow, MDBCol, MDBModal, MDBModalBody,
-    MDBModalHeader, MDBInput
+	MDBCol,
+	MDBContainer,
+	MDBModal,
+	MDBModalBody,
+	MDBModalHeader,
+	MDBNavbar,
+	MDBNavbarBrand,
+	MDBNavbarNav,
+	MDBNavbarToggler,
+	MDBCollapse,
+	MDBNavItem,
+	MDBNavLink,
+	MDBIcon,
+	MDBBtn,
+	MDBRow,
+	MDBDropdown,
+	MDBDropdownToggle,
+	MDBDropdownMenu,
+	MDBDropdownItem,
+	MDBModalFooter,
+	MDBCardText,
+	MDBInput
 } from 'mdbreact';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Navigation from './Navigation';
 import MyEvent from './MyEvent';
+import GroupItem from './GroupItem';
 import Event from './Event';
 import Footer from './Footer';
 import { getUser, createUserEvent, getUserGroupEvents, setUserGroupEvents, getUserGroupEvents2 } from '../apiCalls/userAPI';
@@ -17,6 +36,7 @@ import {
 } from '../util/eventHelpers';
 import { get } from "mongoose";
 import { thisExpression } from "@babel/types";
+import Image from './Image';
 
 class FriendPage extends React.Component {
     constructor(props) {
@@ -39,7 +59,9 @@ class FriendPage extends React.Component {
             'sortBy': '',
             'filterType': '',
             'userName': 'admin',
-            'bio': ''
+            'bio': 'TODO: Make bio a thing in the database',
+            'country': 'TODO: Make country a thing in the database',
+            'city': 'TODO: Make city a thing in the database'
             //Can add filtering for each list to state
         };
 
@@ -102,12 +124,11 @@ class FriendPage extends React.Component {
         }
     }
 
-    renderGroups() 
-    {
+    renderGroups() {
         if (this.state.groups !== '') {
             return (
                 this.state.groups.map((e, index) => (
-                    <MyEvent key={index} event={e} />
+                    <GroupItem key={index} event={e} />
                 ))
             );
         }
@@ -120,6 +141,41 @@ class FriendPage extends React.Component {
             <div style={bgNavy}>
                 <div className="d-flex">
                     <Navigation imageId={localStorage.getItem('profilePicture')} />
+                    <div>
+                        <h2> {''}</h2>
+                        <h3> {'______________________________________________________________________________________________________________'}</h3>
+                        <h5> {'______________________________________________________________________________________________________________'}</h5>
+                        <MDBDropdownToggle nav caret onClick={this.toggle(1)}>
+                            <Image imageId={this.state.imageId} />
+                            <span float="right">{this.state.userName}</span>
+                        </MDBDropdownToggle>
+
+                        <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered>
+                            <MDBModalHeader toggle={this.toggle(1)}>{this.state.userName}</MDBModalHeader>
+                            <MDBModalBody>
+                                <MDBContainer fluid className="">
+                                    <form className="needs-validation" onSubmit={this.submitHandler} noValidate>
+                                        <MDBRow>
+                                            <MDBCol>
+                                                <MDBInput value={this.state.bio} />
+                                            </MDBCol>
+                                        </MDBRow>
+                                        <MDBRow>
+                                            <MDBCol>
+                                                <MDBInput value={this.state.country}/>
+                                            </MDBCol>
+                                            <MDBCol>
+                                                <MDBInput value={this.state.city}/>
+                                            </MDBCol>
+                                        </MDBRow>
+                                    </form>
+                                </MDBContainer>
+                            </MDBModalBody>
+                            <MDBModalFooter>
+                                <MDBBtn color="danger" onClick={this.toggle(1)}> Close </MDBBtn>
+                            </MDBModalFooter>
+                        </MDBModal>
+                    </div>
                     <div>
                         <MDBDropdown dropright className="cardpadding ml-2">
                             <MDBDropdownToggle color="transparent">
@@ -134,21 +190,7 @@ class FriendPage extends React.Component {
                             </MDBDropdownMenu>
                         </MDBDropdown>
                     </div>
-                    <div>
-                        <MDBDropdown dropright className="cardpadding m-0" size="sm">
-                            <MDBDropdownToggle color="transparent">
-                                <h7 className="text-white"><MDBIcon icon="filter m-0 p-0" className="mdb-color-text" /></h7>
-                            </MDBDropdownToggle>
-                            <MDBDropdownMenu>
-                                <MDBDropdownItem header>Filter By Event Type</MDBDropdownItem>
-                                <MDBDropdownItem href="#!">School<MDBIcon icon="school" className="float-right" /></MDBDropdownItem>
-                                <MDBDropdownItem href="#!">Work<MDBIcon icon="business-time" className="float-right" /></MDBDropdownItem>
-                                <MDBDropdownItem href="#!">Sports<MDBIcon icon="football-ball" className="float-right" /></MDBDropdownItem>
-                                <MDBDropdownItem href="#!">Eating Out<MDBIcon icon="bread-slice" className="float-right" /></MDBDropdownItem>
-                                <MDBDropdownItem href="#!">Misc<MDBIcon icon="chevron-circle-down ml-2" className="float-right" /></MDBDropdownItem>
-                            </MDBDropdownMenu>
-                        </MDBDropdown>
-                    </div>
+
                 </div>
                 <div id="future" className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
                     {this.renderFutureEvents()}
@@ -169,9 +211,6 @@ class FriendPage extends React.Component {
                 </div>
                 <div id="group" className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
                     {this.renderGroups()}
-                </div>
-                <div>
-                    <h1> This is where we'll put their bio and shit </h1>
                 </div>
             </div>
 

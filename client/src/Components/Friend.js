@@ -36,9 +36,6 @@ class Friend extends React.Component {
                         </MDBRow>
                         <MDBCardTitle className="text-center pt-1">Username</MDBCardTitle>
                         <div className="pl-1">
-<<<<<<< HEAD
-                            <MDBBtn onClick = {this.props.onClick} size="sm" color="mdb-color darken-2">View Page</MDBBtn>
-=======
                             <MDBBtn size="sm" color="mdb-color darken-2">View Page</MDBBtn>
                             <MDBBtn color="transparent" className="p-1 m-0" onClick={this.toggle(1)}><MDBIcon icon="trash-alt" className="red-text py-1 px-1"/></MDBBtn>
                             <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered size="sm">
@@ -54,7 +51,6 @@ class Friend extends React.Component {
                                         </MDBContainer>
                                     </MDBModalBody>
                         </MDBModal>
->>>>>>> c77fabb013924f1400c5b56a91de44234e70d60f
                         </div>
                     </MDBCardBody>
                 </MDBCard>

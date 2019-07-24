@@ -55,7 +55,7 @@ class Navigation extends React.Component {
 			country: 'USA',
 			city: 'Orlando'
 		};
-    this.onClick = this.onClick.bind(this);
+		this.onClick = this.onClick.bind(this);
 	}
 
 	onClick() {
@@ -91,10 +91,14 @@ class Navigation extends React.Component {
 
 	changeHandler = (settings) => {
 		this.setState({ [settings.target.name]: settings.target.value });
-  };
-  
+	};
+
 	render() {
-		
+		const logoutHandler = async () => {
+			localStorage.setItem('userId', -1);
+			localStorage.setItem('user', '');
+			this.props.history.push('/');
+		};
 
 		const bgNavy = { backgroundColor: '#2E4158' };
 		const container = { height: 1300 };
@@ -113,8 +117,21 @@ class Navigation extends React.Component {
 										<MDBNavLink to="/friends">Friends</MDBNavLink>
 									</MDBNavItem>
 									<MDBNavItem>
-										<MDBNavLink to="/groups">Groups</MDBNavLink>
+										<MDBNavLink to="#">Groups</MDBNavLink>
 									</MDBNavItem>
+									{/* <MDBNavItem>
+                    <MDBDropdown>
+                      <MDBDropdownToggle nav caret>
+                        <span><MDBIcon icon="bell" className="mr-1" /></span>
+                      </MDBDropdownToggle>
+                      <MDBDropdownMenu>
+                        <MDBDropdownItem href="#!">Friends</MDBDropdownItem>
+                        <MDBDropdownItem href="#!">Groups</MDBDropdownItem>
+                        <MDBDropdownItem href="#!">New Events</MDBDropdownItem>
+                        <MDBDropdownItem href="#!">Something else here</MDBDropdownItem>
+                      </MDBDropdownMenu>
+                    </MDBDropdown>
+                  </MDBNavItem> */}
 								</MDBNavbarNav>
 								<MDBNavbarNav right>
 									<MDBNavItem>
@@ -125,14 +142,10 @@ class Navigation extends React.Component {
 											</MDBDropdownToggle>
 											<MDBDropdownMenu>
 												<MDBDropdownItem onClick={this.toggle(1)}>
-                          <div className="userDropdown">
-													Settings
-                          <MDBIcon icon="cog" className="mdb-color-text ml-2" />
-                          </div>
+													Settings<MDBIcon icon="cog" className="mdb-color-text ml-2" />
 												</MDBDropdownItem>
-												<MDBDropdownItem onClick={this.props.logoutHandler}>
-													Sign Out
-                          <MDBIcon icon="sign-out-alt" className="text-danger ml-2" />
+												<MDBDropdownItem href="/">
+													Sign Out<MDBIcon icon="sign-out-alt" className="red-text ml-2" />
 												</MDBDropdownItem>
 											</MDBDropdownMenu>
 										</MDBDropdown>

@@ -6,19 +6,19 @@ class CreateAccountV2 extends Component {
 
     constructor() {
         super();
-    
+
         this.state = {
-          username: '',
-          password: '',
-          uppercase: 'red',
-          lowercase: 'red',
-          number: 'red',
-          symbol: 'red',
-          length: 'red',
-          passconfirm: 'red',
-          checkPass: '',
-          passconfirmed: '0',
-          email: '',
+            username: '',
+            password: '',
+            uppercase: 'red',
+            lowercase: 'red',
+            number: 'red',
+            symbol: 'red',
+            length: 'red',
+            passconfirm: 'red',
+            checkPass: '',
+            passconfirmed: '0',
+            email: '',
         };
     }
 
@@ -37,7 +37,7 @@ class CreateAccountV2 extends Component {
                                 <p class="h4 mb-4 white-text">Create Account</p>
 
                                 <input type="text" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="Username" required />
-                                <div style={{overflow: 'hidden'}}>
+                                <div style={{ overflow: 'hidden' }}>
                                     <p style={{ float: 'left', marginTop: '0em', marginBot: '0em', color: this.state.uppercase }}>Uppercase Letter</p>
                                     <p style={{ float: 'right', marginTop: '0em', marginBot: '0em', color: this.state.lowercase }}>Lowercase Letter</p>
                                     <p style={{ float: 'left', marginTop: '1.25em', marginBot: '0em', color: this.state.number }}>Number</p>
