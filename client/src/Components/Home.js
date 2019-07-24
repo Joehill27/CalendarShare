@@ -3,7 +3,8 @@ import {
   MDBIcon, MDBDropdown,
   MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBFormInline, MDBBtn,
   MDBContainer, MDBRow, MDBCol, MDBModal, MDBModalBody,
-  MDBModalHeader, MDBInput, MDBModalFooter, MDBCardText } from 'mdbreact';
+  MDBModalHeader, MDBInput, MDBModalFooter, MDBCardText
+} from 'mdbreact';
 import { BrowserRouter as Router } from 'react-router-dom';
 // import MyEventList from './MyEventList';
 import Navigation from './Navigation';
@@ -119,7 +120,7 @@ class Home extends React.Component {
             groupEvents: (true) ? sortByDateAscending(result) : sortByDateDescending(result)
           });
         })
-      }
+      })
   }
 
   logoutHandler = async () => {
