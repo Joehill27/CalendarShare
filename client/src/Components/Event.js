@@ -21,7 +21,6 @@ class Event extends React.Component {
     componentDidMount() {
         let event = this.props.event;
         if(event){
-            console.log('Here is the event'+ JSON.stringify(event));
 
             let startString = convertDateToFormat(event.start);
             let endString = convertDateToFormat(event.end);
