@@ -17,10 +17,9 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  http: '>=0.11.3+12'
   flutter:
     sdk: flutter
-
-  http: ^0.12.0+2
   crypto: ^2.0.6
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -46,6 +45,11 @@ flutter:
     - assets/defaultImages/userProfilePics/
     - assets/defaultImages/groupProfilePics/
     - assets/defaultImages/eventPics/
+    - assets/images/basketball_tournament.png
+    - assets/images/concert.png
+    - assets/images/party.png
+    - assets/images/profile_header.png
+    - assets/images/study_session.png
 
 fonts:
   - family: Montserrat

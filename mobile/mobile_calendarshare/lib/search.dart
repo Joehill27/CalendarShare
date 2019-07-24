@@ -38,8 +38,11 @@ class _ListViewSearchState extends State<ListViewSearch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueGrey[900],
       appBar: AppBar(
-        title: Text('Invite to ' + widget.group.groupName + " Group"),
+        backgroundColor: Colors.blueGrey[600],
+        centerTitle: true,
+        title: Text("Request"),
       ),
       body: Column(
         children: <Widget>[
@@ -48,8 +51,10 @@ class _ListViewSearchState extends State<ListViewSearch> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: _textController,
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: 'enter text here',
+                hintStyle: TextStyle(color: Colors.white),
               ),
               onChanged: _onChanged,
             ),
@@ -60,7 +65,7 @@ class _ListViewSearchState extends State<ListViewSearch> {
                   child: ListView(
                     padding: EdgeInsets.all(10.0),
                     children: _newData.map((data) {
-                      return ListTile(title: Text(data));
+                      return ListTile(title: Text(data, style: TextStyle(color: Colors.white),));
                     }).toList(),
                   ),
                 )

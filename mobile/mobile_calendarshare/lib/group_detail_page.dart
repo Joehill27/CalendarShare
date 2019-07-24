@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
+import 'package:http/http.dart';
 import 'package:mobile_calendarshare/group_page.dart';
-import 'package:mobile_calendarshare/search.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart'; 
 
+import 'package:mobile_calendarshare/search.dart';
+ 
 
 class GroupDetailPage extends StatefulWidget{
   final Group group;
@@ -20,23 +21,16 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
     return new Container(
       padding: new EdgeInsets.symmetric(vertical: 15.0),
       decoration: new BoxDecoration(
-        
-        gradient: new LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          stops: [0.1, 0.5, 0.7, 0.9],
-          colors: [
-            Colors.indigo,
-            Colors.indigo,
-            Colors.indigo,
-            Colors.indigo,
-          ],
-        ),
+        color: Colors.blueGrey[900],
       ),
       child: new Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Image(image: AssetImage('assets/images/friends.png'),),
+         CircleAvatar( 
+          backgroundImage: AssetImage('assets/images/friends.png'),
+          minRadius: 20,
+          maxRadius: 90,
+         ),
           new SizedBox(
             height: 10,
           ),
@@ -49,61 +43,68 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(5.0))),
           child: Column(children: <Widget>[
-            Text(widget.group.groupName),
+            Text(widget.group.groupName, 
+            style: TextStyle(
+             fontSize: 25,
+             fontWeight: FontWeight.bold,
+             color: Colors.blue,
+             )),
             SizedBox(
               height: 20,
             ),
             Column(children: <Widget>[
               Row(children: <Widget>[
-                Icon(Icons.location_on),
+                Icon(
+                  Icons.people,
+                  color: Colors.blue[900],
+                  size: 35,
+                  ),
                 SizedBox(
                   width: 10,
                 ),
                 Container(child: Expanded(
-                  child: Text(widget.group.members.toString()),
+                  child: Text("Current Members: " + widget.group.members.toString(),
+                  style:TextStyle(fontSize: 15,
+                  color: Colors.blue,
+                  ),
+                  ),
                 ),)
               ],)
            
             ],),
             
             SizedBox(
-              height: 10.0,
+              height: 20.0,
             ),
           
               Column(children: <Widget>[
               Row(children: <Widget>[
-                Icon(Icons.access_time),
+                Icon(Icons.event_available,
+                color: Colors.blue[900],
+                size: 35,
+                ),
                 SizedBox(
                   width: 10,
                 ),
                 Container(child: Expanded(
-                child:  Text(widget.group.numEvents.toString()),
-                ),)
-              ],)
-           
-            ],),
-            SizedBox(
-              height: 10.0,
-            ),
-             Column(children: <Widget>[
-              Row(children: <Widget>[
-                Icon(Icons.description),
-                SizedBox(
-                  width: 10,
+                child:  Text("Number of Events: " + widget.group.numEvents.toString(),
+                style: TextStyle(fontSize: 15,
+                color: Colors.blue,
                 ),
-                Container(child: Expanded(
-                  child: Text(widget.group.members.toString()),
+                ),
                 ),)
               ],)
            
             ],),
+           
 
             SizedBox(
               height: 50
             ),
             Row(children: <Widget>[
               FlatButton(
-  color: Colors.blue,
+  color: Colors.blueAccent[100],
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
   textColor: Colors.white,
   disabledColor: Colors.grey,
   disabledTextColor: Colors.black,
@@ -122,7 +123,8 @@ Spacer(),
 
 FlatButton(
   
-  color: Colors.yellow,
+  color: Colors.greenAccent[400],
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
   textColor: Colors.white,
   disabledColor: Colors.grey,
   disabledTextColor: Colors.black,
@@ -142,14 +144,15 @@ FlatButton(
 ),
 Spacer(),
 FlatButton(
-  color: Colors.red,
+  color: Colors.redAccent[400],
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
   textColor: Colors.white,
   disabledColor: Colors.grey,
   disabledTextColor: Colors.black,
   padding: EdgeInsets.all(8.0),
   splashColor: Colors.blueAccent,
   onPressed: () {
-    /*...*/
+    //*** */
   },
   child: Text(
     "Delete",
@@ -172,8 +175,9 @@ FlatButton(
     return new Scaffold(
       backgroundColor: Colors.cyan[900],
       appBar: new AppBar(
-        backgroundColor: Colors.cyanAccent[900],
-        title: new Text('HomePage'),
+        backgroundColor: Colors.blueGrey[600],
+        centerTitle: true,
+        title: new Text(widget.group.groupName + " Group"),
       ),
       body: new ListView(
         children: <Widget>[eventProfile],
