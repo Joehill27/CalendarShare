@@ -59,9 +59,9 @@ class FriendPage extends React.Component {
             'sortBy': '',
             'filterType': '',
             'userName': 'admin',
-            'bio': 'TODO: Make bio a thing in the database',
-            'country': 'TODO: Make country a thing in the database',
-            'city': 'TODO: Make city a thing in the database'
+            'bio': '',
+            'country': '',
+            'city': ''
             //Can add filtering for each list to state
         };
 
