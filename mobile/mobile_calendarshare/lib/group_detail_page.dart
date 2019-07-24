@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:http/http.dart';
 import 'package:mobile_calendarshare/group_page.dart';
-
+import './class_models/group_model.dart';
 import 'package:mobile_calendarshare/search.dart';
  
 
 class GroupDetailPage extends StatefulWidget{
-  final Group group;
-
   GroupDetailPage(this.group);
+
+  final Group group;
 
   @override
   _GroupDetailPageState createState() => new _GroupDetailPageState();
@@ -43,7 +43,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(5.0))),
           child: Column(children: <Widget>[
-            Text(widget.group.groupName, 
+            Text("Group Name",
             style: TextStyle(
              fontSize: 25,
              fontWeight: FontWeight.bold,
@@ -87,7 +87,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
                   width: 10,
                 ),
                 Container(child: Expanded(
-                child:  Text("Number of Events: " + widget.group.numEvents.toString(),
+                child:  Text("Number of Events:",
                 style: TextStyle(fontSize: 15,
                 color: Colors.blue,
                 ),
@@ -177,7 +177,7 @@ FlatButton(
       appBar: new AppBar(
         backgroundColor: Colors.blueGrey[600],
         centerTitle: true,
-        title: new Text(widget.group.groupName + " Group"),
+        title: new Text(" Group"),
       ),
       body: new ListView(
         children: <Widget>[eventProfile],

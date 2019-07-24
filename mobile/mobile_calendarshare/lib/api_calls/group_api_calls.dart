@@ -9,6 +9,28 @@ class GroupAPi {
     String url = 'http://cop4331groupone.com/api/group/getGroups';
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
+    String json;
+
+    try {
+      response = await get(url, headers: headers);
+    } catch (e) {
+      print(e);
+    } finally {
+      if (response != null) {
+        json = response.body;
+        print(json);
+      }
+    }
+
+    return json;
+
+  }
+
+  static getGroup(String groupId) async {
+    String url = 'http://cop4331groupone.com/api/group/'+groupId;
+    Response response;
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String json;
 
     try {
       response = await get(url, headers: headers);
@@ -21,10 +43,11 @@ class GroupAPi {
       }
     }
 
+    return json;
   }
 
   //Create Group
-  static createGroup(Group group, creatorId) async{
+  static createGroup(Group group, creatorId) async {
     String url = 'http://cop4331groupone.com/api/group/createGroup';
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};

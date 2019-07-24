@@ -1,45 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:mobile_calendarshare/group_detail_page.dart';
 import 'stacked_icons.dart';
 import 'home.dart';
+import './class_models/group_model.dart';
+import './api_calls/user_api_calls.dart';
+import './api_calls/group_api_calls.dart';
+import './class_models/user_model.dart';
+import './helper_functions/json_parsing.dart';
 
 
-class Group{
-  String groupName;
-  int numEvents, members;
+class GroupPage extends StatefulWidget{
+  GroupPage(this.username, this.userId);
 
-  Group(this.groupName, this.members, this.numEvents);
+  final String username;
+  final String userId;
+
+  @override
+  _GroupPageState createState() => new _GroupPageState();
 }
 
- class GroupPage extends StatelessWidget {
+class _GroupPageState extends State<GroupPage> {
 
   
- final groupInvites = <Group>[]
- ..add(new Group("Test", 1, 2))
- ..add(new Group("Avengers", 7, 3))
- ..add(new Group("Area_51_Raiders", 251, 1))
- ..add(new Group("Non-humans", 3, 50))
- ..add(new Group("Jock", 15, 2))
- ..add(new Group("Homies", 5, 6))
- ..add(new Group("TMNT", 4, 1000))
- ..add(new Group("RANDOS", 4, 11));
+ final groupInvites = <Group>[];
 
- final initialGroups = <Group>[]
- ..add(new Group("Avengers", 7, 3))
- ..add(new Group("Area_51_Raiders", 251, 1))
- ..add(new Group("Non-humans", 3, 50))
- ..add(new Group("Jock", 15, 2))
- ..add(new Group("Homies", 5, 6))
- ..add(new Group("TMNT", 4, 1000))
- ..add(new Group("RANDOS", 4, 11));
+ final initialGroups = <Group>[];
+ List<Group> groups = [];
+ List groupRequests = [];
+
+ @override
+ void initState() {
+   super.initState();
+   _loadGroups();
+//   _loadGroupRequest();
+
+ }
+
+ Future<void> _loadGroups() async {
+   var userResponse = await UserApi.getUser(widget.username);
+   User user = JsonParsing.getUserFromRequest(userResponse);
+   List tempGroups = user.groups;
+   print('Number of groups' + tempGroups.toString());
+   for(Map<String, dynamic> group in tempGroups) {
+     print('Printing group name ' + group['groupName'].toString());
+     groups.add(new Group.fromJson(group));
+   }
+
+ }
+
+ Future<void> _loadGroupRequest() async {
+   List temp = await UserApi.getUser(widget.username);
+   setState(() {
+     groupRequests = temp;
+   });
+ }
 
   @override
   Widget build(BuildContext context) {
-    
+
     return new Scaffold(
-    key:  key,
-    backgroundColor: Colors.blueGrey[900], 
+    backgroundColor: Colors.blueGrey[900],
       appBar: new AppBar(
           backgroundColor: Colors.blueGrey[600],
           elevation: 0.0, 
@@ -82,7 +102,7 @@ class Group{
                               Divider(),
                   
                               ListTile(
-                                title: Text("Events: " + groupInvites[index].numEvents.toString(),
+                                title: Text("Events: ",
                                 style: TextStyle(fontWeight: FontWeight.w500)), 
                                 leading: Icon(
                                   Icons.event_available,
@@ -144,30 +164,30 @@ class Group{
         height: MediaQuery.of(context).size.height * 0.45,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-            itemCount: initialGroups.length, itemBuilder: (context, index) {
+            itemCount: groups.length, itemBuilder: (context, index) {
               return Container(
                 width: MediaQuery.of(context).size.width * .7,
                 child: Card(
                   child: Column(children: [ListTile(
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => GroupDetailPage(initialGroups[index]),
+                          builder: (context) => GroupDetailPage(groups[index]),
                          )
                        );
                     },
-                    title: Text(initialGroups[index].groupName, style: TextStyle(fontSize: 18, )),
+                    title: Text("Group Name", style: TextStyle(fontSize: 18, )),
                     leading: Icon(Icons.group_add,
                     color: Colors.blue,
                     ),
                   ),
                   Divider(),
                   ListTile(
-                    title: Text("Members: " + initialGroups[index].members.toString()),
+                    title: Text("Members: "),
                     leading: Icon(Icons.card_membership),
                   ),
                   Divider(),
                   ListTile(
-                    title: Text("Events: " + initialGroups[index].numEvents.toString(),
+                    title: Text("Events: ",
                     style: TextStyle(fontWeight: FontWeight.w500)), 
                     leading: Icon(
                       Icons.event_available,

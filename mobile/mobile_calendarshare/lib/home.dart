@@ -1,19 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:mobile_calendarshare/event_card.dart';
 import 'package:mobile_calendarshare/event_detail_page.dart';
 import 'package:mobile_calendarshare/friends/friend_page.dart';
 import 'package:mobile_calendarshare/group_page.dart';
-import 'package:mobile_calendarshare/login.dart';
 import './class_models/user_model.dart';
 import 'package:mobile_calendarshare/class_models/event_model.dart';
-import 'package:mobile_calendarshare/past_events.dart';
 import 'package:mobile_calendarshare/new_event_form.dart';
-import './api_calls/user_api_calls.dart';
 import './helper_functions/convert_time.dart';
-
-import 'my_event_list.dart';
+import './settings.dart';
 
 class HomePage extends StatefulWidget {
   HomePage(
@@ -42,6 +36,7 @@ class _HomePageState extends State<HomePage> {
   List<Event> initialEvents;
   List<Event> groupEvents;
   List<Event> userEvents;
+  Map<String, dynamic> settings;
   User _user;
 
   _splitEventList() {
@@ -83,32 +78,11 @@ class _HomePageState extends State<HomePage> {
     groupEvents = new List();
     userEvents = new List();
     initialEvents = widget.events;
-//    print(initialEvents.toString());
     _splitEventList();
     _splitGroupEvents();
+    _user = widget.user;
+    settings = _user.settings;
   }
-
-  final initialGroupEvents = <Event>[]
-    ..add(new Event(
-      'Musical',
-      'Amway Center',
-      'Biggest Hits of 2019',
-    ))
-    ..add(new Event(
-      'Disney Day',
-      'Magic Kingdom',
-      'Smiths 11th Annual Disney Get-Together',
-    ))
-    ..add(new Event(
-      'Magics Game',
-      'Amway Center',
-      'Biggest hits of 2019',
-    ))
-    ..add(new Event(
-      'Study PARTY',
-      'Glen\'s Place',
-      'Summer\'s Hottest Event',
-    ));
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => GroupPage(),
+                          builder: (context) => GroupPage(widget.username, widget.userId ),
                         ));
                   },
                   leading: Icon(Icons.group),
@@ -151,12 +125,12 @@ class _HomePageState extends State<HomePage> {
                 )),
                 PopupMenuItem(
                     child: ListTile(
-                  onTap: () {
-//                    Navigator.push(
-//                        context,
-//                        MaterialPageRoute(
-//                          builder: (context) => GroupPage(),
-//                        ));
+                  onTap: () async {
+                    settings = await Navigator.of(context).push(
+                      new MaterialPageRoute(builder: (context) {
+                        return new SettingsPage();
+                      }),
+                    );
                   },
                   leading: Icon(Icons.settings),
                   title: Text("Settings"),
@@ -164,11 +138,7 @@ class _HomePageState extends State<HomePage> {
                 PopupMenuItem(
                     child: ListTile(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LoginPage(),
-                        ));
+                    Navigator.of(context).popUntil((route) => route.isFirst);
                   },
                   leading: Icon(Icons.power_settings_new),
                   title: Text("Logout"),

@@ -18,6 +18,19 @@ router.get('/getGroups', (req, res) => {
     })
 });
 
+//Get a group
+router.get('/:groupId', (req,res) => {
+    let groupId = req.params.groupId;
+
+    Group.findById(groupId, (err, group) =>{
+        if(err) {
+            res.send({'error': 'Unable to find group'});
+        } else {
+            res.send({'group': group});
+        }
+    });
+});
+
 //Create group
 router.post('/createGroup', (req, res) => {
     let groupName = req.body.groupName;
