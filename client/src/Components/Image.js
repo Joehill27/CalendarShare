@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {chooseUserImage, chooseEventImage, chooseGroupImage} from '../util/imageHelpers';
 
-const num = 2;
-
 class Image extends Component {
     constructor(props) {
         super(props);

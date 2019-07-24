@@ -1,17 +1,10 @@
-import React, { Fragment, Component } from "react";
+import React from "react";
 import {
 	MDBCol,
 	MDBContainer,
 	MDBModal,
 	MDBModalBody,
 	MDBModalHeader,
-	MDBNavbar,
-	MDBNavbarBrand,
-	MDBNavbarNav,
-	MDBNavbarToggler,
-	MDBCollapse,
-	MDBNavItem,
-	MDBNavLink,
 	MDBIcon,
 	MDBBtn,
 	MDBRow,
@@ -20,22 +13,13 @@ import {
 	MDBDropdownMenu,
 	MDBDropdownItem,
 	MDBModalFooter,
-	MDBCardText,
 	MDBInput
 } from 'mdbreact';
-import { BrowserRouter as Router } from 'react-router-dom';
 import Navigation from './Navigation';
 import MyEvent from './MyEvent';
 import GroupItem from './GroupItem';
-import Event from './Event';
-import Footer from './Footer';
-import { getUser, createUserEvent, getUserGroupEvents, setUserGroupEvents, getUserGroupEvents2 } from '../apiCalls/userAPI';
-import {
-    sortByDateAscending, sortByDateDescending,
-    sortByEventType, sortByPastAndFuture
-} from '../util/eventHelpers';
-import { get } from "mongoose";
-import { thisExpression } from "@babel/types";
+import { getUser, setUserGroupEvents, getUserGroupEvents2 } from '../apiCalls/userAPI';
+import { sortByPastAndFuture } from '../util/eventHelpers';
 import Image from './Image';
 
 class FriendPage extends React.Component {
