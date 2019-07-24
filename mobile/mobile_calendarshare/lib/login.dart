@@ -7,6 +7,7 @@ import './api_calls/user_api_calls.dart';
 import './helper_functions/encrypt.dart';
 import 'dart:convert';
 import './class_models/event_model.dart';
+import './class_models/user_model.dart';
 import './helper_functions/json_parsing.dart';
 
 class LoginPage extends StatefulWidget {
@@ -23,9 +24,10 @@ class _LoginPageState extends State<LoginPage> {
   String _password;
   String _errorMessage;
   String _userId;
-  String _user;
+  User _user;
   String _profilePicture;
   List<Event> _events;
+  List<Event> _groupEvents;
   var _loggedIn = false;
 
 
@@ -51,8 +53,11 @@ class _LoginPageState extends State<LoginPage> {
         for (var e in eventsVar) {
           _events.add(Event.fromJson(e));
         }
-        _user = user.toString();
+        var userRequest = await UserApi.getUser('admin');
+        _user = JsonParsing.getUserFromRequest(userRequest);
         _profilePicture = user['profilePicture'];
+        List groups = _user.groups;
+        _groupEvents = await JsonParsing.getGroupEventsFromIds(_user.groups);
         print(_profilePicture);
         _loggedIn = true;
       }
@@ -149,10 +154,11 @@ class _LoginPageState extends State<LoginPage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => HomePage(
+                                        user: _user,
                                         userId: _userId,
                                         username: _username,
-                                        user: _user,
                                         events: _events,
+                                        groupEvents: _groupEvents
                               //          profilePicture: _profilePicture,
                                       ),
                                     ));

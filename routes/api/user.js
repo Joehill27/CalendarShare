@@ -80,7 +80,7 @@ router.post('/createAccount', (req, res) => {
 
 //Gets all users
 router.get('/allUsers', (req, res) => {
-    User.find({}, '_id username events groups profilePicture' ,(err, users) => {
+    User.find({} ,(err, users) => {
         if(err) {
             res.send({'error': 'Could not get all users'});
             next();

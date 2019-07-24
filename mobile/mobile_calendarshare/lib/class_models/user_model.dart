@@ -3,8 +3,10 @@ import 'dart:convert';
 //TODO figure out storing objects versus storing JSON Objects
 //AKA Group object versus JSON representation of group
 class User {
-  String id, email, username, password, events, friends, groups,
-    friendRequests, groupRequests, profilePicture, settings;
+  String id, email, username, password, profilePicture;
+
+  List events, friends, groups, friendRequests, groupRequests;
+  Map<String, dynamic> settings;
 
   User.detailed(this.id, this.email, this.username, this.password,
       this.events, this.friends, this.groups, this.friendRequests,

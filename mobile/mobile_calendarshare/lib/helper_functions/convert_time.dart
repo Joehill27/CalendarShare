@@ -13,6 +13,7 @@ void main() {
   class TimeFunctions{
 
   static convertToEventFormat(String dateFromDataBase){
+    dateFromDataBase += 'Z';
     var date =  DateTime.parse(dateFromDataBase);
     var month = months[date.month];
     String day = date.day.toString();
