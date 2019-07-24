@@ -4,7 +4,7 @@ MDBModalHeader, MDBModalFooter, MDBContainer, MDBRow, MDBInput } from 'mdbreact'
 import Image from './Image';
 import one from '../defaultImages/userProfilePics/8.png';
 
-class UserItem extends React.Component {
+class GroupItem extends React.Component {
 
     state = {
         modal1: false
@@ -29,10 +29,10 @@ class UserItem extends React.Component {
                                         <img src={one} className="ml-2 my-0" alt="User" height="55" width="55"/>
                                     </div>
                                     <div>
-                                        <MDBCardTitle className="useritempadding pr-5 pl-2 pb-0">Username</MDBCardTitle>
+                                        <MDBCardTitle className="useritempadding pr-5 pl-2 pb-0">GroupName</MDBCardTitle>
                                     </div>
                                     <div className="m1-auto">
-                                        <MDBBtn color="white" className="px-3 mt-1"><MDBIcon icon="check" className="green-text p-0 my-0 mx-1 mr-2"/>Send Invite</MDBBtn>
+                                        <MDBBtn color="white" className="px-3 mt-1"><MDBIcon icon="check" className="green-text p-0 my-0 mx-1 mr-2"/>Join Group</MDBBtn>
                                     </div>
                                 </div>
                             </MDBCol>
@@ -42,4 +42,4 @@ class UserItem extends React.Component {
             </div>
         );
     }
-} export default UserItem;
+} export default GroupItem;
