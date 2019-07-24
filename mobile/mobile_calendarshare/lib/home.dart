@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile_calendarshare/event_card.dart';
 import 'package:mobile_calendarshare/event_detail_page.dart';
-import 'package:mobile_calendarshare/friend_page.dart';
+import 'package:mobile_calendarshare/friends/friend_page.dart';
 import 'package:mobile_calendarshare/group_page.dart';
 import 'package:mobile_calendarshare/login.dart';
 import './class_models/user_model.dart';
@@ -98,7 +98,7 @@ final initialGroupEvents = <Event>[]
                   child: ListTile(
                     onTap: () {
                         Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => FriendPage(),
+                          builder: (context) => FriendsListPage(),
                          )
                        );
                       }, 
