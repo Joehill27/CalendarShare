@@ -65,9 +65,10 @@ class GroupAPi {
 
   //Get Group events
   static getEvents(groupId) async {
-    String url = 'http://cop4331groupone.com/api/group/'+groupId+ '/getEvents';
+    String url = 'http://www.cop4331groupone.com/api/group/'+groupId+ '/getEvents';
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
+    String json = "";
 
     try {
       response = await get(url, headers: headers);
@@ -75,10 +76,11 @@ class GroupAPi {
       print(e);
     } finally {
       if (response != null) {
-        String json = response.body;
+        json = response.body;
         print(json);
       }
     }
+    return json;
   }
 
   //Create Group Event

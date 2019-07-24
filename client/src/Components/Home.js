@@ -169,7 +169,7 @@ class Home extends React.Component {
   }
 
   toggle = nr => () => {
-    let modalNumber = 'modal' + nr
+    let modalNumber = 'modal' + nr;
     this.setState({
       [modalNumber]: !this.state[modalNumber]
     });
@@ -206,7 +206,7 @@ class Home extends React.Component {
       .catch((e) => {
         console.log(e);
       });
-    this.setState = {
+    this.setState({
       'newEventName': '',
       'newEventStart': '',
       'newEventStartTime': '',
@@ -218,8 +218,9 @@ class Home extends React.Component {
       'newEventCountry': '',
       'newEventType': '',
       'newEventDetails': '',
-      'newEventPic': ''
-    }
+      'newEventPic': '',
+      modal1: false
+    });
   }
 
 
@@ -435,7 +436,7 @@ class Home extends React.Component {
                   />
                 </div>
               </MDBRow>
-              <form className="needs-validation" onSubmit={this.submitHandler} noValidate>
+              <form className="needs-validation" onSubmit={this.createEventHandler} noValidate>
                 <MDBRow>
                   <MDBCol>
                     <MDBInput
@@ -601,8 +602,8 @@ class Home extends React.Component {
                 </MDBRow>
               </form>
               <MDBModalFooter>
-                <MDBBtn color="green" type="submit" onClick={() => { this.createEventHandler(); this.toggle(1) }} >Create</MDBBtn>
-                <MDBBtn color="danger" onClick={this.toggle(1)} >Close</MDBBtn>
+                <MDBBtn color="green"  onClick={() => { this.createEventHandler();}} >Create</MDBBtn>
+                <MDBBtn color="danger" onClick={this.toggle(1) } >Close</MDBBtn>
               </MDBModalFooter>
 
             </MDBContainer>

@@ -154,14 +154,14 @@ router.get('/:groupId/getEvents', (req, res) => {
             console.log(group);
             res.send({'events' :group.events, 'error': ''});
         }
-    });
+    }); 
 });
 
 //Add group event
 router.post('/:groupId/addEvent', (req, res) => {
     let groupId = req.params.groupId;
 
-    let event = new Event(req.body);
+    let event = new Event(req.body); 
 
     Group.findById(groupId, function(err, group) {
         if(err) {

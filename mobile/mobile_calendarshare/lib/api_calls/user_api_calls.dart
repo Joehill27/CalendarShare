@@ -1,11 +1,29 @@
 import 'package:http/http.dart';
 import '../class_models/event_model.dart';
 import '../class_models/user_model.dart';
+import '../class_models/group_model.dart';
 import '../helper_functions/encrypt.dart';
+import '../helper_functions/json_parsing.dart';
+import '../api_calls/group_api_calls.dart';
 
 void main(){
-//  UserApi.getEvents('5d2fa28c2f931610e489c951')
-//  .then((events) => UserApi.getEventsFromArray(events));
+
+
+  _getGroupsTest() async {
+    var userRequest = await UserApi.getUser('admin');
+    User user = JsonParsing.getUserFromRequest(userRequest);
+    List groupJson = user.groups;
+
+    List<Event> events = await JsonParsing.getGroupEventsFromIds(user.groups);
+
+    if(events != null) {
+      for (Event event in events) {
+        print(event.toString());
+      }
+    }
+  }
+
+  _getGroupsTest();
 
 }
 
@@ -15,6 +33,7 @@ class UserApi {
   static createAccountRequest(String username, String password, String email) async {
     String url = 'http://www.cop4331groupone.com/api/user/createAccount';
 
+    String json = "";
     String encryptedPassword = Encrypt.encryptString(username, password);
 
     Response response;
@@ -29,10 +48,11 @@ class UserApi {
       print(e);
     } finally {
       if (response != null) {
-        String json = response.body;
+        json = response.body;
         print(json);
       }
     }
+    return json;
   }
 
   static loginRequest(String username) async {

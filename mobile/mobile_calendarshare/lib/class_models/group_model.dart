@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 class Group {
-  String id, groupName, members, events, groupPicture, settings;
+  String id, groupName, groupPicture;
+
+  List members, events;
+  Map<String, dynamic> settings;
 
   Group.detailed(this.id, this.groupName, this.members, this.events,
       this.groupPicture, this.settings);

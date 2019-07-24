@@ -17,14 +17,16 @@ import 'my_event_list.dart';
 
 class HomePage extends StatefulWidget {
   HomePage(
-      {Key key, this.title, this.userId, this.username, this.user, this.events})
+      {Key key, this.title, this.user, this.userId, this.username, this.events
+      , this.groupEvents})
       : super(key: key);
 
   final String title;
   final String userId;
   final String username;
-  String user;
-  List<Event> events;
+  final User user;
+  final List<Event> events;
+  final List<Event> groupEvents;
 
   @override
   _HomePageState createState() => new _HomePageState();
@@ -35,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   List<Event> initialEvents;
   List<Event> groupEvents;
   List<Event> userEvents;
-  User user;
+  User _user;
 
   _splitEventList() {
     DateTime now = DateTime.now();
@@ -52,6 +54,22 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  _splitGroupEvents() {
+    DateTime now = DateTime.now();
+    List<Event> temp = widget.groupEvents;
+    groupEvents.removeWhere((event) => DateTime.parse(event.startDate).isBefore(now));
+
+//    if (temp.length > 0) {
+//      for (Event event in temp) {
+//        if (!DateTime.parse(event.startDate).isAfter(now)) {
+//          groupEvents.remove(event);
+//        }
+//      }
+//    } else {
+//      print('Event list is empty');
+//    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -59,15 +77,13 @@ class _HomePageState extends State<HomePage> {
     groupEvents = new List();
     userEvents = new List();
     initialEvents = widget.events;
+    groupEvents = widget.groupEvents;
     print(initialEvents.toString());
     _splitEventList();
+    _splitGroupEvents();
   }
 
-//final userEvents = <Event>[]
-//  ..add(new Event('Concert', 'Amway Center', 'Biggest Hits of 2019'))
-//  ..add(new Event('Family Reunion', 'Magic Kingdom', 'Smiths 11th Annual Disney Get-Together'))
-//  ..add(new Event('Concert', 'Amway Center', 'Biggest s of 2019'))
-//  ..add(new Event('Pool Party', 'Glen\'s Place', 'Summer\'s Hottest Event'));
+
 
   final initialGroupEvents = <Event>[]
     ..add(new Event(
@@ -288,7 +304,7 @@ class _HomePageState extends State<HomePage> {
                     height: MediaQuery.of(context).size.height * 0.5,
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: initialGroupEvents.length,
+                        itemCount: groupEvents.length,
                         itemBuilder: (context, index) {
                           return Container(
                               width: MediaQuery.of(context).size.width * .7,
@@ -302,14 +318,14 @@ class _HomePageState extends State<HomePage> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   EventDetailPage(
-                                                      initialGroupEvents[
+                                                      groupEvents[
                                                           index]),
                                             ));
                                       },
                                       title:
-                                          Text(initialGroupEvents[index].name),
+                                          Text(groupEvents[index].name),
                                       subtitle: Text(
-                                          initialGroupEvents[index].location),
+                                          groupEvents[index].location),
                                       leading: Icon(
                                         Icons.event,
                                         color: Colors.blue,
@@ -356,7 +372,7 @@ class _HomePageState extends State<HomePage> {
                           }),
                         );
                         if (newEvent != null) {
-                          initialGroupEvents.add(newEvent);
+                          groupEvents.add(newEvent);
                         }
                       },
                     )),
