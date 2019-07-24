@@ -80,7 +80,10 @@ class FriendPage extends React.Component {
                     events: user.events,
                     pastEvents: allEvents.pastEvents,
                     futureEvents: allEvents.futureEvents,
-                    groups: user.groups
+                    groups: user.groups,
+                    bio: user.settings.bio,
+                    country: user.settings.country,
+                    city: user.settings.city
                 });
             })
             .catch((err) => {
