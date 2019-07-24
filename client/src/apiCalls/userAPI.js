@@ -134,7 +134,7 @@ export const getUserEvents = async(userId) => {
 //Create user event
 export const createUserEvent = async(userId, event) => {
     try {
-        let result = await axios.post('/api/user/'+userId +'/updateEvent', event);
+        let result = await axios.post(hostUrl+'/api/user/'+userId +'/createEvent', event);
         return result;
     } catch(e) {
         console.log(e);
@@ -144,7 +144,7 @@ export const createUserEvent = async(userId, event) => {
 //Update user event
 export const updateUserEvent = async(userId, eventId, event) => {
     try {
-        let result = await axios.put('/api/user/' + userId + '/updateEvent/' + eventId, event);
+        let result = await axios.put(hostUrl+'/api/user/' + userId + '/updateEvent/' + eventId, event);
         return result;
     } catch(e) {
         console.log(e);
@@ -195,7 +195,7 @@ export const setUserGroupEvents = async(user) => {
             });
         })
         .then((err) => {
-            console.log(groupEvents);
+            // console.log(groupEvents);
         })
         .catch(e => console.log(e));
     });

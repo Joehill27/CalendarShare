@@ -22,6 +22,20 @@ let Event = new Schema({
     },
     eventType: {
         type: String
+    },
+    location: {
+        address: {
+            type: String
+        },
+        zipCode: {
+            type:String
+        },
+        city : {
+            type:String
+        },
+        country: {
+            type:String
+        }
     }
 });
 

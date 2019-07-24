@@ -122,6 +122,7 @@ router.post('/:userId/createEvent', (req, res) => {
     let userId = req.params.userId;
 
     let event = new Event(req.body);
+    console.log('New Event Created!' + event);
     User.update(
         { _id: userId }, 
         { $push: { events: event }}
@@ -526,7 +527,7 @@ router.put('/:userId/updateProfilePicture', (req, res) => {
     })
 });
 
-//Gets the users profile picture's image id, then gets the image by id
+//Gets the users profile picture's image id
 router.get('/:userId/getProfilePicture', (req, res) => {
     let userId = req.params.userId;
     User.findById(userId, function(err, user) {
@@ -536,6 +537,11 @@ router.get('/:userId/getProfilePicture', (req, res) => {
         else
             res.send({'image': image});
     });
+});
+
+//TODO request to join a group
+router.post('/:userId/requestToJoinGroup/:groupId', (req, res) => {
+
 });
 
 module.exports = router;

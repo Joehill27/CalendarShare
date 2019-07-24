@@ -7,6 +7,13 @@ let GroupSchema = new Schema({
     groupName : {
         type: String
     },
+    groupRequests: {
+        type :[{
+            userIdId: {
+                type: String
+            },
+        }]
+    },
     members: {
         type: [
             {

@@ -3,9 +3,9 @@ import {
   MDBIcon, MDBDropdown,
   MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBFormInline, MDBBtn,
   MDBContainer, MDBRow, MDBCol, MDBModal, MDBModalBody,
-  MDBModalHeader, MDBInput
-} from 'mdbreact';
+  MDBModalHeader, MDBInput, MDBModalFooter, MDBCardText } from 'mdbreact';
 import { BrowserRouter as Router } from 'react-router-dom';
+// import MyEventList from './MyEventList';
 import Navigation from './Navigation';
 import MyEvent from './MyEvent';
 import Event from './Event';
@@ -17,6 +17,18 @@ import {
 } from '../util/eventHelpers';
 import { get } from "mongoose";
 import { thisExpression } from "@babel/types";
+import one from '../defaultImages/eventPics/1.jpg';
+import two from '../defaultImages/eventPics/2.jpg';
+import three from '../defaultImages/eventPics/3.jpg';
+import four from '../defaultImages/eventPics/4.jpg';
+import five from '../defaultImages/eventPics/5.jpg';
+import six from '../defaultImages/eventPics/6.jpg';
+import seven from '../defaultImages/eventPics/7.jpg';
+import eight from '../defaultImages/eventPics/8.jpg';
+import nine from '../defaultImages/eventPics/9.jpg';
+import ten from '../defaultImages/eventPics/10.jpg';
+import eleven from '../defaultImages/eventPics/11.jpg';
+import twelve from '../defaultImages/eventPics/12.jpg';
 
 class Home extends React.Component {
   constructor(props) {
@@ -35,31 +47,55 @@ class Home extends React.Component {
       'groupEvents': '',
       'eventSortType': 'MyEvent',
       'sortBy': '',
-      'filterType': ''
-      //Can add filtering for each list to state
+      'filterType': '',
+      'newEventPic': '',
+      'newEventName': '',
+      'newEventStart': '',
+      'newEventStartTime': '',
+      'newEventEnd': '',
+      'newEventEndTime': '',
+      'newEventAddress': '',
+      'newEventZipCode': '',
+      'newEventCity': '',
+      'newEventCountry': '',
+      'newEventType': '',
+      'newEventDetails': '',
+      'pastEventsSort': '',
+      'futureEventsSort': '',
+      'groupEventsSort': '',
+      'pastEventsFilter': true,
+      'futureEventsFilter': '',
+      'groupEventsFilter': ''
+
     };
-
-
-
 
     this.renderPastEvents = this.renderPastEvents.bind(this);
     this.renderFutureEvents = this.renderFutureEvents.bind(this);
     this.renderGroupEvents = this.renderGroupEvents.bind(this);
-    this.sortEvents = this.sortEvents.bind(this);
+    this.logoutHandler = this.logoutHandler.bind(this);
+    this.createEventHandler = this.createEventHandler.bind(this);
+    this.changeHandler = this.changeHandler.bind(this);
+    this.toggle = this.toggle.bind(this);
 
   }
 
+
+
   componentDidMount() {
+    if (localStorage.getItem('userId') == -1)
+      this.props.history.push('/');
+
     let user;
     getUser(localStorage.getItem('userName'))
       .then((userJson) => {
         user = userJson;
         let allEvents = sortByPastAndFuture(user.events);
+        console.log('Here are the future events: ' + allEvents.futureEvents);
         this.setState({
           user: user,
           events: user.events,
-          pastEvents: allEvents.pastEvents,
-          futureEvents: allEvents.futureEvents
+          pastEvents: (true) ? sortByDateAscending(allEvents.pastEvents) : sortByDateDescending(allEvents.pastEvents),
+          futureEvents: (true) ? sortByDateAscending(allEvents.futureEvents) : sortByDateDescending(allEvents.futureEvents),
         });
       })
       .catch((err) => {
@@ -76,15 +112,22 @@ class Home extends React.Component {
     getUser(localStorage.getItem('userName'))
       .then((userJson) => {
         var temp = getUserGroupEvents2(userJson)
-        console.log(temp);
+        // console.log(temp);
         temp.then((result) => {
-          console.log(result);
+          // console.log(result);
           this.setState({
-            groupEvents: result,
+            groupEvents: (true) ? sortByDateAscending(result) : sortByDateDescending(result)
           });
         })
-      })
+      }
   }
+
+  logoutHandler = async () => {
+    console.log('Logging out');
+    localStorage.setItem('userId', -1);
+    localStorage.setItem('user', '');
+    this.props.history.push('/');
+  };
 
   renderPastEvents() {
     if (this.state.pastEvents !== '') {
@@ -108,7 +151,7 @@ class Home extends React.Component {
 
   renderGroupEvents() {
     if (this.state.groupEvents !== '') {
-      console.log(this.state.groupEvents);
+      // console.log(this.state.groupEvents);
       return (
         this.state.groupEvents.map((e, index) => (
           <Event key={index} event={e} />
@@ -124,63 +167,60 @@ class Home extends React.Component {
     });
   }
 
-  createEventHandler = event => {
-    createUserEvent(localStorage.getItem('userId', event))
-      .then((event) => {
-        console.log('Added event' + event);
+  changeHandler = (settings) => {
+    this.setState({ [settings.target.name]: settings.target.value });
+  };
+
+  //Clear New Event on Close
+
+  createEventHandler() {
+    //Add event to list
+    let event = {
+      'start': this.state.newEventStart + 'T' + this.state.newEventStartTime,
+      'end': this.state.newEventEnd + 'T' + this.state.newEventEndTime,
+      'eventName': this.state.newEventName,
+      'eventDetails': this.state.newEventDetails,
+      'eventPicture': this.state.newEventPic,
+      'eventType': this.state.newEventType,
+      'location': {
+        'address': this.state.newEventAddress,
+        'zipCode': this.state.newEventZipCode,
+        'city': this.state.newEventCity,
+        country: this.state.newEventCountry
+      }
+
+    }
+    // console.log(event);
+    createUserEvent(localStorage.getItem('userId'), event)
+      .then((result) => {
+        // console.log('Added event' + JSON.stringify(result));
       })
       .catch((e) => {
         console.log(e);
       });
-  }
-
-  sortEvents() {
-    console.log('Sorting...');
-    let type = this.state.eventSortType;
-    let sortBy = this.state.sortBy;
-    let result;
-    switch (type) {
-      case 'MyEvent': {
-        result = (sortBy == 'Ascending') ?
-          sortByDateAscending(this.state.futureEvents) :
-          sortByDateDescending(this.state.futureEvents);
-        this.setState({
-          futureEvents: result
-        });
-        this.renderFutureEvents();
-        break;
-      }
-      case 'PastEvent': {
-        result = (sortBy == 'Ascending') ?
-          sortByDateAscending(this.state.pastEvents) :
-          sortByDateDescending(this.state.pastEvents);
-        this.setState({
-          pastEvents: result
-        });
-        this.renderPastEvents();
-        break;
-      }
-      case 'GroupEvent': {
-        result = (sortBy == 'Ascending') ?
-          sortByDateAscending(this.state.groupEvents) :
-          sortByDateDescending(this.state.groupEvents);
-        this.setState({
-          groupEvents: result
-        });
-        this.renderGroupEvents();
-        break;
-      }
-      default:
-        console.log('Nothing');
+    this.setState = {
+      'newEventName': '',
+      'newEventStart': '',
+      'newEventStartTime': '',
+      'newEventEnd': '',
+      'newEventEndTime': '',
+      'newEventAddress': '',
+      'newEventZipCode': '',
+      'newEventCity': '',
+      'newEventCountry': '',
+      'newEventType': '',
+      'newEventDetails': '',
+      'newEventPic': ''
     }
   }
+
 
   render() {
     const bgNavy = { backgroundColor: '#2E4158' }
     const scrollContainerStyle = { width: "auto", maxHeight: "auto" };
     return (
       <div style={bgNavy}>
-        <Navigation imageId={localStorage.getItem('profilePicture')} />
+        <Navigation imageId={localStorage.getItem('profilePicture')} logoutHandler={this.logoutHandler} />
         <div className="d-flex">
           <div>
             <MDBDropdown dropright className="cardpadding ml-2">
@@ -189,8 +229,8 @@ class Home extends React.Component {
               </MDBDropdownToggle>
               <MDBDropdownMenu>
                 <MDBDropdownItem header>Sort</MDBDropdownItem>
-                <MDBDropdownItem onClick={(meow) => { this.setState({ eventSortType: 'MyEvent', sortBy: 'Ascending' }); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen" /></MDBDropdownItem>
-                <MDBDropdownItem onClick={(meow) => { this.setState({ eventSortType: 'MyEvent', sortBy: 'Descending' }); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed" /></MDBDropdownItem>
+                <MDBDropdownItem onClick={(meow) => { this.setState({ futureEventsSort: true }); }}>Time<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen" /></MDBDropdownItem>
+                <MDBDropdownItem onClick={(meow) => { this.setState({ futureEventsSort: false }); }}>Time<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed" /></MDBDropdownItem>
                 <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen" /></MDBDropdownItem>
                 <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed" /></MDBDropdownItem>
               </MDBDropdownMenu>
@@ -206,8 +246,8 @@ class Home extends React.Component {
                 <MDBDropdownItem href="#!">School<MDBIcon icon="school" className="float-right" /></MDBDropdownItem>
                 <MDBDropdownItem href="#!">Work<MDBIcon icon="business-time" className="float-right" /></MDBDropdownItem>
                 <MDBDropdownItem href="#!">Sports<MDBIcon icon="football-ball" className="float-right" /></MDBDropdownItem>
-                <MDBDropdownItem href="#!">Eating Out<MDBIcon icon="bread-slice" className="float-right" /></MDBDropdownItem>
-                <MDBDropdownItem href="#!">Misc<MDBIcon icon="chevron-circle-down ml-2" className="float-right" /></MDBDropdownItem>
+                <MDBDropdownItem href="#!">Dining<MDBIcon icon="bread-slice" className="float-right" /></MDBDropdownItem>
+                <MDBDropdownItem href="#!">Other<MDBIcon icon="chevron-circle-down ml-2" className="float-right" /></MDBDropdownItem>
               </MDBDropdownMenu>
             </MDBDropdown>
             <MDBBtn onClick={this.toggle(1)} size="sm" color="dark-green">New</MDBBtn>
@@ -229,14 +269,14 @@ class Home extends React.Component {
           <div>
             <MDBDropdown dropright className="ml-2">
               <MDBDropdownToggle color="transparent">
-                <h3 className="text-white">Past Events<MDBIcon icon="sort-amount-down ml-2" className="ml-2 mdb-color-text"/></h3>
+                <h3 className="text-white">Past Events<MDBIcon icon="sort-amount-down ml-2" className="ml-2 mdb-color-text" /></h3>
               </MDBDropdownToggle>
               <MDBDropdownMenu>
                 <MDBDropdownItem header>Sort</MDBDropdownItem>
-                <MDBDropdownItem onClick={(meow) => {this.setState({eventSortType: 'PastEvent', sortBy: 'Ascending'}); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen"/></MDBDropdownItem>
-                <MDBDropdownItem onClick={(meow) => {this.setState({eventSortType: 'PastEvent', sortBy: 'Descending'}); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed"/></MDBDropdownItem>
-                <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen"/></MDBDropdownItem>
-                <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed"/></MDBDropdownItem>
+                <MDBDropdownItem onClick={(meow) => { this.setState({ eventSortType: 'PastEvent', sortBy: 'Ascending' }); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen" /></MDBDropdownItem>
+                <MDBDropdownItem onClick={(meow) => { this.setState({ eventSortType: 'PastEvent', sortBy: 'Descending' }); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed" /></MDBDropdownItem>
+                <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen" /></MDBDropdownItem>
+                <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed" /></MDBDropdownItem>
               </MDBDropdownMenu>
             </MDBDropdown>
           </div>
@@ -250,27 +290,27 @@ class Home extends React.Component {
                 <MDBDropdownItem href="#!">School<MDBIcon icon="school" className="float-right" /></MDBDropdownItem>
                 <MDBDropdownItem href="#!">Work<MDBIcon icon="business-time" className="float-right" /></MDBDropdownItem>
                 <MDBDropdownItem href="#!">Sports<MDBIcon icon="football-ball" className="float-right" /></MDBDropdownItem>
-                <MDBDropdownItem href="#!">Eating Out<MDBIcon icon="bread-slice" className="float-right" /></MDBDropdownItem>
-                <MDBDropdownItem href="#!">Misc<MDBIcon icon="chevron-circle-down ml-2" className="float-right" /></MDBDropdownItem>
+                <MDBDropdownItem href="#!">Dining<MDBIcon icon="bread-slice" className="float-right" /></MDBDropdownItem>
+                <MDBDropdownItem href="#!">Other<MDBIcon icon="chevron-circle-down ml-2" className="float-right" /></MDBDropdownItem>
               </MDBDropdownMenu>
             </MDBDropdown>
           </div>
         </div>
-        <div id="group" className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
+        <div id="past" className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
           {this.renderPastEvents()}
         </div>
         <div className="d-flex">
           <div>
             <MDBDropdown dropright className="ml-2">
               <MDBDropdownToggle color="transparent">
-                <h3 className="text-white">Group Events<MDBIcon icon="sort-amount-down ml-2" className="ml-2 mdb-color-text"/></h3>
+                <h3 className="text-white">Group Events<MDBIcon icon="sort-amount-down ml-2" className="ml-2 mdb-color-text" /></h3>
               </MDBDropdownToggle>
               <MDBDropdownMenu>
-              <MDBDropdownItem header>Sort</MDBDropdownItem>
-                <MDBDropdownItem onClick={(meow) => {this.setState({eventSortType: 'PastEvent', sortBy: 'Ascending'}); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen"/></MDBDropdownItem>
-                <MDBDropdownItem onClick={(meow) => {this.setState({eventSortType: 'PastEvent', sortBy: 'Descending'}); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed"/></MDBDropdownItem>
-                <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen"/></MDBDropdownItem>
-                <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed"/></MDBDropdownItem>
+                <MDBDropdownItem header>Sort</MDBDropdownItem>
+                <MDBDropdownItem onClick={(meow) => { this.setState({ eventSortType: 'PastEvent', sortBy: 'Ascending' }); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen" /></MDBDropdownItem>
+                <MDBDropdownItem onClick={(meow) => { this.setState({ eventSortType: 'PastEvent', sortBy: 'Descending' }); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed" /></MDBDropdownItem>
+                <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen" /></MDBDropdownItem>
+                <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed" /></MDBDropdownItem>
               </MDBDropdownMenu>
             </MDBDropdown>
           </div>
@@ -284,28 +324,117 @@ class Home extends React.Component {
                 <MDBDropdownItem href="#!">School<MDBIcon icon="school" className="float-right" /></MDBDropdownItem>
                 <MDBDropdownItem href="#!">Work<MDBIcon icon="business-time" className="float-right" /></MDBDropdownItem>
                 <MDBDropdownItem href="#!">Sports<MDBIcon icon="football-ball" className="float-right" /></MDBDropdownItem>
-                <MDBDropdownItem href="#!">Eating Out<MDBIcon icon="bread-slice" className="float-right" /></MDBDropdownItem>
-                <MDBDropdownItem href="#!">Misc<MDBIcon icon="chevron-circle-down ml-2" className="float-right" /></MDBDropdownItem>
+                <MDBDropdownItem href="#!">Dining<MDBIcon icon="bread-slice" className="float-right" /></MDBDropdownItem>
+                <MDBDropdownItem href="#!">Other<MDBIcon icon="chevron-circle-down ml-2" className="float-right" /></MDBDropdownItem>
               </MDBDropdownMenu>
             </MDBDropdown>
           </div>
         </div>
-        <div id="past" className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>        
-          {this.renderGroupEvents()} 
+        <div id="past" className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
+          {this.renderGroupEvents()}
         </div>
         <Footer />
-        <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} size="lg" centered>
+        <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} size="med" centered>
           <MDBModalHeader toggle={this.toggle(1)} className="mdb-color darken-2 white-text">Create Event</MDBModalHeader>
           <MDBModalBody>
             <MDBContainer fluid className="">
+              <MDBRow>
+                <MDBCardText>Choose an Event Picture</MDBCardText>
+                <div className="gallery">
+                  <img
+                    onClick={() => this.setState({ newEventPic: 1 })}
+                    className="gallery-item"
+                    src={one}
+                    height="50"
+                    width="50"
+                  />
+                  <img
+                    onClick={() => this.setState({ newEventPic: 2 })}
+                    className="gallery-item"
+                    src={two}
+                    height="50"
+                    width="50"
+                  />
+                  <img
+                    onClick={() => this.setState({ newEventPic: 3 })}
+                    className="gallery-item"
+                    src={three}
+                    height="50"
+                    width="50"
+                  />
+                  <img
+                    onClick={() => this.setState({ newEventPic: 4 })}
+                    className="gallery-item"
+                    src={four}
+                    height="50"
+                    width="50"
+                  />
+                  <img
+                    onClick={() => this.setState({ newEventPic: 5 })}
+                    className="gallery-item"
+                    src={five}
+                    height="50"
+                    width="50"
+                  />
+                  <img
+                    onClick={() => this.setState({ newEventPic: 6 })}
+                    className="gallery-item"
+                    src={six}
+                    height="50"
+                    width="50"
+                  />
+                  <img
+                    onClick={() => this.setState({ newEventPic: 7 })}
+                    className="gallery-item"
+                    src={seven}
+                    height="50"
+                    width="50"
+                  />
+                  <img
+                    onClick={() => this.setState({ newEventPic: 8 })}
+                    className="gallery-item"
+                    src={eight}
+                    height="50"
+                    width="50"
+                  />
+                  <img
+                    onClick={() => this.setState({ newEventPic: 9 })}
+                    className="gallery-item"
+                    src={nine}
+                    height="50"
+                    width="50"
+                  />
+                  <img
+                    onClick={() => this.setState({ newEventPic: 10 })}
+                    className="gallery-item"
+                    src={ten}
+                    height="50"
+                    width="50"
+                  />
+                  <img
+                    onClick={() => this.setState({ newEventPic: 11 })}
+                    className="gallery-item"
+                    src={eleven}
+                    height="50"
+                    width="50"
+                  />
+                  <img
+                    onClick={() => this.setState({ newEventPic: 12 })}
+                    className="gallery-item"
+                    src={twelve}
+                    height="50"
+                    width="50"
+                  />
+                </div>
+              </MDBRow>
               <form className="needs-validation" onSubmit={this.submitHandler} noValidate>
                 <MDBRow>
                   <MDBCol>
                     <MDBInput
-                      value={''}
+                      value={this.state.newEventName}
                       label="Event Name"
                       className="form-control"
-                      name="eventName"
+                      name="newEventName"
                       onChange={this.changeHandler}
                       type="text"
                       required
@@ -317,10 +446,10 @@ class Home extends React.Component {
                 <MDBRow>
                   <MDBCol>
                     <MDBInput
-                      value={''}
-                      label="Event Date"
+                      value={this.state.newEventStart}
+                      label="Start Date"
                       className="form-control"
-                      name="eventDate"
+                      name="newEventStart"
                       onChange={this.changeHandler}
                       type="Date"
                       required
@@ -330,10 +459,10 @@ class Home extends React.Component {
                   </MDBCol>
                   <MDBCol>
                     <MDBInput
-                      value={''}
+                      value={this.state.newEventStartTime}
                       label="Start Time"
                       className="form-control"
-                      name="eventStart"
+                      name="newEventStartTime"
                       onChange={this.changeHandler}
                       type="time"
                       required
@@ -341,12 +470,28 @@ class Home extends React.Component {
                       <div className="invalid-feedback font-weight-light smallText">Start Time Required</div>
                     </MDBInput>
                   </MDBCol>
+
+                </MDBRow>
+                <MDBRow>
                   <MDBCol>
                     <MDBInput
-                      value={''}
+                      value={this.state.newEventEnd}
+                      label="End Date"
+                      className="form-control"
+                      name="newEventEnd"
+                      onChange={this.changeHandler}
+                      type="Date"
+                      required
+                    >
+                      <div className="invalid-feedback font-weight-light smallText">Event Date Required</div>
+                    </MDBInput>
+                  </MDBCol>
+                  <MDBCol>
+                    <MDBInput
+                      value={this.state.newEventEndTime}
                       label="End Time"
                       className="form-control"
-                      name="eventEnd"
+                      name="newEventEndTime"
                       onChange={this.changeHandler}
                       type="time"
                       required
@@ -358,10 +503,10 @@ class Home extends React.Component {
                 <MDBRow>
                   <MDBCol>
                     <MDBInput
-                      value={''}
+                      value={this.state.newEventAddress}
                       label="Address"
                       className="form-control"
-                      name="eventAddress"
+                      name="newEventAddress"
                       onChange={this.changeHandler}
                       type="text"
                       required
@@ -370,13 +515,14 @@ class Home extends React.Component {
                     </MDBInput>
                   </MDBCol>
                 </MDBRow>
+
                 <MDBRow>
                   <MDBCol>
                     <MDBInput
-                      value={''}
+                      value={this.state.newEventZipCode}
                       label="Zip Code"
                       className="form-control"
-                      name="eventZipCode"
+                      name="newEventZipCode"
                       onChange={this.changeHandler}
                       type="text"
                       required
@@ -386,10 +532,10 @@ class Home extends React.Component {
                   </MDBCol>
                   <MDBCol>
                     <MDBInput
-                      value={''}
+                      value={this.state.newEventCity}
                       label="City"
                       className="form-control"
-                      name="eventCity"
+                      name="newEventCity"
                       onChange={this.changeHandler}
                       type="text"
                       required
@@ -399,15 +545,15 @@ class Home extends React.Component {
                   </MDBCol>
                   <MDBCol>
                     <MDBInput
-                      value={''}
-                      label="Counrty"
+                      value={this.state.newEventCountry}
+                      label="Country"
                       className="form-control"
-                      name="eventCounrty"
+                      name="newEventCountry"
                       onChange={this.changeHandler}
                       type="text"
                       required
                     >
-                      <div className="invalid-feedback font-weight-light smallText">Counrty Required</div>
+                      <div className="invalid-feedback font-weight-light smallText">Country Required</div>
                     </MDBInput>
                   </MDBCol>
                 </MDBRow>
@@ -419,10 +565,13 @@ class Home extends React.Component {
                       name="eventType"
                       required
                     >
-
                       <option value="">Choose Event Type</option>
-                      <option value="Sporting">Sporting</option>
-                      <option value="Music">Music</option>
+                      <option value="School">School</option>
+                      <option value="Work">Work</option>
+                      <option value="Sports">Sports</option>
+                      <option value="Dining">Dining</option>
+                      <option value="Other">Other</option>
+
                     </select>
                     <div className="invalid-feedback font-weight-light smallText">Event Type Required</div>
                   </MDBCol>
@@ -430,26 +579,24 @@ class Home extends React.Component {
                 <MDBRow>
                   <MDBCol>
                     <MDBInput
-                      value={''}
+                      value={this.state.newEventDetails}
                       label="Event Details"
                       className="form-control"
-                      name="eventDetails"
+                      name="newEventDetails"
                       onChange={this.changeHandler}
                       type="textarea"
-                      rows="3"
                       required
                     >
                       <div className="invalid-feedback font-weight-light smallText">Event Details Required</div>
                     </MDBInput>
                   </MDBCol>
                 </MDBRow>
-                <MDBRow>
-                  <MDBCol className="ml-auto" md="5">
-                    <MDBBtn color="mdb-color darken-2" type="submit" onclick={this.updateHandler} className="ml-auto">Create</MDBBtn>
-                    <MDBBtn color="danger" onClick={this.toggle(1)} className="ml-auto">Close</MDBBtn>
-                  </MDBCol>
-                </MDBRow>
               </form>
+              <MDBModalFooter>
+                <MDBBtn color="green" type="submit" onClick={() => { this.createEventHandler(); this.toggle(1) }} >Create</MDBBtn>
+                <MDBBtn color="danger" onClick={this.toggle(1)} >Close</MDBBtn>
+              </MDBModalFooter>
+
             </MDBContainer>
           </MDBModalBody>
         </MDBModal>
@@ -457,5 +604,4 @@ class Home extends React.Component {
     );
   }
 }
-
 export default Home;

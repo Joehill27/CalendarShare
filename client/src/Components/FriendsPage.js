@@ -8,8 +8,45 @@ import { MDBIcon, MDBDropdown,
 import MyEvent from "./MyEvent";
 import Friend from "./Friend";
 import FriendRequest from "./FriendRequest";
+import Group from "./Group";
+import GroupRequest from "./GroupRequest";
+import UserItem from "./UserItem";
 
   class FriendsPage extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.logoutHandler = this.logoutHandler.bind(this);
+    }
+
+    componentDidMount() {
+        if(localStorage.getItem('userId') === -1)
+            this.props.history.push('/');
+    }
+
+    logoutHandler = async () => {
+        console.log('Logging out');
+        localStorage.setItem('userId', -1);
+        localStorage.setItem('user', '');
+        this.props.history.push('/');
+      };
+
+    state = {
+        modal1: false,
+        searchTerm: ""
+    }
+
+    toggle = nr => () => {
+        let modalNumber = 'modal' + nr
+        this.setState({
+            [modalNumber]: !this.state[modalNumber]
+        });
+    }
+
+    changeHandler = event => {
+        this.setState({ [event.target.name]: event.target.value });
+    };
+
 
     constructor(props)
     {
@@ -29,7 +66,7 @@ import FriendRequest from "./FriendRequest";
         const scrollContainerStyle = { width: "auto", maxHeight: "auto" };
         return(
             <div style={bgNavy}>
-                <Navigation imageId={localStorage.getItem('profilePicture')}/>
+                <Navigation imageId={localStorage.getItem('profilePicture') } logoutHandler={this.logoutHandler}/>
                 <div className="d-flex">
                 <MDBDropdown dropright className="cardpadding ml-2">
                     <MDBDropdownToggle color="transparent">
@@ -43,12 +80,46 @@ import FriendRequest from "./FriendRequest";
                     </MDBDropdown>
                 
                 <div className="ml-auto">
-                    <MDBFormInline className="md-form cardpadding pr-3">
-                        <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
-                        <MDBBtn outline color="white" size="sm" type="submit" className="mr-auto">
-                            Search
+                    <div className="md-form cardpadding pr-3">
+                        <MDBBtn outline color="dark-green" size="sm" className="mr-auto" onClick={this.toggle(1)}>
+                            Add Friends
                         </MDBBtn>
-                    </MDBFormInline>
+                    </div>
+                    <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered size="med">
+                        <MDBModalHeader toggle={this.toggle(1)} className="success-color-dark white-text">Search Users</MDBModalHeader>
+                            <MDBModalBody>
+                                <MDBContainer fluid>
+                                    <MDBRow>
+                                        <MDBCol>
+                                            <MDBInput
+                                                value={this.state.searchTerm}
+                                                label="Search"
+                                                name="searchTerm"
+                                                onChange={this.changeHandler}
+                                                type="text"
+                                                >
+                                            </MDBInput>
+                                        </MDBCol>
+                                    </MDBRow>
+                                    <MDBRow>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                        <UserItem/>
+                                    </MDBRow>
+                                </MDBContainer>
+                            </MDBModalBody>
+                    </MDBModal>
                 </div>
             </div>
                 <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>

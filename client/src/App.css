@@ -294,5 +294,9 @@
   padding-top: 13rem;
 }
 .footerpadding {
-  padding-top: 4.0rem
+  padding-top: 4.0rem;
+}
+
+.useritempadding {
+  padding-top: 0.90rem;
 }

@@ -13,7 +13,8 @@ class MyEvent extends React.Component {
         this.state = {
             modal1: false,
             modal2: false,
-            render: true
+            render: true,
+            eventPicture: props.event.eventPicture
         }
         
     }
@@ -22,11 +23,12 @@ class MyEvent extends React.Component {
 
         let event = this.props.event;
 
-        
         if(event){
 
             let startString = convertDateToFormat(event.start);
             let endString = convertDateToFormat(event.end);
+
+            console.log('Event Image...'+event.eventPicture);
 
             this.setState({
                 'eventId' : event._id,
@@ -35,7 +37,7 @@ class MyEvent extends React.Component {
                 'eventEnd': endString,
                 'eventType': event.eventType,
                 'eventDetails': event.eventDetails,
-                'eventImageID': event.imageId
+                'eventPicture': event.eventPicture
                 // NEEDS TO BE ADDED
                 // Address
                 // Zipcode
@@ -75,7 +77,7 @@ class MyEvent extends React.Component {
                 'eventEnd': endString,
                 'eventType': event.eventType,
                 'eventDetails': event.eventDetails,
-                'eventImageID': event.imageId
+                'eventPicture': event.eventPicture
             });
 
         });

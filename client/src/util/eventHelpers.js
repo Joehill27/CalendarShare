@@ -26,9 +26,19 @@ module.exports = {
         return formattedDateString;
     },
 
+    sortAndFilter(sortBy, filterBy, events) {
+        let result = events;
+        if(filterBy !== '') {
+            result = this.filterByEventType(events, filterBy);
+        }
+        result = (sortBy === 'Asc') ?
+            this.sortByDateAscending(result) : this.sortByDateDescending(result);
+    },
+
     //Sort events by start time
     sortByDateAscending(events) {
-        console.log('Starting with unsorted: ' + events);
+        console.log('Ascending');
+        console.log('Starting with unsorted: ' + JSON.stringify(events));
     
     var swapp;
     var n = events.length-1;
@@ -39,7 +49,6 @@ module.exports = {
             console.log(result[i].start);
             console.log(result[i+1].start);
             if (new Date(result[i].start) > new Date(result[i + 1].start)) {
-                console.log('Swapping!');
                 var temp = result[i];
                 result[i] = result[i+1];
                 result[i+1] = temp;
@@ -48,14 +57,33 @@ module.exports = {
         }
         n--;
     } while (swapp);
-        console.log('Ending with: ' + result);
+        console.log('Ending with: ' + JSON.stringify(result));
         return result;
     },
 
     sortByDateDescending(events) {
-        let result = events.sort(function(a, b) {
-            return new Date(a.start) - new Date(b.start);
-        });
+        console.log('descending');
+        console.log('Starting with: ' + JSON.stringify(events));
+        var swapp;
+        var n = events.length-1;
+        var result = events;
+        do {
+            swapp = false;
+            for (var i = 0; i < n; i++) {
+                console.log(result[i].start);
+                console.log(result[i+1].start);
+                if (new Date(result[i].start) < new Date(result[i + 1].start)) {
+                    console.log('Swapping!');
+                    var temp = result[i];
+                    result[i] = result[i+1];
+                    result[i+1] = temp;
+                    swapp = true;
+                }
+            }
+            n--;
+        } while (swapp);
+
+        console.log('Ending with: ' + JSON.stringify(result));
         return result;
     },
 
@@ -69,7 +97,7 @@ module.exports = {
     },
 
     //Filter by event type
-    sortByEventType(events, type) {
+    filterByEventType(events, type) {
         let result = events.filter(function(event) {
             return event.eventType == type;
         });

@@ -1,14 +1,13 @@
+
+// NOW LONGER NEEDED
+
 import React from 'react';
 import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBIcon, MDBModal, MDBModalBody,
 MDBModalHeader, MDBModalFooter, MDBContainer, MDBRow, MDBInput } from 'mdbreact';
 import Image from './Image';
 import one from '../defaultImages/userProfilePics/8.png';
 
-class Friend extends React.Component {
-    constructor(props)
-    {
-        super(props);
-    }
+class GroupRequest extends React.Component {
 
     state = {
         modal1: false
@@ -34,27 +33,26 @@ class Friend extends React.Component {
                                 </div>
                             </MDBCol>
                         </MDBRow>
-                        <MDBCardTitle className="text-center pt-1">Username</MDBCardTitle>
+                        <MDBCardTitle className="text-center pt-1">Group Name</MDBCardTitle>
+                        <MDBCol>
+                            <MDBCardText>(User) wants to join</MDBCardText>
+                        </MDBCol>
                         <div className="pl-1">
-<<<<<<< HEAD
-                            <MDBBtn onClick = {this.props.onClick} size="sm" color="mdb-color darken-2">View Page</MDBBtn>
-=======
-                            <MDBBtn size="sm" color="mdb-color darken-2">View Page</MDBBtn>
-                            <MDBBtn color="transparent" className="p-1 m-0" onClick={this.toggle(1)}><MDBIcon icon="trash-alt" className="red-text py-1 px-1"/></MDBBtn>
+                        <MDBBtn size="sm" color="dark-green"><MDBIcon icon="check" /></MDBBtn>
+                        <MDBBtn size="sm" color="danger"><MDBIcon icon="times" /></MDBBtn>
                             <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered size="sm">
-                            <MDBModalHeader toggle={this.toggle(1)} className="danger-color-dark white-text">Remove Friend</MDBModalHeader>
+                            <MDBModalHeader toggle={this.toggle(1)}><div className="text-center pl-5">Leave Group</div></MDBModalHeader>
                                     <MDBModalBody>
                                         <MDBContainer fluid>
                                             <MDBRow>
                                                 <MDBCol>
-                                                <MDBBtn size="sm" color="danger">Remove</MDBBtn>
+                                                <MDBBtn size="sm" color="danger">Leave</MDBBtn>
                                                 <MDBBtn size="sm" color="mdb-color darken-2" onClick={this.toggle(1)}>Cancel</MDBBtn>
                                                 </MDBCol>
                                             </MDBRow>
                                         </MDBContainer>
                                     </MDBModalBody>
                         </MDBModal>
->>>>>>> c77fabb013924f1400c5b56a91de44234e70d60f
                         </div>
                     </MDBCardBody>
                 </MDBCard>
@@ -62,4 +60,4 @@ class Friend extends React.Component {
             </div>
         );
     }
-} export default Friend;
+} export default GroupRequest;
