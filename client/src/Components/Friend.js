@@ -5,6 +5,10 @@ import Image from './Image';
 import one from '../defaultImages/userProfilePics/8.png';
 
 class Friend extends React.Component {
+    constructor(props)
+    {
+        super(props);
+    }
 
     state = {
         modal1: false

@@ -11,7 +11,9 @@ import Logout from './Components/OAuth/Logout';
 import LoginV2 from "./Components/LoginV2";
 import CreateAccountV2 from "./Components/CreateAccountV2";
 import FriendsPage from "./Components/FriendsPage";
-import GroupPage from "./Components/GroupPage";
+import FriendPage from "./Components/FriendPage";
+import GroupsPage from "./Components/GroupsPage";
+import GroupPage from  "./Components/GroupPage";
 
 export default() => {
     return(
@@ -28,7 +30,9 @@ export default() => {
                     <Route path = "/loginv2" component={LoginV2} />
                     <Route path = "/createaccountv2" component={CreateAccountV2} />
                     <Route path = "/friends" component={FriendsPage} />
-                    <Route path = "/groups" component={GroupPage} />
+                    <Route path = "/friend" component={FriendPage} />
+                    <Route path = "/group" component={GroupPage} />
+                    <Route path = "/groups" component={GroupsPage} />
                 </Switch>
             </div>
         </BrowserRouter>
