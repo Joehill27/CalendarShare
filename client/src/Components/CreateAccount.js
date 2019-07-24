@@ -39,7 +39,7 @@ class CreateAccount extends Component {
     this.setState({
       [name]: value
     }, function() {
-      if(name == "password" || name == "checkPass")
+      if(name === "password" || name === "checkPass")
         this.setState({ passconfirmed: '1' })
       
       // Check that the password meets our requirements
@@ -58,14 +58,14 @@ class CreateAccount extends Component {
       if(matches == null) console.log("Password does not meet requirements");
 
       // Checking that confirmation works
-      if(this.state.checkPass == this.state.password) this.setState({ passconfirm: 'green' });
+      if(this.state.checkPass === this.state.password) this.setState({ passconfirm: 'green' });
       else this.setState({ passconfirm: 'red', passconfirmed: '0' });
     });
   }
 
   render() {
     const createAccount = async() => {
-      if(this.state.passconfirmed == '1')
+      if(this.state.passconfirmed === '1')
       {
         var toHash = this.state.username + this.state.password + this.state.username;
         var hash = sha256(toHash).toString();

@@ -65,7 +65,7 @@ class Navigation extends React.Component {
 	}
 
 	componentDidMount() {
-		if (this.state.userId == -1) {
+		if (this.state.userId === -1) {
 			this.props.history.push('/');
 			return;
 		}

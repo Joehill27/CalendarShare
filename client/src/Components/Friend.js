@@ -8,10 +8,14 @@ class Friend extends React.Component {
     constructor(props)
     {
         super(props);
-    }
 
-    state = {
-        modal1: false
+        this.state = {
+            modal1: false,
+            userName: 'testUsername'
+        }
+
+        this.toggle = this.toggle.bind(this);
+        this.doSomething = this.doSomething.bind(this);
     }
 
     toggle = nr => () => {
@@ -19,6 +23,10 @@ class Friend extends React.Component {
         this.setState({
             [modalNumber]: !this.state[modalNumber]
         });
+    }
+
+    doSomething() {
+        console.log('clicked 27');
     }
 
     render() {
@@ -34,9 +42,9 @@ class Friend extends React.Component {
                                 </div>
                             </MDBCol>
                         </MDBRow>
-                        <MDBCardTitle className="text-center pt-1">Username</MDBCardTitle>
+                        <MDBCardTitle className="text-center pt-1">{this.state.userName}</MDBCardTitle>
                         <div className="pl-1">
-                            <MDBBtn size="sm" color="mdb-color darken-2">View Page</MDBBtn>
+                            <MDBBtn onClick={console.log('I need this to call my doSomething() function')} size="sm" color="mdb-color darken-2" >View Page</MDBBtn>
                             <MDBBtn color="transparent" className="p-1 m-0" onClick={this.toggle(1)}><MDBIcon icon="trash-alt" className="red-text py-1 px-1"/></MDBBtn>
                             <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered size="sm">
                             <MDBModalHeader toggle={this.toggle(1)} className="danger-color-dark white-text">Remove Friend</MDBModalHeader>
