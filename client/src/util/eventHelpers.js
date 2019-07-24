@@ -99,7 +99,7 @@ module.exports = {
     //Filter by event type
     filterByEventType(events, type) {
         let result = events.filter(function(event) {
-            return event.eventType == type;
+            return event.eventType === type;
         });
         return result;
     },
