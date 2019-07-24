@@ -81,11 +81,11 @@ final initialGroupEvents = <Event>[]
   Widget build(BuildContext context) {
     var key = new GlobalKey<ScaffoldState>();
     return new Scaffold(
-      backgroundColor: Colors.cyanAccent[700],
+      backgroundColor: Colors.blueGrey[900],
       key:  key,
       
       appBar: new AppBar(
-          backgroundColor: Colors.teal[300],
+          backgroundColor: Colors.blueGrey[600],
           elevation: 0.0,
           
           title: new Container(

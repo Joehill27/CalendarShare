@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       print('Not logging in');
       return new Scaffold(
-        backgroundColor: Colors.cyan[900],
+        backgroundColor: Colors.blueGrey[900],
         appBar: new AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0.0,

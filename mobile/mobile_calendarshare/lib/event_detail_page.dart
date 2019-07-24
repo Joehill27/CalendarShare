@@ -21,18 +21,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
     return new Container(
       padding: new EdgeInsets.symmetric(vertical: 15.0),
       decoration: new BoxDecoration(
-        
-        gradient: new LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          stops: [0.1, 0.5, 0.7, 0.9],
-          colors: [
-            Colors.indigo,
-            Colors.indigo,
-            Colors.indigo,
-            Colors.indigo,
-          ],
-        ),
+        color: Colors.blueGrey[900],
       ),
       child: new Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -81,7 +70,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                   width: 10,
                 ),
                 Container(child: Expanded(
-                child:  Text("widget.event.startDate + widget.event.endDate"),
+                child:  Text(widget.event.type),
                 ),)
               ],)
            
@@ -157,8 +146,9 @@ FlatButton(
     return new Scaffold(
       backgroundColor: Colors.cyan[900],
       appBar: new AppBar(
-        backgroundColor: Colors.cyanAccent[900],
-        title: new Text("HomePage"),
+        backgroundColor: Colors.blueGrey[600],
+        centerTitle: true,
+        title: new Text("Event"),
       ),
       body: new ListView(
         children: <Widget>[eventProfile],

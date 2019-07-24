@@ -30,7 +30,7 @@ class Friend{
   Widget build(BuildContext context) {
     
     return new Scaffold(
-      backgroundColor: Colors.teal[300],
+      backgroundColor: Colors.blueGrey[900],
       appBar: new AppBar(
         centerTitle: true,
         backgroundColor:Colors.transparent,
