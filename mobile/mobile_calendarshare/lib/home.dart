@@ -17,8 +17,13 @@ import 'my_event_list.dart';
 
 class HomePage extends StatefulWidget {
   HomePage(
-      {Key key, this.title, this.user, this.userId, this.username, this.events
-      , this.groupEvents})
+      {Key key,
+      this.title,
+      this.user,
+      this.userId,
+      this.username,
+      this.events,
+      this.groupEvents})
       : super(key: key);
 
   final String title;
@@ -41,9 +46,10 @@ class _HomePageState extends State<HomePage> {
 
   _splitEventList() {
     DateTime now = DateTime.now();
-    if (widget.events.length > 0) {
+    if (widget.events.length != null) {
       for (Event event in initialEvents) {
-        if (DateTime.parse(event.startDate).isAfter(now)) {
+        print(event.startDate);
+        if (DateTime.parse(event.startDate + 'Z').isAfter(now)) {
           userEvents.add(event);
         } else {
           pastEvents.add(event);
@@ -57,17 +63,17 @@ class _HomePageState extends State<HomePage> {
   _splitGroupEvents() {
     DateTime now = DateTime.now();
     List<Event> temp = widget.groupEvents;
-    groupEvents.removeWhere((event) => DateTime.parse(event.startDate).isBefore(now));
+//    groupEvents.removeWhere((event) => DateTime.parse(event.startDate+'Z').isBefore(now));
 
-//    if (temp.length > 0) {
-//      for (Event event in temp) {
-//        if (!DateTime.parse(event.startDate).isAfter(now)) {
-//          groupEvents.remove(event);
-//        }
-//      }
-//    } else {
-//      print('Event list is empty');
-//    }
+    if (widget.groupEvents != null) {
+      for (Event event in temp) {
+        if (DateTime.parse(event.startDate).isAfter(now)) {
+          groupEvents.add(event);
+        }
+      }
+    } else {
+      print('Event list is empty');
+    }
   }
 
   @override
@@ -77,13 +83,10 @@ class _HomePageState extends State<HomePage> {
     groupEvents = new List();
     userEvents = new List();
     initialEvents = widget.events;
-    groupEvents = widget.groupEvents;
-    print(initialEvents.toString());
+//    print(initialEvents.toString());
     _splitEventList();
     _splitGroupEvents();
   }
-
-
 
   final initialGroupEvents = <Event>[]
     ..add(new Event(
@@ -318,14 +321,11 @@ class _HomePageState extends State<HomePage> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   EventDetailPage(
-                                                      groupEvents[
-                                                          index]),
+                                                      groupEvents[index]),
                                             ));
                                       },
-                                      title:
-                                          Text(groupEvents[index].name),
-                                      subtitle: Text(
-                                          groupEvents[index].location),
+                                      title: Text(groupEvents[index].name),
+                                      subtitle: Text(groupEvents[index].type),
                                       leading: Icon(
                                         Icons.event,
                                         color: Colors.blue,
@@ -333,18 +333,24 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     Divider(),
                                     ListTile(
-                                      title: Text('(408) 555-1212',
+                                      title: Text(
+                                          TimeFunctions.convertToEventFormat(
+                                              groupEvents[index].endDate),
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500)),
                                       leading: Icon(
-                                        Icons.contact_phone,
+                                        Icons.calendar_today,
                                         color: Colors.blue[500],
                                       ),
                                     ),
                                     ListTile(
-                                      title: Text('costa@example.com'),
+                                      title: Text(
+                                          TimeFunctions.convertToEventFormat(
+                                              groupEvents[index].endDate),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500)),
                                       leading: Icon(
-                                        Icons.contact_mail,
+                                        Icons.calendar_today,
                                         color: Colors.blue[500],
                                       ),
                                     ),
