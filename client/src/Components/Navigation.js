@@ -51,11 +51,11 @@ class Navigation extends React.Component {
 			collapse: false,
 			modal1: false,
 			profilePicture: localStorage.getItem('profilePicture'),
-			bio: 'Meow',
-			country: 'USA',
-			city: 'Orlando'
+			bio: localStorage.getItem('bio'),
+			country: localStorage.getItem('country'),
+			city: localStorage.getItem('city')
 		};
-    this.onClick = this.onClick.bind(this);
+		this.onClick = this.onClick.bind(this);
 	}
 
 	onClick() {
@@ -85,17 +85,27 @@ class Navigation extends React.Component {
 			.then(window.location.reload());
 	};
 
-	updateSettings = async (settings) => {
-		updateUserSettings(localStorage.getItem('userId'), settings).then(this.toggle(1));
+	updateSettings = async () => {
+		let settings = {
+			bio: this.state.bio,
+			city: this.state.city,
+			country: this.state.country
+		};
+		localStorage.setItem('bio', this.state.bio);
+		localStorage.setItem('city', this.state.city);
+		localStorage.setItem('country', this.state.country);
+
+
+		updateUserSettings(localStorage.getItem('userId'), settings)
+			.then(this.toggle(1))
+			.then(this.changeProfilePic(this.state.profilePicture));
 	};
 
 	changeHandler = (settings) => {
 		this.setState({ [settings.target.name]: settings.target.value });
-  };
-  
-	render() {
-		
+	};
 
+	render() {
 		const bgNavy = { backgroundColor: '#2E4158' };
 		const container = { height: 1300 };
 		return (
@@ -125,14 +135,14 @@ class Navigation extends React.Component {
 											</MDBDropdownToggle>
 											<MDBDropdownMenu>
 												<MDBDropdownItem onClick={this.toggle(1)}>
-                          <div className="userDropdown">
-													Settings
-                          <MDBIcon icon="cog" className="mdb-color-text ml-2" />
-                          </div>
+													<div className="userDropdown">
+														Settings
+														<MDBIcon icon="cog" className="mdb-color-text ml-2" />
+													</div>
 												</MDBDropdownItem>
 												<MDBDropdownItem onClick={this.props.logoutHandler}>
 													Sign Out
-                          <MDBIcon icon="sign-out-alt" className="text-danger ml-2" />
+													<MDBIcon icon="sign-out-alt" className="text-danger ml-2" />
 												</MDBDropdownItem>
 											</MDBDropdownMenu>
 										</MDBDropdown>
@@ -146,112 +156,112 @@ class Navigation extends React.Component {
 								<MDBCardText>Choose a Profile Picture</MDBCardText>
 								<div className="gallery">
 									<img
-										onClick={() => this.changeProfilePic(1)}
+										onClick={() => this.setState({ profilePicture: '1' })}
 										className="gallery-item"
 										src={one}
 										height="50"
 										width="50"
 									/>
 									<img
-										onClick={() => this.changeProfilePic(2)}
+										onClick={() => this.setState({ profilePicture: '2' })}
 										className="gallery-item"
 										src={two}
 										height="50"
 										width="50"
 									/>
 									<img
-										onClick={() => this.changeProfilePic(3)}
+										onClick={() => this.setState({ profilePicture: '3' })}
 										className="gallery-item"
 										src={three}
 										height="50"
 										width="50"
 									/>
 									<img
-										onClick={() => this.changeProfilePic(4)}
+										onClick={() => this.setState({ profilePicture: '4' })}
 										className="gallery-item"
 										src={four}
 										height="50"
 										width="50"
 									/>
 									<img
-										onClick={() => this.changeProfilePic(5)}
+										onClick={() => this.setState({ profilePicture: '5' })}
 										className="galley-item"
 										src={five}
 										height="50"
 										width="50"
 									/>
 									<img
-										onClick={() => this.changeProfilePic(6)}
+										onClick={() => this.setState({ profilePicture: '6' })}
 										className="gallery-item"
 										src={six}
 										height="50"
 										width="50"
 									/>
 									<img
-										onClick={() => this.changeProfilePic(7)}
+										onClick={() => this.setState({ profilePicture: '7' })}
 										className="gallery-item"
 										src={seven}
 										height="50"
 										width="50"
 									/>
 									<img
-										onClick={() => this.changeProfilePic(8)}
+										onClick={() => this.setState({ profilePicture: '8' })}
 										className="gallery-item"
 										src={eight}
 										height="50"
 										width="50"
 									/>
 									<img
-										onClick={() => this.changeProfilePic(9)}
+										onClick={() => this.setState({ profilePicture: '9' })}
 										className="gallery-item"
 										src={nine}
 										height="50"
 										width="50"
 									/>
 									<img
-										onClick={() => this.changeProfilePic(10)}
+										onClick={() => this.setState({ profilePicture: '10' })}
 										className="gallery-item"
 										src={ten}
 										height="50"
 										width="50"
 									/>
 									<img
-										onClick={() => this.changeProfilePic(11)}
+										onClick={() => this.setState({ profilePicture: '11' })}
 										className="gallery-item"
 										src={eleven}
 										height="50"
 										width="50"
 									/>
 									<img
-										onClick={() => this.changeProfilePic(12)}
+										onClick={() => this.setState({ profilePicture: '12' })}
 										className="gallery-item"
 										src={twelve}
 										height="50"
 										width="50"
 									/>
 									<img
-										onClick={() => this.changeProfilePic(13)}
+										onClick={() => this.setState({ profilePicture: '13' })}
 										className="gallery-item"
 										src={thirteen}
 										height="50"
 										width="50"
 									/>
 									<img
-										onClick={() => this.changeProfilePic(14)}
+										onClick={() => this.setState({ profilePicture: '14' })}
 										className="gallery-item"
 										src={fourteen}
 										height="50"
 										width="50"
 									/>
 									<img
-										onClick={() => this.changeProfilePic(15)}
+										onClick={() => this.setState({ profilePicture: '15' })}
 										className="gallery-item"
 										src={fifteen}
 										height="50"
 										width="50"
 									/>
 									<img
-										onClick={() => this.changeProfilePic(16)}
+										onClick={() => this.setState({ profilePicture: '16' })}
 										className="gallery-item"
 										src={sixteen}
 										height="50"
@@ -276,10 +286,10 @@ class Navigation extends React.Component {
 										<MDBRow>
 											<MDBCol>
 												<MDBInput
-													value={this.state.country}
-													label="Country"
+													value={this.state.city}
+													label="City"
 													className="form-control"
-													name="country"
+													name="city"
 													onChange={this.changeHandler}
 													type="text"
 													required
@@ -287,10 +297,10 @@ class Navigation extends React.Component {
 											</MDBCol>
 											<MDBCol>
 												<MDBInput
-													value={this.state.city}
-													label="City"
+													value={this.state.country}
+													label="Country"
 													className="form-control"
-													name="city"
+													name="country"
 													onChange={this.changeHandler}
 													type="text"
 													required
@@ -301,7 +311,7 @@ class Navigation extends React.Component {
 								</MDBContainer>
 							</MDBModalBody>
 							<MDBModalFooter>
-								<MDBBtn color="green" onClick={() => this.updateSettings('Meow')}>
+								<MDBBtn color="green" onClick={() => this.updateSettings()}>
 									Update
 								</MDBBtn>
 								<MDBBtn color="danger" onClick={this.toggle(1)}>

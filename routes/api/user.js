@@ -56,6 +56,11 @@ router.post('/createAccount', (req, res) => {
                 if(!user) {
                     let newUser = new User(req.body);
                     newUser.profilePicture = '1';
+                    newUser.settings = {
+                        bio: '',
+                        city: '',
+                        country: ''
+                    }
                     newUser.save()
                     .then(newUser => {
                         res.send({'user': newUser, 'error' : ''});
@@ -507,7 +512,7 @@ router.put('/:userId/updateSettings', (req, res) => {
         } else {
             user.settings = req.body;
             user.save();
-            res.send({'success!': 'Update user settings'});
+            res.send({'success!': 'Update user settings' + user.settings});
         }
     });
 });
@@ -541,6 +546,40 @@ router.get('/:userId/getProfilePicture', (req, res) => {
 
 //TODO request to join a group
 router.post('/:userId/requestToJoinGroup/:groupId', (req, res) => {
+    let userId = req.params.userId;
+    let groupId = req.params.groupId;
+
+    let request = {
+        'userId': userId
+    }
+
+    Group.findById(groupId, (err, group) => {
+        if(err)
+            res.send({'error': 'Unable to find group'});
+        let members = [];
+        members = group.members;
+        let requests = [];
+        requests = group.groupRequests;
+        let inGroup = false;
+        let requestExists = false;
+        // console.log('Here are the group requests' +requests);
+        // for(var i = 0; i < members.length; i++)
+        //     if(members.includes(userId))
+        //         inGroup = true;
+        // for(var i =0; i < i < requests.length; i++)
+        //     if(request.includes(userId))
+        //         requestExists = true;
+        
+        if(!inGroup && !requestExists) {
+            group.groupRequests.push(request);
+            group.save()
+            .then(res.send({'Sucess': 'Group request sent'}))
+        } else {
+            res.send({'oops':'User is already in group or has requested to join'});
+        }
+    })
+
+    
 
 });
 

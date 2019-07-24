@@ -108,12 +108,19 @@ class Home extends React.Component {
 
     getUser(localStorage.getItem('userName'))
     .then((userJson) => {
+      let settings = userJson.settings;
+      localStorage.setItem('bio', settings.bio);
+      localStorage.setItem('city', settings.city);
+      localStorage.setItem('country', settings.country);
       var temp = getUserGroupEvents2(userJson)
       // console.log(temp);
       temp.then((result) => {
         // console.log(result);
         this.setState({
-          groupEvents: (true) ? sortByDateAscending(result) : sortByDateDescending(result)
+          groupEvents: (true) ? sortByDateAscending(result) : sortByDateDescending(result),
+          'city': settings.city,
+          'bio': settings.bio,
+          'country': settings.country
         });
       })
     })
@@ -183,7 +190,7 @@ renderPastEvents() {
         'address': this.state.newEventAddress,
         'zipCode': this.state.newEventZipCode,
         'city': this.state.newEventCity,
-        country: this.state.newEventCountry
+        'country': this.state.newEventCountry
       }
 
     }
