@@ -58,7 +58,15 @@ let UserSchema = new Schema({
         type: String
     },
     settings: {
-        type: String
+        bio : {
+            type: String
+        },
+        city: {
+            type: String
+        },
+        country: {
+            type: String
+        }
     }
 
 });

@@ -8,11 +8,13 @@ let GroupSchema = new Schema({
         type: String
     },
     groupRequests: {
-        type :[{
-            userIdId: {
-                type: String
-            },
-        }]
+        type :[
+            {
+                userId: {
+                    type: String
+                }
+            }
+        ]
     },
     members: {
         type: [
