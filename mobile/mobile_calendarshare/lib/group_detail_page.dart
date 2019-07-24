@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
-import 'package:mobile_calendarshare/class_models/event_model.dart';
-import 'package:mobile_calendarshare/helper_functions/convert_time.dart';
+import 'package:mobile_calendarshare/group_page.dart';
+import 'package:mobile_calendarshare/search.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart'; 
 
 
+class GroupDetailPage extends StatefulWidget{
+  final Group group;
 
-class EventDetailPage extends StatefulWidget{
-  final Event event;
-
-  EventDetailPage(this.event);
+  GroupDetailPage(this.group);
 
   @override
-  _EventDetailPageState createState() => new _EventDetailPageState();
+  _GroupDetailPageState createState() => new _GroupDetailPageState();
 }
 
-class _EventDetailPageState extends State<EventDetailPage> {
+class _GroupDetailPageState extends State<GroupDetailPage> {
   
   Widget get eventProfile {
     return new Container(
@@ -44,24 +43,24 @@ class _EventDetailPageState extends State<EventDetailPage> {
           new Container(
         //   width: MediaQuery.of(context).size.width *.8,
         //    height: MediaQuery.of(context).size.height *.5,
-          margin: const EdgeInsets.all(30.0),
-          padding: const EdgeInsets.all(10.0),
+          margin: const EdgeInsets.all(5.0),
+          padding: const EdgeInsets.all(20.0),
           decoration: new BoxDecoration(border: Border.all(color: Colors.black), 
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(5.0))),
           child: Column(children: <Widget>[
-            Text(widget.event.name, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),),
+            Text(widget.group.groupName),
             SizedBox(
               height: 20,
             ),
             Column(children: <Widget>[
               Row(children: <Widget>[
-                Icon(Icons.access_time),
+                Icon(Icons.location_on),
                 SizedBox(
                   width: 10,
                 ),
                 Container(child: Expanded(
-                  child: Text(TimeFunctions.convertToEventFormat(widget.event.startDate) + " - " + TimeFunctions.convertToEventFormat(widget.event.endDate)),
+                  child: Text(widget.group.members.toString()),
                 ),)
               ],)
            
@@ -70,18 +69,15 @@ class _EventDetailPageState extends State<EventDetailPage> {
             SizedBox(
               height: 10.0,
             ),
-            
-
-//THIS ONE NEEDS TO BE CHANGED TO TIME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+          
               Column(children: <Widget>[
               Row(children: <Widget>[
-                Icon(Icons.location_on),
+                Icon(Icons.access_time),
                 SizedBox(
                   width: 10,
                 ),
                 Container(child: Expanded(
-                child:  Text("widget.event.startDate + widget.event.endDate"),
+                child:  Text(widget.group.numEvents.toString()),
                 ),)
               ],)
            
@@ -96,7 +92,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                   width: 10,
                 ),
                 Container(child: Expanded(
-                 child: Text(widget.event.description),
+                  child: Text(widget.group.members.toString()),
                 ),)
               ],)
            
@@ -122,10 +118,29 @@ class _EventDetailPageState extends State<EventDetailPage> {
   ),
 ),
 
-SizedBox(
-width: 10,
-),
+Spacer(),
 
+FlatButton(
+  
+  color: Colors.yellow,
+  textColor: Colors.white,
+  disabledColor: Colors.grey,
+  disabledTextColor: Colors.black,
+  padding: EdgeInsets.all(8.0),
+  
+  splashColor: Colors.blueAccent,
+  onPressed: () {
+    Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => ListViewSearch(widget.group),
+                         )
+                       );
+  },
+  child: Text(
+    "Invite",
+    style: TextStyle(fontSize: 20.0),
+  ),
+),
+Spacer(),
 FlatButton(
   color: Colors.red,
   textColor: Colors.white,
@@ -142,7 +157,7 @@ FlatButton(
   ),
 ),
             ],),
-            
+           
         
           ],)
           
@@ -158,7 +173,7 @@ FlatButton(
       backgroundColor: Colors.cyan[900],
       appBar: new AppBar(
         backgroundColor: Colors.cyanAccent[900],
-        title: new Text("HomePage"),
+        title: new Text('HomePage'),
       ),
       body: new ListView(
         children: <Widget>[eventProfile],

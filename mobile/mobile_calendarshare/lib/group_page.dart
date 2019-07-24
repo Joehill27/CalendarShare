@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile_calendarshare/group_detail_page.dart';
 import 'stacked_icons.dart';
 import 'home.dart';
 
@@ -148,6 +149,12 @@ class Group{
                 width: MediaQuery.of(context).size.width * .7,
                 child: Card(
                   child: Column(children: [ListTile(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => GroupDetailPage(initialGroups[index]),
+                         )
+                       );
+                    },
                     title: Text(initialGroups[index].groupName, style: TextStyle(fontSize: 18, )),
                     leading: Icon(Icons.group_add,
                     color: Colors.blue,
