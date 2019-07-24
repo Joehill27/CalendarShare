@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:mobile_calendarshare/class_models/event_model.dart';
+import 'package:mobile_calendarshare/helper_functions/convert_time.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart'; 
 
 
@@ -60,7 +61,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                   width: 10,
                 ),
                 Container(child: Expanded(
-                  child: Text(widget.event.startDate + " - " + widget.event.endDate),
+                  child: Text(TimeFunctions.convertToEventFormat(widget.event.startDate) + " - " + TimeFunctions.convertToEventFormat(widget.event.endDate)),
                 ),)
               ],)
            

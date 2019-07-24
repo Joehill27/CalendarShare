@@ -95,7 +95,7 @@ class Group{
                                 ),
                                 FlatButton(
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(7))),
-                                color: Colors.green,
+                                color: Colors.blue[300],
                                 child: Row(children: <Widget>[
                                   Icon(Icons.check_box),
                                   Text("Join"),
@@ -156,7 +156,7 @@ class Group{
                   Divider(),
                   ListTile(
                     title: Text("Members: " + initialGroups[index].members.toString()),
-                    leading: Icon(Icons.card_membership),
+                    leading: Icon(Icons.card_membership, color: Colors.blue,),
                   ),
                   Divider(),
                   ListTile(
