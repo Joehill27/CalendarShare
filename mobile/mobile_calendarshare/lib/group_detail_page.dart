@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:http/http.dart';
+import 'package:mobile_calendarshare/class_models/event_model.dart';
 import 'package:mobile_calendarshare/group_page.dart';
 
 import 'package:mobile_calendarshare/search.dart';
@@ -9,15 +10,24 @@ import 'package:mobile_calendarshare/search.dart';
 class GroupDetailPage extends StatefulWidget{
   final Group group;
 
-  GroupDetailPage(this.group);
 
+  GroupDetailPage(this.group);
   @override
   _GroupDetailPageState createState() => new _GroupDetailPageState();
 }
 
 class _GroupDetailPageState extends State<GroupDetailPage> {
-  
+
+final groupEvents = <Event>[]
+..add(new Event('Sport', 'Stadium', 'UCF Game'))
+..add(new Event('Sport', 'Stadium', 'UCF Game'))
+..add(new Event('Sport', 'Stadium', 'UCF Game'));
+
+
+
+
   Widget get eventProfile {
+    widget.group.groupEvents = groupEvents;
     return new Container(
       padding: new EdgeInsets.symmetric(vertical: 15.0),
       decoration: new BoxDecoration(
@@ -92,7 +102,24 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
                 color: Colors.blue,
                 ),
                 ),
-                ),)
+                ),),
+
+                Container(
+        padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20.0),
+        height: MediaQuery.of(context).size.height * 0.45,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+            itemCount: widget.group.numEvents, itemBuilder: (context, index) {
+              return Container(
+                width: MediaQuery.of(context).size.width * .7,
+                child: Card(
+                  
+              )
+            );
+          }
+        )
+      ),
+
               ],)
            
             ],),

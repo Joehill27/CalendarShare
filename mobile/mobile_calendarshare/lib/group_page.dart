@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile_calendarshare/class_models/event_model.dart';
 import 'package:mobile_calendarshare/group_detail_page.dart';
 import 'stacked_icons.dart';
 import 'home.dart';
@@ -8,6 +9,7 @@ import 'home.dart';
 class Group{
   String groupName;
   int numEvents, members;
+  List<Event> groupEvents;
 
   Group(this.groupName, this.members, this.numEvents);
 }
@@ -95,8 +97,8 @@ class Group{
                                   width: 5,
                                 ),
                                 FlatButton(
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(7))),
-                                color: Colors.green,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
+                                color: Colors.blueAccent[100],
                                 child: Row(children: <Widget>[
                                   Icon(Icons.check_box),
                                   Text("Join"),
@@ -108,8 +110,8 @@ class Group{
                               ),
                               Spacer(),
                               FlatButton(
-                              color: Colors.red,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(7))),
+                              color: Colors.redAccent[100],
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
                               child: Row(children: <Widget>[
                                 Icon(Icons.delete_forever),
                                 Text("Reject"),
@@ -133,6 +135,7 @@ class Group{
       SizedBox(
         height: 15,
       ),
+      Divider(color: Colors.red,),
       Container(
         alignment: Alignment.bottomLeft,
         child: new Text("My Groups", style: new TextStyle(
@@ -155,7 +158,7 @@ class Group{
                          )
                        );
                     },
-                    title: Text(initialGroups[index].groupName, style: TextStyle(fontSize: 18, )),
+                    title: Text(initialGroups[index].groupName, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     leading: Icon(Icons.group_add,
                     color: Colors.blue,
                     ),
@@ -163,12 +166,14 @@ class Group{
                   Divider(),
                   ListTile(
                     title: Text("Members: " + initialGroups[index].members.toString()),
-                    leading: Icon(Icons.card_membership),
+                    leading: Icon(Icons.card_membership,
+                    color: Colors.blue,
+                    ),
                   ),
                   Divider(),
                   ListTile(
                     title: Text("Events: " + initialGroups[index].numEvents.toString(),
-                    style: TextStyle(fontWeight: FontWeight.w500)), 
+                    style: TextStyle()), 
                     leading: Icon(
                       Icons.event_available,
                       color: Colors.blue[500],
