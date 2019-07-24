@@ -115,7 +115,7 @@ class CreateAccount extends Component {
             <input type="text" id="username" className="FormField__Input" placeholder="Enter Your Username" name="username" 
             value={this.state.username} onChange={this.handleChange} />
           </div>
-          {/* Password */}
+          {/* Password css grid */}
           <div className="FormField">
             <label className="FormField__Label" htmlFor="password">Password (Requirements)</label>
             <p style={{ marginTop: '-.75em', marginBot: '-1.5em', color: this.state.uppercase }}>Uppercase Letter</p>

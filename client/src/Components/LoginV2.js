@@ -33,10 +33,10 @@ class LoginV2 extends Component {
                         <a href="/createaccountv2"> Create Account</a>
                     </p>
 
-                    <p class="white-text">or sign in with:</p>
+                    {/* <p class="white-text">or sign in with:</p>
 
                     <MDBBtn outline color="cyan"><MDBIcon fab icon="google pr-2"/>Google</MDBBtn>
-                    <MDBBtn outline color="cyan"><MDBIcon fab icon="facebook-square pr-2"/>Facebook</MDBBtn>
+                    <MDBBtn outline color="cyan"><MDBIcon fab icon="facebook-square pr-2"/>Facebook</MDBBtn> */}
                 </form>
                 </MDBCol>
             </MDBRow>

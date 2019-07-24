@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, Component } from "react";
 import {
     MDBIcon, MDBDropdown,
     MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBFormInline, MDBBtn,
@@ -34,13 +34,55 @@ class FriendPage extends React.Component {
             'pastEvents': '',
             'futureEvents': '',
             'groupEvents': '',
+            'groups': '',
             'eventSortType': 'MyEvent',
             'sortBy': '',
-            'filterType': ''
+            'filterType': '',
+            'userName': 'admin',
+            'bio': ''
             //Can add filtering for each list to state
         };
 
         this.toggle = this.toggle.bind(this);
+        this.renderFutureEvents = this.renderFutureEvents.bind(this);
+    }
+
+    componentDidMount() {
+        let user;
+        getUser(this.state.userName)
+            .then((userJson) => {
+                user = userJson;
+                let allEvents = sortByPastAndFuture(user.events);
+                this.setState({
+                    user: user,
+                    events: user.events,
+                    pastEvents: allEvents.pastEvents,
+                    futureEvents: allEvents.futureEvents,
+                    groups: user.groups
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+
+
+        getUser(this.state.userName)
+            .then((userJson) => {
+                user = userJson;
+                setUserGroupEvents(user);
+            })
+
+        getUser(this.state.userName)
+            .then((userJson) => {
+                var temp = getUserGroupEvents2(userJson)
+                console.log(temp);
+                temp.then((result) => {
+                    console.log(result);
+                    this.setState({
+                        groupEvents: result,
+                    });
+                })
+            })
     }
 
     toggle = nr => () => {
@@ -48,6 +90,27 @@ class FriendPage extends React.Component {
         this.setState({
             [modalNumber]: !this.state[modalNumber]
         });
+    }
+
+    renderFutureEvents() {
+        if (this.state.futureEvents !== '') {
+            return (
+                this.state.futureEvents.map((e, index) => (
+                    <MyEvent key={index} event={e} />
+                ))
+            );
+        }
+    }
+
+    renderGroups() 
+    {
+        if (this.state.groups !== '') {
+            return (
+                this.state.groups.map((e, index) => (
+                    <MyEvent key={index} event={e} />
+                ))
+            );
+        }
     }
 
     render() {
@@ -86,17 +149,9 @@ class FriendPage extends React.Component {
                             </MDBDropdownMenu>
                         </MDBDropdown>
                     </div>
-                    <div className="ml-auto">
-
-                        <MDBFormInline className="md-form cardpadding pr-3">
-                            <input className="form-control mr-sm-2 white-text" type="text" placeholder="Search" aria-label="Search" />
-                            <MDBBtn outline color="white" size="sm" type="submit" className="mr-auto">
-                                Search
-                        </MDBBtn>
-                        </MDBFormInline>
-                    </div>
                 </div>
                 <div id="future" className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
+                    {this.renderFutureEvents()}
                 </div>
                 <div>
                     <MDBDropdown dropright className="ml-2">
@@ -112,9 +167,16 @@ class FriendPage extends React.Component {
                         </MDBDropdownMenu>
                     </MDBDropdown>
                 </div>
+                <div id="group" className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
+                    {this.renderGroups()}
+                </div>
+                <div>
+                    <h1> This is where we'll put their bio and shit </h1>
+                </div>
             </div>
-                );
-            }
-        }
-        
+
+        );
+    }
+}
+
 export default FriendPage;
