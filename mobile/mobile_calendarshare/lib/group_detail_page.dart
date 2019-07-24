@@ -1,0 +1,183 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
+import 'package:mobile_calendarshare/group_page.dart';
+import 'package:mobile_calendarshare/search.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart'; 
+
+
+class GroupDetailPage extends StatefulWidget{
+  final Group group;
+
+  GroupDetailPage(this.group);
+
+  @override
+  _GroupDetailPageState createState() => new _GroupDetailPageState();
+}
+
+class _GroupDetailPageState extends State<GroupDetailPage> {
+  
+  Widget get eventProfile {
+    return new Container(
+      padding: new EdgeInsets.symmetric(vertical: 15.0),
+      decoration: new BoxDecoration(
+        
+        gradient: new LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          stops: [0.1, 0.5, 0.7, 0.9],
+          colors: [
+            Colors.indigo,
+            Colors.indigo,
+            Colors.indigo,
+            Colors.indigo,
+          ],
+        ),
+      ),
+      child: new Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Image(image: AssetImage('assets/images/friends.png'),),
+          new SizedBox(
+            height: 10,
+          ),
+          new Container(
+        //   width: MediaQuery.of(context).size.width *.8,
+        //    height: MediaQuery.of(context).size.height *.5,
+          margin: const EdgeInsets.all(5.0),
+          padding: const EdgeInsets.all(20.0),
+          decoration: new BoxDecoration(border: Border.all(color: Colors.black), 
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(5.0))),
+          child: Column(children: <Widget>[
+            Text(widget.group.groupName),
+            SizedBox(
+              height: 20,
+            ),
+            Column(children: <Widget>[
+              Row(children: <Widget>[
+                Icon(Icons.location_on),
+                SizedBox(
+                  width: 10,
+                ),
+                Container(child: Expanded(
+                  child: Text(widget.group.members.toString()),
+                ),)
+              ],)
+           
+            ],),
+            
+            SizedBox(
+              height: 10.0,
+            ),
+          
+              Column(children: <Widget>[
+              Row(children: <Widget>[
+                Icon(Icons.access_time),
+                SizedBox(
+                  width: 10,
+                ),
+                Container(child: Expanded(
+                child:  Text(widget.group.numEvents.toString()),
+                ),)
+              ],)
+           
+            ],),
+            SizedBox(
+              height: 10.0,
+            ),
+             Column(children: <Widget>[
+              Row(children: <Widget>[
+                Icon(Icons.description),
+                SizedBox(
+                  width: 10,
+                ),
+                Container(child: Expanded(
+                  child: Text(widget.group.members.toString()),
+                ),)
+              ],)
+           
+            ],),
+
+            SizedBox(
+              height: 50
+            ),
+            Row(children: <Widget>[
+              FlatButton(
+  color: Colors.blue,
+  textColor: Colors.white,
+  disabledColor: Colors.grey,
+  disabledTextColor: Colors.black,
+  padding: EdgeInsets.all(8.0),
+  splashColor: Colors.blueAccent,
+  onPressed: () {
+    /*...*/
+  },
+  child: Text(
+    "Edit",
+    style: TextStyle(fontSize: 20.0),
+  ),
+),
+
+Spacer(),
+
+FlatButton(
+  
+  color: Colors.yellow,
+  textColor: Colors.white,
+  disabledColor: Colors.grey,
+  disabledTextColor: Colors.black,
+  padding: EdgeInsets.all(8.0),
+  
+  splashColor: Colors.blueAccent,
+  onPressed: () {
+    Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => ListViewSearch(widget.group),
+                         )
+                       );
+  },
+  child: Text(
+    "Invite",
+    style: TextStyle(fontSize: 20.0),
+  ),
+),
+Spacer(),
+FlatButton(
+  color: Colors.red,
+  textColor: Colors.white,
+  disabledColor: Colors.grey,
+  disabledTextColor: Colors.black,
+  padding: EdgeInsets.all(8.0),
+  splashColor: Colors.blueAccent,
+  onPressed: () {
+    /*...*/
+  },
+  child: Text(
+    "Delete",
+    style: TextStyle(fontSize: 20.0),
+  ),
+),
+            ],),
+           
+        
+          ],)
+          
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      backgroundColor: Colors.cyan[900],
+      appBar: new AppBar(
+        backgroundColor: Colors.cyanAccent[900],
+        title: new Text('HomePage'),
+      ),
+      body: new ListView(
+        children: <Widget>[eventProfile],
+      ),
+    );
+  }
+}

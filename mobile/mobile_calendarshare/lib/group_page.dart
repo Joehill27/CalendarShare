@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile_calendarshare/group_detail_page.dart';
 import 'stacked_icons.dart';
 import 'home.dart';
 
@@ -95,7 +96,7 @@ class Group{
                                 ),
                                 FlatButton(
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(7))),
-                                color: Colors.blue[300],
+                                color: Colors.green,
                                 child: Row(children: <Widget>[
                                   Icon(Icons.check_box),
                                   Text("Join"),
@@ -148,6 +149,12 @@ class Group{
                 width: MediaQuery.of(context).size.width * .7,
                 child: Card(
                   child: Column(children: [ListTile(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => GroupDetailPage(initialGroups[index]),
+                         )
+                       );
+                    },
                     title: Text(initialGroups[index].groupName, style: TextStyle(fontSize: 18, )),
                     leading: Icon(Icons.group_add,
                     color: Colors.blue,
@@ -156,7 +163,7 @@ class Group{
                   Divider(),
                   ListTile(
                     title: Text("Members: " + initialGroups[index].members.toString()),
-                    leading: Icon(Icons.card_membership, color: Colors.blue,),
+                    leading: Icon(Icons.card_membership),
                   ),
                   Divider(),
                   ListTile(
