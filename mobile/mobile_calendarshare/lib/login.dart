@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                                         username: _username,
                                         user: _user,
                                         events: _events,
-                                   //     profilePicture: _profilePicture,
+                              //          profilePicture: _profilePicture,
                                       ),
                                     ));
                               }
