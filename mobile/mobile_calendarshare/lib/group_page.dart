@@ -53,12 +53,18 @@ class _GroupPageState extends State<GroupPage> {
    var userResponse = await UserApi.getUser(widget.username);
    User user = JsonParsing.getUserFromRequest(userResponse);
    List temp = user.groupRequests;
-   for(Map<String, dynamic> group in temp) {
-     String groupId = group['_id'];
-     String groupJson = await GroupAPi.getGroup(groupId);
-     Map<String, dynamic> outerGroup = jsonDecode(groupJson);
-     Group g = new Group.fromJson(outerGroup['group']);
-     tempGroups.add(g);
+//   print(temp.toString());
+   if(temp.length > 0) {
+     for(Map<String, dynamic> group in temp) {
+       String groupId = group['from'];
+//       print('Here is the group id!' + groupId);
+       String groupJson = await GroupAPi.getGroup(groupId);
+//       print('group json' + groupJson);
+       Map<String, dynamic> outerGroup = jsonDecode(groupJson);
+//       print('outer group' + outerGroup.toString());
+       Group g = new Group.fromJson(outerGroup['group']);
+       tempGroups.add(g);
+     }
    }
    setState(() {
      groupInvites = tempGroups;

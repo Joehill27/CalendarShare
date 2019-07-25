@@ -14,9 +14,9 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  TextEditingController bioController = new TextEditingController();
-  TextEditingController cityController = new TextEditingController();
-  TextEditingController countryController = new TextEditingController();
+  TextEditingController bioController;
+  TextEditingController cityController;
+  TextEditingController countryController;
 
   void submitSettings(context) async {
     Map<String, dynamic> updateSettings = Map();
@@ -32,6 +32,22 @@ class _SettingsPageState extends State<SettingsPage> {
     .then((result) => print(result.toString()));
 
     Navigator.of(context).pop(updateSettings);
+  }
+
+  _initializeSettings() {
+    Map<String, dynamic> settings = widget.settings;
+    TextEditingController bioController = new TextEditingController();
+    TextEditingController cityController = new TextEditingController();
+    TextEditingController countryController = new TextEditingController();
+    bioController.text = settings['bio'];
+    cityController.text = settings['city'];
+    countryController.text = settings['country'];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeSettings();
   }
 
   @override

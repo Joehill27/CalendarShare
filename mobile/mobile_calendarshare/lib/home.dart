@@ -129,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () async {
                     settings = await Navigator.of(context).push(
                       new MaterialPageRoute(builder: (context) {
-                        return new SettingsPage(userId: widget.userId);
+                        return new SettingsPage(userId: widget.userId, settings: _user.settings,);
                       }),
                     );
                   },
