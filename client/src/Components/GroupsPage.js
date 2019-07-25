@@ -11,10 +11,15 @@ import GroupItem from "./GroupItem";
 
   class GroupsPage extends React.Component {
 
-    state = {
-        modal1: false,
-        searchTerm: ""
+    constructor(props) {
+        super(props)
+        this.state = {
+            modal1: false,
+            searchTerm: ""
+        }
+        this.logoutHandler = this.logoutHandler.bind(this);
     }
+
 
     toggle = nr => () => {
         let modalNumber = 'modal' + nr
@@ -27,13 +32,20 @@ import GroupItem from "./GroupItem";
         this.setState({ [event.target.name]: event.target.value });
     };
 
+    logoutHandler = async () => {
+        console.log('Logging out');
+        localStorage.setItem('userId', -1);
+        localStorage.setItem('user', '');
+        this.props.history.push('/');
+      }
+
 
     render() {
         const bgNavy = {backgroundColor: '#2E4158'}
         const scrollContainerStyle = { width: "auto", maxHeight: "auto" };
         return(
             <div style={bgNavy}>
-                <Navigation imageId={localStorage.getItem('profilePicture')}/>
+                <Navigation logoutHandler={this.logoutHandler} imageId={localStorage.getItem('profilePicture')}/>
                 <div className="d-flex">
                 <MDBDropdown dropright className="cardpadding ml-2">
                     <MDBDropdownToggle color="transparent">

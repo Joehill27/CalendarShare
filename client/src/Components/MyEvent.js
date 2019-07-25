@@ -27,8 +27,7 @@ class MyEvent extends React.Component {
 
             let startString = convertDateToFormat(event.start);
             let endString = convertDateToFormat(event.end);
-
-            console.log('Event Image...'+event.eventPicture);
+            let location = event.location;
 
             this.setState({
                 'eventId' : event._id,
@@ -37,12 +36,11 @@ class MyEvent extends React.Component {
                 'eventEnd': endString,
                 'eventType': event.eventType,
                 'eventDetails': event.eventDetails,
-                'eventPicture': event.eventPicture
-                // NEEDS TO BE ADDED
-                // Address
-                // Zipcode
-                // Country
-                // City
+                'eventPicture': event.eventPicture,
+                'eventAddress': location.address,
+                'eventZipCode': location.zipCode,
+                'eventCity': location.city,
+                'eventCountry': location.country
             });
         }
     }
@@ -111,14 +109,14 @@ class MyEvent extends React.Component {
                         <MDBCardTitle>{this.state.eventName}</MDBCardTitle>
                         <MDBCardText><MDBIcon icon="calendar-day" className="mr-2"/>{this.state.eventStart}</MDBCardText>
                         <MDBCardText><MDBIcon icon="calendar-day" className="mr-2"/>{this.state.eventEnd}</MDBCardText>
-                        <MDBCardText><MDBIcon icon="map-marker-alt" className="mr-2"/>{this.state.eventAddress}</MDBCardText>
+                        <MDBCardText><MDBIcon icon="map-marker-alt" className="mr-2"/>{this.state.eventCity}, {this.state.eventCountry}</MDBCardText>
                         <MDBBtn size="sm" color="mdb-color darken-2" onClick={this.toggle(1)}>View</MDBBtn>
                             <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered>
                                 <MDBModalHeader toggle={this.toggle(1)} className="mdb-color darken-2 white-text">{this.state.eventName}</MDBModalHeader>
                                 <MDBModalBody>
                                     <MDBCardText><MDBIcon icon="calendar-day" className="mr-2"/>Event Start: {this.state.eventStart}</MDBCardText>
                                     <MDBCardText><MDBIcon icon="calendar-day" className="mr-2"/>Event End: {this.state.eventEnd}</MDBCardText>
-                                    <MDBCardText><MDBIcon icon="map-marked-alt" className="mr-2"/>Location: {this.state.eventCity}, {this.state.eventCounrty}</MDBCardText>
+                                    <MDBCardText><MDBIcon icon="map-marked-alt" className="mr-2"/>Location: {this.state.eventCity}, {this.state.eventCountry}</MDBCardText>
                                     <MDBCardText><MDBIcon icon="map-marker-alt" className="mr-2"/>Address: {this.state.eventAddress}, {this.state.eventZipCode}</MDBCardText>                                     
                                     <MDBCardText><MDBIcon icon="clipboard-list" className="mr-2"/>Event Type: {this.state.eventType}</MDBCardText>
                                     <MDBCardText><MDBIcon icon="info-circle" className="mr-1"/>Details: {this.state.eventDetails}</MDBCardText>

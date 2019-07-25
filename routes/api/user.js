@@ -138,9 +138,19 @@ router.get('/:userId/events', (req, res) => {
 //Create user event
 router.post('/:userId/createEvent', (req, res) => {
     let userId = req.params.userId;
+    let location = {
+        "address": "",
+		"zipCode": "",
+		"city": "",
+		"country":""
+    }
+    let loc = req.body.location;
 
     let event = new Event(req.body);
-    console.log('New Event Created!' + event);
+    if(typeof loc == 'undefined') {
+        console.log('Location is: ' + event.location);
+        event.location = location;
+    }
     User.update(
         { _id: userId }, 
         { $push: { events: event }}

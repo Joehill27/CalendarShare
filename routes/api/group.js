@@ -193,6 +193,20 @@ router.post('/:groupId/addEvent', (req, res) => {
         if(err) {
             res.send({'error': 'can not find group'});
         }
+
+        let location = {
+            "address": "",
+            "zipCode": "",
+            "city": "",
+            "country":""
+        }
+        let loc = req.body.location;
+    
+        let event = new Event(req.body);
+        if(typeof loc == 'undefined') {
+            console.log('Location is: ' + event.location);
+            event.location = location;
+        }
         
         console.log(group.events);
         group.events.push(event);

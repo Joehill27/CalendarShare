@@ -67,7 +67,7 @@ class FriendsPage extends React.Component {
             console.log(this.state.friends);
             return (
                 this.state.friends.map((e, index) => (
-                    <Friend key={index} userName={e} />
+                    <Friend logoutHandler={this.logoutHandler} key={index} userName={e} />
                 ))
             );
         }

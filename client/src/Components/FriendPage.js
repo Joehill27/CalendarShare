@@ -55,6 +55,8 @@ class FriendPage extends React.Component {
         this.renderFutureEvents = this.renderFutureEvents.bind(this);
     }
 
+    
+
     componentDidMount() 
     {
         let user;
@@ -126,7 +128,7 @@ class FriendPage extends React.Component {
         return (
             <div style={bgNavy}>
                 <div className="d-flex">
-                    <Navigation imageId={localStorage.getItem('profilePicture')} />
+                    <Navigation logoutHandler={this.props.logoutHandler} imageId={localStorage.getItem('profilePicture')} />
                     <div>
                         <h2> {''}</h2>
                         <h3> {'_____'}</h3>
