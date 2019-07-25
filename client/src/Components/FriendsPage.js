@@ -1,20 +1,22 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { MDBIcon, MDBDropdown,
   MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBFormInline, MDBBtn,
   MDBContainer, MDBRow, MDBCol, MDBModal, MDBModalBody,
   MDBModalHeader, MDBInput  } from 'mdbreact';
   import Navigation from './Navigation';
   import Footer from './Footer';
-import MyEvent from "./MyEvent";
 import Friend from "./Friend";
 import FriendRequest from "./FriendRequest";
-import Group from "./Group";
-import GroupRequest from "./GroupRequest";
 import UserItem from "./UserItem";
 
   class FriendsPage extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            'userName' : '',
+            'friends' : ''
+        };
 
         this.logoutHandler = this.logoutHandler.bind(this);
     }
@@ -49,7 +51,8 @@ import UserItem from "./UserItem";
 
     onClick()
     {
-        this.props.history.push('/friend');
+        console.log('clicked 56');
+        // this.props.history.push('/friend');
     }
 
     render() {
@@ -114,7 +117,8 @@ import UserItem from "./UserItem";
                 </div>
             </div>
                 <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-                    <Friend onClick = {this.onClick}/>
+                    { console.log(this) }
+                    <Friend/>
                     <Friend/>
                     <Friend/>
                     <Friend/>

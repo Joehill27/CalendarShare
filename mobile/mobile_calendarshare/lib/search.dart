@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_calendarshare/group_page.dart';
 import 'package:search_widget/search_widget.dart';
+import './class_models/group_model.dart';
 
 class ListViewSearch extends StatefulWidget {
   final Group group;

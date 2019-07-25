@@ -1,17 +1,10 @@
-import React, { Fragment, Component } from "react";
+import React from "react";
 import {
 	MDBCol,
 	MDBContainer,
 	MDBModal,
 	MDBModalBody,
 	MDBModalHeader,
-	MDBNavbar,
-	MDBNavbarBrand,
-	MDBNavbarNav,
-	MDBNavbarToggler,
-	MDBCollapse,
-	MDBNavItem,
-	MDBNavLink,
 	MDBIcon,
 	MDBBtn,
 	MDBRow,
@@ -20,22 +13,13 @@ import {
 	MDBDropdownMenu,
 	MDBDropdownItem,
 	MDBModalFooter,
-	MDBCardText,
 	MDBInput
 } from 'mdbreact';
-import { BrowserRouter as Router } from 'react-router-dom';
 import Navigation from './Navigation';
 import MyEvent from './MyEvent';
 import GroupItem from './GroupItem';
-import Event from './Event';
-import Footer from './Footer';
-import { getUser, createUserEvent, getUserGroupEvents, setUserGroupEvents, getUserGroupEvents2 } from '../apiCalls/userAPI';
-import {
-    sortByDateAscending, sortByDateDescending,
-    sortByEventType, sortByPastAndFuture
-} from '../util/eventHelpers';
-import { get } from "mongoose";
-import { thisExpression } from "@babel/types";
+import { getUser, setUserGroupEvents, getUserGroupEvents2 } from '../apiCalls/userAPI';
+import { sortByPastAndFuture } from '../util/eventHelpers';
 import Image from './Image';
 
 class FriendPage extends React.Component {
@@ -58,18 +42,21 @@ class FriendPage extends React.Component {
             'eventSortType': 'MyEvent',
             'sortBy': '',
             'filterType': '',
-            'userName': 'admin',
+            'userName': this.props.location.state.userName,
             'bio': '',
             'country': '',
             'city': ''
             //Can add filtering for each list to state
         };
+        console.log('61');
+        console.log(this.state.userName);
 
         this.toggle = this.toggle.bind(this);
         this.renderFutureEvents = this.renderFutureEvents.bind(this);
     }
 
-    componentDidMount() {
+    componentDidMount() 
+    {
         let user;
         getUser(this.state.userName)
             .then((userJson) => {
@@ -146,8 +133,8 @@ class FriendPage extends React.Component {
                     <Navigation imageId={localStorage.getItem('profilePicture')} />
                     <div>
                         <h2> {''}</h2>
-                        <h3> {'______________________________________________________________________________________________________________'}</h3>
-                        <h5> {'______________________________________________________________________________________________________________'}</h5>
+                        <h3> {'_____'}</h3>
+                        <h5> {'_____'}</h5>
                         <MDBDropdownToggle nav caret onClick={this.toggle(1)}>
                             <Image imageId={this.state.imageId} />
                             <span float="right">{this.state.userName}</span>

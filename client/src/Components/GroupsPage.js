@@ -1,6 +1,6 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { MDBIcon, MDBDropdown,
-  MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBFormInline, MDBBtn,
+  MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBBtn,
   MDBContainer, MDBRow, MDBCol, MDBModal, MDBModalBody,
   MDBModalHeader, MDBInput  } from 'mdbreact';
 import Navigation from './Navigation';

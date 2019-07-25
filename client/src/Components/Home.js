@@ -1,23 +1,19 @@
-import React, { Fragment } from "react";
+import React from "react";
 import {
   MDBIcon, MDBDropdown,
   MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBFormInline, MDBBtn,
   MDBContainer, MDBRow, MDBCol, MDBModal, MDBModalBody,
   MDBModalHeader, MDBInput, MDBModalFooter, MDBCardText
 } from 'mdbreact';
-import { BrowserRouter as Router } from 'react-router-dom';
 // import MyEventList from './MyEventList';
 import Navigation from './Navigation';
 import MyEvent from './MyEvent';
 import Event from './Event';
 import Footer from './Footer';
-import { getUser, createUserEvent, getUserGroupEvents, setUserGroupEvents, getUserGroupEvents2 } from '../apiCalls/userAPI';
+import { getUser, createUserEvent, setUserGroupEvents, getUserGroupEvents2 } from '../apiCalls/userAPI';
 import {
-  sortByDateAscending, sortByDateDescending,
-  sortByEventType, sortByPastAndFuture
+  sortByDateAscending, sortByDateDescending, sortByPastAndFuture
 } from '../util/eventHelpers';
-import { get } from "mongoose";
-import { thisExpression } from "@babel/types";
 import one from '../defaultImages/eventPics/1.jpg';
 import two from '../defaultImages/eventPics/2.jpg';
 import three from '../defaultImages/eventPics/3.jpg';
@@ -83,7 +79,7 @@ class Home extends React.Component {
 
 
   componentDidMount() {
-    if (localStorage.getItem('userId') == -1)
+    if (localStorage.getItem('userId') === -1)
       this.props.history.push('/');
 
     let user;

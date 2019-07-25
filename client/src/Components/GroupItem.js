@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import { Link, withRouter } from 'react-router-dom';
 import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBIcon, MDBModal, MDBModalBody,
 MDBModalHeader, MDBModalFooter, MDBContainer, MDBRow, MDBInput } from 'mdbreact';
 import Image from './Image';
 import one from '../defaultImages/userProfilePics/8.png';
 
 class GroupItem extends React.Component {
-
     state = {
         modal1: false
     }
