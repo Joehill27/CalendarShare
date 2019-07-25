@@ -31,6 +31,19 @@ class JsonParsing {
     for(Map<String, dynamic> group in groupsArray) {
       groupObjects.add(new Group.fromJson(group));
     }
+    return groupObjects;
+  }
+
+  static getGroupsFromIds(List groupJson) async{
+    List<Group> groups = [];
+
+    for(var group in groupJson) {
+      var groupJson = await GroupAPi.getGroup(group['_id']);
+      Map<String, dynamic> g = jsonDecode(groupJson);
+      groups.add(new Group.fromJson(g));
+
+    }
+    return groups;
   }
 
   static getGroupEventsFromIds(List groupJson) async{
