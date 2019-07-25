@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'stacked_icons.dart';
-import 'home.dart';
 
 class SecondRoute extends StatelessWidget {
   @override

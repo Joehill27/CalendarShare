@@ -16,6 +16,12 @@ module.exports = {
         let hours = dateObject.getHours() % 12;
         let minutes = dateObject.getMinutes();
 
+        if(hours < 10)
+            hours =  '0' + hours;
+
+        if(minutes < 10)
+            minutes = '0' + minutes;
+
         let dayOrNight = 'AM';
 
         if(dateObject.getHours() > 12)
