@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBFooter, MDBIcon } from 'mdbreact';
 import Footer from './Footer';
+<<<<<<< HEAD
+const Logo = require('../img/calendarlogo.png')
+=======
 import axios from 'axios';
 
 const sha256 = require('js-sha256');
+>>>>>>> a1ea39543cd6a3285532373114ef68675cee064f
 
 class CreateAccountV2 extends Component {
 
@@ -122,10 +126,11 @@ class CreateAccountV2 extends Component {
                 <MDBContainer>
                     <MDBRow >
                         <MDBCol>
-                            <h1>Site Logo</h1>
+                        <h1><img className="Center" src={Logo} width='40%' height='auto'/></h1>
+
                         </MDBCol>
                         <MDBCol class="">
-                            <form class="text-center p-5" action="#!">
+                            <form class="text-center" action="#!">
 
                                 <p class="h4 mb-4 white-text">Create Account</p>
 

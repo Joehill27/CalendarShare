@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBFooter, MDBIcon } from 'mdbreact';
+const Logo = require('../img/calendarlogo.png')
 
 class LoginV2 extends Component {
 
@@ -10,10 +11,10 @@ class LoginV2 extends Component {
             <MDBContainer>
             <MDBRow >
                 <MDBCol>
-                <h1>Site Logo</h1>
+                <img className="Center" src={Logo} width='40%' height='auto'/>
                 </MDBCol>
                 <MDBCol class="">
-                <form class="text-center p-5" action="#!">
+                <form class="text-center" action="#!">
 
                     <p class="h4 mb-4 white-text">Sign In</p>
 
@@ -26,7 +27,6 @@ class LoginV2 extends Component {
                             <a href="">Forgot password?</a>
                         </div>
                     </div>
-
                     <MDBBtn outline color="primary">sign in</MDBBtn>
 
                     <p class="white-text">Not a member?
