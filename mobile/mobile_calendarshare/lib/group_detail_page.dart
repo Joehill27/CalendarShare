@@ -98,22 +98,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
            
             ],),
            
-            Column(children: <Widget>[
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20.0),
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: widget.group.events.length, itemBuilder: (context, index) {
-                        return Container(
-                          width: MediaQuery.of(context).size.width * .7,
-                          child: Card(child: Text("Hello")),
-                        );
-                      }
-                    )
-
-              ),
-            ],),
+            
             SizedBox(
               height: 50
             ),
