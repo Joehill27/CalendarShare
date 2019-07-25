@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
 
 
   _login() async {
-    String encryptedPassword = Encrypt.encryptString('admin', 'Kaijoe22!');
+    String encryptedPassword = Encrypt.encryptString('admin', 'Group9!');
     var userJson = await UserApi.loginRequest('admin');
     Map<String, dynamic> userOuter = jsonDecode(userJson);
     if (userOuter.containsKey('error')) {
@@ -48,6 +48,7 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         _userId = user['_id'];
         _username = user['username'];
+
         List eventsVar = user['events'];
         _events = new List();
         for (var e in eventsVar) {
@@ -56,6 +57,7 @@ class _LoginPageState extends State<LoginPage> {
         var userRequest = await UserApi.getUser('admin');
         _user = JsonParsing.getUserFromRequest(userRequest);
         _profilePicture = user['profilePicture'];
+        List groups = _user.groups;
         _groupEvents = await JsonParsing.getGroupEventsFromIds(_user.groups);
         print(_groupEvents.toString());
         _loggedIn = true;
