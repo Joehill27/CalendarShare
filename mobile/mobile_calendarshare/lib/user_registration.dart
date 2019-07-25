@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobile_calendarshare/stacked_icons.dart';
 
-import 'home.dart';
 
 class UserRegistration extends StatefulWidget {
   @override 

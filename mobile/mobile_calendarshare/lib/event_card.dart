@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_calendarshare/event_detail_page.dart';
 import 'package:mobile_calendarshare/class_models/event_model.dart';
-import 'package:mobile_calendarshare/my_event_list.dart';
 
 class EventCard extends StatefulWidget {
   final Event event;
+  final String userId;
 
-  EventCard(this.event);
+  EventCard(this.userId, this.event);
 
   @override 
   EventCardState createState(){
@@ -71,7 +71,7 @@ void initState() {
 
   showEventDetailPage() {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
-      return new EventDetailPage(event);
+      return new EventDetailPage(widget.userId ,event);
     }));
   }
 }

@@ -42,7 +42,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/logo.png
-    - assets/images/events.png
+#    - assets/images/events.png
     - assets/images/friends.png
     - assets/defaultImages/userProfilePics/
     - assets/defaultImages/groupProfilePics/

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_calendarshare/event_detail_page.dart';
 import 'package:mobile_calendarshare/friends/friend_page.dart';
 import 'package:mobile_calendarshare/group_page.dart';
-import 'package:mobile_calendarshare/test_form.dart';
+
 import './class_models/user_model.dart';
 import 'package:mobile_calendarshare/class_models/event_model.dart';
 import 'package:mobile_calendarshare/new_event_form.dart';
@@ -129,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () async {
                     settings = await Navigator.of(context).push(
                       new MaterialPageRoute(builder: (context) {
-                        return new SettingsPage();
+                        return new SettingsPage(userId: widget.userId);
                       }),
                     );
                   },
@@ -206,7 +206,7 @@ class _HomePageState extends State<HomePage> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   EventDetailPage(
-                                                      userEvents[index]),
+                                                    widget.userId, userEvents[index])
                                             ));
                                       },
                                       title: Text(userEvents[index].name),
@@ -297,6 +297,7 @@ class _HomePageState extends State<HomePage> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   EventDetailPage(
+                                                    widget.userId,
                                                       groupEvents[index]),
                                             ));
                                       },
@@ -389,6 +390,7 @@ class _HomePageState extends State<HomePage> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   EventDetailPage(
+                                                    widget.userId,
                                                       pastEvents[index]),
                                             ));
                                       },

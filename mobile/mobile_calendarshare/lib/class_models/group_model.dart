@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 class Group {
   String id, groupName, groupPicture;

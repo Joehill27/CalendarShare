@@ -1,7 +1,4 @@
-import 'dart:convert';
 
-//TODO figure out storing objects versus storing JSON Objects
-//AKA Group object versus JSON representation of group
 class User {
   String id, email, username, password, profilePicture;
 

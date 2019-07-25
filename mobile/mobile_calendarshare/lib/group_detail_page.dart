@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
-import 'package:http/http.dart';
-import 'package:mobile_calendarshare/group_page.dart';
 import './class_models/group_model.dart';
 import 'package:mobile_calendarshare/search.dart';
  

@@ -429,20 +429,16 @@ router.post('/:userId/addFriend/:friendId', (req, res) => {
             User.update(
                 { _id: userId }, 
                 { $push: { friends: {'friendId': friendId} }},
+                { $pull: { friendRequests: friendId}}
+            )
+            .then(
+            User.update(
+                { _id: friendId},
+                { $push : { friends : {'friendId': userId} }},
                 { $pull: { friendRequests: userId}}
-            ).exec(function(err) {
-                if(err) {
-                    res.send({'error': err});
-                } else {
-                    //Add friend, no friend request ot delete
-                    User.update(
-                        { _id: userId},
-                        { $push : {friends : {'friendId': friendId}}},
-                        { $pull: { friendRequests: friendId}}
-                    )
-                    res.send({'success':'friends added successfully'});
-                }
-            });
+            ))
+            .then(res.send({'success':'friends added successfully'}))
+            .catch((e) => console.log(e)) ;
         }
     });
 });

@@ -22,7 +22,7 @@ class Footer extends React.Component {
                     <a href="#future">My Events</a>
                 </li>
                 <li className="list-unstyled">
-                    <a href="#group">Group Eents</a>
+                    <a href="#group">Group Events</a>
                 </li>
                 <li className="list-unstyled">
                     <a href="#past">Past Events</a>

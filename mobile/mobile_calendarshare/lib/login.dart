@@ -56,7 +56,6 @@ class _LoginPageState extends State<LoginPage> {
         var userRequest = await UserApi.getUser('admin');
         _user = JsonParsing.getUserFromRequest(userRequest);
         _profilePicture = user['profilePicture'];
-        List groups = _user.groups;
         _groupEvents = await JsonParsing.getGroupEventsFromIds(_user.groups);
         print(_groupEvents.toString());
         _loggedIn = true;

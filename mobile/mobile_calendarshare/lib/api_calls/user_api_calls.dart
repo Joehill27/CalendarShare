@@ -1,10 +1,8 @@
 import 'package:http/http.dart';
 import '../class_models/event_model.dart';
 import '../class_models/user_model.dart';
-import '../class_models/group_model.dart';
 import '../helper_functions/encrypt.dart';
 import '../helper_functions/json_parsing.dart';
-import '../api_calls/group_api_calls.dart';
 
 void main(){
 
@@ -12,8 +10,6 @@ void main(){
   _getGroupsTest() async {
     var userRequest = await UserApi.getUser('admin');
     User user = JsonParsing.getUserFromRequest(userRequest);
-    List groupJson = user.groups;
-
     List<Event> events = await JsonParsing.getGroupEventsFromIds(user.groups);
 
     if(events != null) {
@@ -115,11 +111,12 @@ class UserApi {
   //TODO figure out settings
   //Update User Settings
   static updateSettings(String userId, String settings) async {
+    print(userId);
     String url = 'http://www.cop4331groupone.com/api/user/'+userId+'/updateSettings';
     String json = "";
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
-    String request = '';
+    String request = settings;
     print(request);
 
     try {
@@ -129,6 +126,7 @@ class UserApi {
     } finally {
       if(response != null) {
         json = response.body;
+        print(json);
       }
     }
     return json;
@@ -142,7 +140,6 @@ class UserApi {
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
     String request = event.toJson();
-    print(request);
 
     try {
       response = await post(url, headers: headers, body: request);
