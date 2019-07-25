@@ -16,6 +16,15 @@ export const getUser = async(userName) => {
     }
 }
 
+export const getUserById = async(userId) => {
+    try {
+        let user = await axios.get(hostUrl + '/api/user/getById/' + userId);
+        return user;
+    } catch(e) {
+        console.log(e);
+    }
+}
+
 //Delete user
 export const deleteUser = async(userId) => {
     try {

@@ -23,7 +23,8 @@ import {
 	MDBCardText,
 	MDBInput
 } from 'mdbreact';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Image from './Image';
 import one from '../defaultImages/userProfilePics/1.png';
 import two from '../defaultImages/userProfilePics/2.png';
@@ -44,6 +45,12 @@ import sixteen from '../defaultImages/userProfilePics/16.png';
 import { updateProfilePicture, updateUserSettings } from '../apiCalls/userAPI';
 
 class Navigation extends React.Component {
+	static propTypes = {
+		match: PropTypes.object.isRequired,
+		location: PropTypes.object.isRequired,
+		history: PropTypes.object.isRequired
+	}
+
 	constructor(props) {
 		super(props);
 
@@ -53,7 +60,8 @@ class Navigation extends React.Component {
 			profilePicture: localStorage.getItem('profilePicture'),
 			bio: localStorage.getItem('bio'),
 			country: localStorage.getItem('country'),
-			city: localStorage.getItem('city')
+			city: localStorage.getItem('city'),
+			userName: localStorage.getItem('userName')
 		};
 		this.onClick = this.onClick.bind(this);
 	}
@@ -106,6 +114,8 @@ class Navigation extends React.Component {
 	};
 
 	render() {
+		const { match, location, history } = this.props;
+
 		const bgNavy = { backgroundColor: '#2E4158' };
 		const container = { height: 1300 };
 		return (
@@ -120,7 +130,10 @@ class Navigation extends React.Component {
 							<MDBCollapse isOpen={this.state.collapse} navbar>
 								<MDBNavbarNav left>
 									<MDBNavItem>
-										<MDBNavLink to="/friends">Friends</MDBNavLink>
+										<MDBNavLink to={{
+											pathname: '/friends',
+											state: { userName: this.state.userName }
+										}}>Friends</MDBNavLink>
 									</MDBNavItem>
 									<MDBNavItem>
 										<MDBNavLink to="/groups">Groups</MDBNavLink>
@@ -339,4 +352,4 @@ class Navigation extends React.Component {
 	}
 }
 
-export default Navigation;
+export default withRouter(Navigation);

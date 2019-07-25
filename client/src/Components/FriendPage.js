@@ -61,27 +61,23 @@ class FriendPage extends React.Component {
         getUser(this.state.userName)
             .then((userJson) => {
                 user = userJson;
+                console.log(user);
                 let allEvents = sortByPastAndFuture(user.events);
                 this.setState({
                     user: user,
                     events: user.events,
                     pastEvents: allEvents.pastEvents,
                     futureEvents: allEvents.futureEvents,
-                    groups: user.groups,
-                    bio: user.settings.bio,
-                    country: user.settings.country,
-                    city: user.settings.city
+                    groups: user.groups
+                    // bio: user.settings.bio,
+                    // country: user.settings.country,
+                    // city: user.settings.city
                 });
+
+                setUserGroupEvents(user);
             })
             .catch((err) => {
                 console.log(err);
-            })
-
-
-        getUser(this.state.userName)
-            .then((userJson) => {
-                user = userJson;
-                setUserGroupEvents(user);
             })
 
         getUser(this.state.userName)

@@ -58,7 +58,7 @@ class Group extends React.Component {
                                 </div>
                             </MDBCol>
                         </MDBRow>
-                        <MDBCardTitle className="text-center pt-1">Group Name</MDBCardTitle>
+                        <MDBCardTitle className="text-center pt-1">{ this.state.groupName }</MDBCardTitle>
                         <div className="pl-1">
                             <MDBBtn onClick={() => this.doSomething()} size="sm" color="mdb-color darken-2">View Page</MDBBtn>
                             <MDBBtn color="transparent" className="p-1 m-0" onClick={this.toggle(1)}><MDBIcon icon="sign-out-alt" className="red-text py-1 px-1"/></MDBBtn>

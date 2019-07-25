@@ -1,24 +1,29 @@
 import React from "react";
 import {
-	MDBCol,
-	MDBContainer,
-	MDBModal,
-	MDBModalBody,
-	MDBModalHeader,
-	MDBIcon,
-	MDBBtn,
-	MDBRow,
-	MDBDropdown,
-	MDBDropdownToggle,
-	MDBDropdownMenu,
-	MDBDropdownItem,
-	MDBModalFooter
+    MDBCol,
+    MDBContainer,
+    MDBModal,
+    MDBModalBody,
+    MDBModalHeader,
+    MDBIcon,
+    MDBBtn,
+    MDBRow,
+    MDBDropdown,
+    MDBDropdownToggle,
+    MDBDropdownMenu,
+    MDBDropdownItem,
+    MDBModalFooter
 } from 'mdbreact';
+
+import { MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBInput } from 'mdbreact';
+import one from '../defaultImages/userProfilePics/8.png';
 import Navigation from './Navigation';
 import Friend from "./Friend";
 import MyEvent from './MyEvent';
 import UserItem from './UserItem';
-import {getGroupEvents, getMembers} from '../apiCalls/groupAPI';
+import { getGroupEvents, getMembers } from '../apiCalls/groupAPI';
+import { get } from "https";
+import { getUser, getUserById } from "../apiCalls/userAPI";
 
 class GroupPage extends React.Component {
     constructor(props) {
@@ -46,25 +51,30 @@ class GroupPage extends React.Component {
         this.renderMembers = this.renderMembers.bind(this);
     }
 
-    componentDidMount() 
-    {
-        let group;
+    componentDidMount() {
+        let group, user;
         getGroupEvents(this.state.groupID)
             .then((groupJson) => {
                 group = groupJson;
-                console.log(group);
-                this.setState ({
-                    'events' : group
+                this.setState({
+                    'events': group
                 });
             })
 
         getMembers(this.state.groupID)
             .then((groupJson) => {
                 group = groupJson;
-                console.log(group);
-                this.setState ({
-                    'members' : group
+                this.setState({
+                    'members': group
                 });
+                
+                getUserById(this.state.members[0]._id)
+                    .then((userJson) => {
+                        user = userJson;
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    })
             })
     }
 
@@ -75,8 +85,7 @@ class GroupPage extends React.Component {
         });
     }
 
-    renderEvents()
-    {
+    renderEvents() {
         if (this.state.events !== '') {
             return (
                 this.state.events.map((e, index) => (
@@ -86,14 +95,12 @@ class GroupPage extends React.Component {
         }
     }
 
-    renderMembers()
-    {
-        if(this.state.members !== '')
-        {
+    renderMembers() {
+        if (this.state.members !== '') {
             console.log(this.state.members);
             return (
                 this.state.members.map((e, index) => (
-                    <userItem key={index} userName={e} />
+                    <Friend key={index} userName={e} />
                 ))
             );
         }
@@ -144,18 +151,18 @@ class GroupPage extends React.Component {
                     <div>
                         <MDBDropdown dropright className="cardpadding ml-2">
                             <MDBDropdownToggle color="transparent">
-                                <h3 className="text-white">Events<MDBIcon icon="sort-amount-down ml-2" className="ml-2 mdb-color-text" /></h3>
+                                <h3 className="text-white">Events</h3>
                             </MDBDropdownToggle>
                         </MDBDropdown>
                     </div>
                 </div>
                 <div id="future" className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-                    { this.renderEvents() }
+                    {this.renderEvents()}
                 </div>
                 <div>
                     <MDBDropdown dropright className="ml-2">
                         <MDBDropdownToggle color="transparent">
-                            <h3 className="text-white">Members<MDBIcon icon="sort-amount-down ml-2" className="ml-2 mdb-color-text" /></h3>
+                            <h3 className="text-white">Members</h3>
                         </MDBDropdownToggle>
                     </MDBDropdown>
                 </div>
