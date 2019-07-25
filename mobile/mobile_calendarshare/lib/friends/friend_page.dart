@@ -1,11 +1,20 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_calendarshare/friends/ui/frienddetails/friend_details_page.dart';
 import 'package:mobile_calendarshare/friends/ui/friends/friend.dart';
+import '../helper_functions/json_parsing.dart';
+import '../class_models/user_model.dart';
+import '../api_calls/user_api_calls.dart';
 
 class FriendsListPage extends StatefulWidget {
+  FriendsListPage(this.username, this.userId);
+
+  final String username;
+  final String userId;
+
   @override
   _FriendsListPageState createState() => new _FriendsListPageState();
 }
@@ -17,6 +26,19 @@ class _FriendsListPageState extends State<FriendsListPage> {
   void initState() {
     super.initState();
     _loadFriends();
+  }
+
+  Future<void> _loadFriendRequests() async {
+    List<User> tempUser = [];
+    var userResponse = await UserApi.getUser(widget.username);
+    User user = JsonParsing.getUserFromRequest(userResponse);
+    List temp = user.friendRequests;
+    for(Map<String, dynamic> user in temp) {
+      String userId = user['_id'];
+      String userJson = await UserApi.getUserById(userId);
+      Map<String, dynamic> outerUser = jsonDecode(userJson);
+      User u = new User.fromJson(outerUser['user']);
+    }
   }
 
   Future<void> _loadFriends() async {

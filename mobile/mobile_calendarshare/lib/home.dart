@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => FriendsListPage(),
+                          builder: (context) => FriendsListPage(widget.username, widget.userId),
                         ));
                   },
                   leading: Icon(Icons.person),

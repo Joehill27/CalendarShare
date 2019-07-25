@@ -23,6 +23,19 @@ router.post('/login', (req, res) => {
     });
 });
 
+//Get user by id
+router.get('/getById/:userId', (req, res) => {
+    let userId = req.params.userId;
+
+    User.findById(userId, (err, user) => {
+        if(err) {
+            res.send({'error' : 'user does not exist'});
+        } else {
+            res.send({'user': user, 'error': ''});
+        }
+    });
+});
+
 //Check if a user exists
 router.get('/get/:username', (req, res) => {
     let name = req.params.username;
