@@ -1,24 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:mobile_calendarshare/event_card.dart';
 import 'package:mobile_calendarshare/event_detail_page.dart';
 import 'package:mobile_calendarshare/friends/friend_page.dart';
 import 'package:mobile_calendarshare/group_page.dart';
-import 'package:mobile_calendarshare/login.dart';
 import './class_models/user_model.dart';
 import 'package:mobile_calendarshare/class_models/event_model.dart';
-import 'package:mobile_calendarshare/past_events.dart';
 import 'package:mobile_calendarshare/new_event_form.dart';
-import './api_calls/user_api_calls.dart';
 import './helper_functions/convert_time.dart';
-
-import 'my_event_list.dart';
+import './settings.dart';
 
 class HomePage extends StatefulWidget {
   HomePage(
-      {Key key, this.title, this.user, this.userId, this.username, this.events
-      , this.groupEvents})
+      {Key key,
+      this.title,
+      this.user,
+      this.userId,
+      this.username,
+      this.events,
+      this.groupEvents})
       : super(key: key);
 
   final String title;
@@ -37,13 +36,15 @@ class _HomePageState extends State<HomePage> {
   List<Event> initialEvents;
   List<Event> groupEvents;
   List<Event> userEvents;
+  Map<String, dynamic> settings;
   User _user;
 
   _splitEventList() {
     DateTime now = DateTime.now();
-    if (widget.events.length > 0) {
+    if (widget.events.length != null) {
       for (Event event in initialEvents) {
-        if (DateTime.parse(event.startDate).isAfter(now)) {
+        print(event.startDate);
+        if (DateTime.parse(event.startDate + 'Z').isAfter(now)) {
           userEvents.add(event);
         } else {
           pastEvents.add(event);
@@ -57,17 +58,17 @@ class _HomePageState extends State<HomePage> {
   _splitGroupEvents() {
     DateTime now = DateTime.now();
     List<Event> temp = widget.groupEvents;
-    groupEvents.removeWhere((event) => DateTime.parse(event.startDate).isBefore(now));
+//    groupEvents.removeWhere((event) => DateTime.parse(event.startDate+'Z').isBefore(now));
 
-//    if (temp.length > 0) {
-//      for (Event event in temp) {
-//        if (!DateTime.parse(event.startDate).isAfter(now)) {
-//          groupEvents.remove(event);
-//        }
-//      }
-//    } else {
-//      print('Event list is empty');
-//    }
+    if (widget.groupEvents != null) {
+      for (Event event in temp) {
+        if (DateTime.parse(event.startDate).isAfter(now)) {
+          groupEvents.add(event);
+        }
+      }
+    } else {
+      print('Event list is empty');
+    }
   }
 
   @override
@@ -77,35 +78,11 @@ class _HomePageState extends State<HomePage> {
     groupEvents = new List();
     userEvents = new List();
     initialEvents = widget.events;
-    groupEvents = widget.groupEvents;
-    print(initialEvents.toString());
     _splitEventList();
     _splitGroupEvents();
+    _user = widget.user;
+    settings = _user.settings;
   }
-
-
-
-  final initialGroupEvents = <Event>[]
-    ..add(new Event(
-      'Musical',
-      'Amway Center',
-      'Biggest Hits of 2019',
-    ))
-    ..add(new Event(
-      'Disney Day',
-      'Magic Kingdom',
-      'Smiths 11th Annual Disney Get-Together',
-    ))
-    ..add(new Event(
-      'Magics Game',
-      'Amway Center',
-      'Biggest hits of 2019',
-    ))
-    ..add(new Event(
-      'Study PARTY',
-      'Glen\'s Place',
-      'Summer\'s Hottest Event',
-    ));
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => GroupPage(),
+                          builder: (context) => GroupPage(widget.username, widget.userId ),
                         ));
                   },
                   leading: Icon(Icons.group),
@@ -148,12 +125,12 @@ class _HomePageState extends State<HomePage> {
                 )),
                 PopupMenuItem(
                     child: ListTile(
-                  onTap: () {
-//                    Navigator.push(
-//                        context,
-//                        MaterialPageRoute(
-//                          builder: (context) => GroupPage(),
-//                        ));
+                  onTap: () async {
+                    settings = await Navigator.of(context).push(
+                      new MaterialPageRoute(builder: (context) {
+                        return new SettingsPage();
+                      }),
+                    );
                   },
                   leading: Icon(Icons.settings),
                   title: Text("Settings"),
@@ -161,11 +138,7 @@ class _HomePageState extends State<HomePage> {
                 PopupMenuItem(
                     child: ListTile(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LoginPage(),
-                        ));
+                    Navigator.of(context).popUntil((route) => route.isFirst);
                   },
                   leading: Icon(Icons.power_settings_new),
                   title: Text("Logout"),
@@ -318,14 +291,11 @@ class _HomePageState extends State<HomePage> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   EventDetailPage(
-                                                      groupEvents[
-                                                          index]),
+                                                      groupEvents[index]),
                                             ));
                                       },
-                                      title:
-                                          Text(groupEvents[index].name),
-                                      subtitle: Text(
-                                          groupEvents[index].location),
+                                      title: Text(groupEvents[index].name),
+                                      subtitle: Text(groupEvents[index].type),
                                       leading: Icon(
                                         Icons.event,
                                         color: Colors.blue,
@@ -333,18 +303,24 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     Divider(),
                                     ListTile(
-                                      title: Text('(408) 555-1212',
+                                      title: Text(
+                                          TimeFunctions.convertToEventFormat(
+                                              groupEvents[index].endDate),
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500)),
                                       leading: Icon(
-                                        Icons.contact_phone,
+                                        Icons.calendar_today,
                                         color: Colors.blue[500],
                                       ),
                                     ),
                                     ListTile(
-                                      title: Text('costa@example.com'),
+                                      title: Text(
+                                          TimeFunctions.convertToEventFormat(
+                                              groupEvents[index].endDate),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500)),
                                       leading: Icon(
-                                        Icons.contact_mail,
+                                        Icons.calendar_today,
                                         color: Colors.blue[500],
                                       ),
                                     ),

@@ -6,9 +6,10 @@ class GroupAPi {
 
   //Get all groups
   static getAllGroups() async{
-    String url = 'http://cop4331groupone.com/api/group/getGroups';
+    String url = 'http://www.cop4331groupone.com/api/group/getGroups';
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
+    String json;
 
     try {
       response = await get(url, headers: headers);
@@ -16,15 +17,37 @@ class GroupAPi {
       print(e);
     } finally {
       if (response != null) {
-        String json = response.body;
+        json = response.body;
         print(json);
       }
     }
 
+    return json;
+
+  }
+
+  static getGroup(String groupId) async {
+    String url = 'http://www.cop4331groupone.com/api/group/'+groupId;
+    Response response;
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String json;
+
+    try {
+      response = await get(url, headers: headers);
+    } catch (e) {
+      print(e);
+    } finally {
+      if (response != null) {
+        json = response.body;
+        print(json);
+      }
+    }
+
+    return json;
   }
 
   //Create Group
-  static createGroup(Group group, creatorId) async{
+  static createGroup(Group group, creatorId) async {
     String url = 'http://cop4331groupone.com/api/group/createGroup';
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -45,7 +68,7 @@ class GroupAPi {
 
   //Delete Group
   static deleteGroup(groupId) async {
-    String url = 'http://cop4331groupone.com/api/group/'+ groupId;
+    String url = 'http://www.cop4331groupone.com/api/group/'+ groupId;
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
     String request = '';
@@ -85,7 +108,7 @@ class GroupAPi {
 
   //Create Group Event
   static createEvent(groupId, Event event) async {
-    String url = 'http://cop4331groupone.com/api/group/'+groupId+'/addEvent';
+    String url = 'http://www.cop4331groupone.com/api/group/'+groupId+'/addEvent';
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
     String request = event.toJson();
@@ -105,7 +128,7 @@ class GroupAPi {
 
   //Update Group Event
   static updateEvent(groupId, Event event) async {
-    String url = 'http://cop4331groupone.com/api/group/'+groupId+'/updateEvent/'+event.id;
+    String url = 'http://www.cop4331groupone.com/api/group/'+groupId+'/updateEvent/'+event.id;
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
     String request = event.toJson();
@@ -125,7 +148,7 @@ class GroupAPi {
 
   //Delete Group Event
   static deleteEvent(groupId, eventId) async {
-    String url = 'http://cop4331groupone.com/api/group/'+groupId+'/deleteEvent/'+eventId;
+    String url = 'http://www.cop4331groupone.com/api/group/'+groupId+'/deleteEvent/'+eventId;
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
 
@@ -144,7 +167,7 @@ class GroupAPi {
   //Don't think I need this one
   //Add Group Member
   static addMember(groupId, String userId, String userName) async {
-    String url = 'http://cop4331groupone.com/api/group/'+groupId;
+    String url = 'http://www.cop4331groupone.com/api/group/'+groupId;
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
     String request = '{"userId":' + userId + ', "userName":' + userName + '}';
@@ -164,7 +187,7 @@ class GroupAPi {
 
   //Update Group Member
   static updateMember(groupId, userId, member) async {
-    String url = 'http://cop4331groupone.com/api/group/'+groupId+'/updateMember/'+userId;
+    String url = 'http://www.cop4331groupone.com/api/group/'+groupId+'/updateMember/'+userId;
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
     String request = member;
@@ -184,7 +207,7 @@ class GroupAPi {
 
   //Delete Group Member
   static deleteMember(groupId, userId) async {
-    String url = 'http://cop4331groupone.com/api/group/'+groupId+'/deleteMember/'+userId;
+    String url = 'http://www.cop4331groupone.com/api/group/'+groupId+'/deleteMember/'+userId;
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
 
@@ -203,7 +226,7 @@ class GroupAPi {
   //TODO update when settings are decided on
   //Update Group Settings
   static updateSettings(groupId, settings) async {
-    String url = 'http://cop4331groupone.com/api/group/'+groupId+'/settings';
+    String url = 'http://www.cop4331groupone.com/api/group/'+groupId+'/settings';
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
     String request = settings;
@@ -223,7 +246,7 @@ class GroupAPi {
 
   //Update Group Picture
   static updatePicture(groupId, pictureId) async {
-    String url = 'http://cop4331groupone.com/api/group/'+groupId+'/updateGroupPicture';
+    String url = 'http://www.cop4331groupone.com/api/group/'+groupId+'/updateGroupPicture';
     Response response;
     Map<String, String> headers = {"Content-type": "application/json"};
     String request = pictureId;
