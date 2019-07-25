@@ -60,7 +60,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
                   width: 10,
                 ),
                 Container(child: Expanded(
-                  child: Text("Current Members: " + widget.group.members.toString(),
+                  child: Text("Current Members: " + widget.group.members.length.toString(),
                   style:TextStyle(fontSize: 15,
                   color: Colors.blue,
                   ),
@@ -83,8 +83,9 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
                 SizedBox(
                   width: 10,
                 ),
-                Container(child: Expanded(
-                child:  Text("Number of Events:",
+                Container(
+                child: Expanded(
+                child:  Text("Number of Events: " + widget.group.events.length.toString(),
                 style: TextStyle(fontSize: 15,
                 color: Colors.blue,
                 ),
@@ -97,7 +98,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
            
             ],),
            
-
+            
             SizedBox(
               height: 50
             ),
