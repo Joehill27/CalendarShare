@@ -54,6 +54,7 @@ flutter:
     - assets/images/study_session.png
     - assets/images/friend2.jpeg
     - assets/images/ironman.jpeg
+    - assets/images/calendarlogo.png
 
 fonts:
   - family: Montserrat

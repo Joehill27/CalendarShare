@@ -127,9 +127,6 @@ class _EventDetailPageState extends State<EventDetailPage> {
                   SizedBox(
                     height: 10.0,
                   ),
-
-//THIS ONE NEEDS TO BE CHANGED TO TIME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
                   Column(
                     children: <Widget>[
                       Row(
