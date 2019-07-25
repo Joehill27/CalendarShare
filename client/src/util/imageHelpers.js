@@ -50,22 +50,8 @@ module.exports = {
 				return require('../defaultImages/eventPics/4.jpg');
 			case '5':
 				return require('../defaultImages/eventPics/5.jpg');
-			case '6':
-				return require('../defaultImages/eventPics/6.jpg');
-			case '7':
-				return require('../defaultImages/eventPics/7.jpg');
-			case '8':
-				return require('../defaultImages/eventPics/8.jpg');
-			case '9':
-				return require('../defaultImages/eventPics/9.jpg');
-			case '10':
-				return require('../defaultImages/eventPics/10.jpg');
-			case '11':
-				return require('../defaultImages/eventPics/11.jpg');
-			case '12':
-				return require('../defaultImages/eventPics/12.jpg');
 			default:
-				return require('../defaultImages/eventPics/1.jpg');
+				return require('../defaultImages/eventPics/5.jpg');
 		}
 	},
 
