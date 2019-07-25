@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
         _profilePicture = user['profilePicture'];
         List groups = _user.groups;
         _groupEvents = await JsonParsing.getGroupEventsFromIds(_user.groups);
-        print(_profilePicture);
+        print(_groupEvents.toString());
         _loggedIn = true;
       }
     }

@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => FriendsListPage(),
+                          builder: (context) => FriendsListPage(widget.username, widget.userId),
                         ));
                   },
                   leading: Icon(Icons.person),
@@ -161,6 +161,13 @@ class _HomePageState extends State<HomePage> {
       ),
       body: new ListView(
         children: <Widget>[
+          Center(child: Row(children: <Widget>[
+            CircleAvatar(backgroundImage: ExactAssetImage('assets/images/events.png'),
+        
+          minRadius: 10,
+          maxRadius: 30,
+          ),
+          ],)),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: new Container(

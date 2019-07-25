@@ -23,6 +23,19 @@ router.post('/login', (req, res) => {
     });
 });
 
+//Get user by id
+router.get('/getById/:userId', (req, res) => {
+    let userId = req.params.userId;
+
+    User.findById(userId, (err, user) => {
+        if(err) {
+            res.send({'error' : 'user does not exist'});
+        } else {
+            res.send({'user': user, 'error': ''});
+        }
+    });
+});
+
 //Check if a user exists
 router.get('/get/:username', (req, res) => {
     let name = req.params.username;
@@ -53,7 +66,7 @@ router.post('/createAccount', (req, res) => {
             
             // Check if email has already been used
             User.findOne().exec(function(err, user) {
-                if(!user) {
+                if(!err) {
                     let newUser = new User(req.body);
                     newUser.profilePicture = '1';
                     newUser.settings = {
