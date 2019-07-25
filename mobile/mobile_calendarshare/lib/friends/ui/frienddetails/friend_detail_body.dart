@@ -58,7 +58,7 @@ class FriendDetailBody extends StatelessWidget {
         new Padding(
           padding: const EdgeInsets.only(top: 16.0),
           child: new Text(
-            'Here we can have a short bio about the user',
+            'Lover of animals, traveling, and coffee!',
             style:
                 textTheme.body1.copyWith(color: Colors.white70, fontSize: 16.0),
           ),
