@@ -21,9 +21,9 @@ class _AddEventFormPageState extends State<AddEventFormPage> {
             ),
           );
     } else {
-      var newEvent = new Event(nameController.text, typeController.text,
-          descriptionController.text);
-      Navigator.of(context).pop(newEvent);
+    //  var newEvent = new Event(nameController.text, typeController.text,
+    //      descriptionController.text);
+    //  Navigator.of(context).pop(newEvent);
       
     }
   }
