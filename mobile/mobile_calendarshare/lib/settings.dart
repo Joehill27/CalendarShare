@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import './api_calls/user_api_calls.dart';
 
 class SettingsPage extends StatefulWidget {
   SettingsPage({Key key,
-    this.settings
+    this.settings, this.userId
   }) : super(key: key);
 
   final Map<String, dynamic> settings;
+  final String userId;
 
   @override
   _SettingsPageState createState() => new _SettingsPageState();
@@ -16,11 +18,18 @@ class _SettingsPageState extends State<SettingsPage> {
   TextEditingController cityController = new TextEditingController();
   TextEditingController countryController = new TextEditingController();
 
-  void submitSettings(context) {
+  void submitSettings(context) async {
     Map<String, dynamic> updateSettings = Map();
     updateSettings.putIfAbsent('bio', () =>bioController.text);
     updateSettings.putIfAbsent('city', () => cityController.text);
     updateSettings.putIfAbsent('country', () => countryController);
+
+    String settings = '{ "bio":"'
+        +bioController.text + '","city":"'+ cityController.text + '","country":"' + countryController.text+  '"}';
+
+
+    UserApi.updateSettings(widget.userId, settings)
+    .then((result) => print(result.toString()));
 
     Navigator.of(context).pop(updateSettings);
   }

@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 class Event {
   String id, name, type, description, startDate, endDate, imageId,

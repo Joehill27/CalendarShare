@@ -128,7 +128,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () async {
                     settings = await Navigator.of(context).push(
                       new MaterialPageRoute(builder: (context) {
-                        return new SettingsPage();
+                        return new SettingsPage(userId: widget.userId);
                       }),
                     );
                   },
@@ -207,7 +207,7 @@ class _HomePageState extends State<HomePage> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   EventDetailPage(
-                                                      userEvents[index]),
+                                                    widget.userId, userEvents[index])
                                             ));
                                       },
                                       title: Text(userEvents[index].name),
@@ -298,6 +298,7 @@ class _HomePageState extends State<HomePage> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   EventDetailPage(
+                                                    widget.userId,
                                                       groupEvents[index]),
                                             ));
                                       },
@@ -390,6 +391,7 @@ class _HomePageState extends State<HomePage> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   EventDetailPage(
+                                                    widget.userId,
                                                       pastEvents[index]),
                                             ));
                                       },

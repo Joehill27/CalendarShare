@@ -21,24 +21,52 @@ class FriendsListPage extends StatefulWidget {
 
 class _FriendsListPageState extends State<FriendsListPage> {
   List<Friend> _friends = [];
+  List<User> friendRequests = [];
+  List<User> friends = [];
 
   @override
   void initState() {
     super.initState();
     _loadFriends();
+    _loadFriendRequests();
+    _getFriends();
   }
 
   Future<void> _loadFriendRequests() async {
-    List<User> tempUser = [];
+    List<User> tempUsers = [];
     var userResponse = await UserApi.getUser(widget.username);
     User user = JsonParsing.getUserFromRequest(userResponse);
     List temp = user.friendRequests;
     for(Map<String, dynamic> user in temp) {
-      String userId = user['_id'];
+      String userId = user['from'];
       String userJson = await UserApi.getUserById(userId);
       Map<String, dynamic> outerUser = jsonDecode(userJson);
       User u = new User.fromJson(outerUser['user']);
+      print('Look a friend request' + u.toString());
+      tempUsers.add(u);
     }
+    setState(() {
+      friendRequests = tempUsers;
+    });
+  }
+
+  Future<void> _getFriends() async {
+    List<User> tempUsers = [];
+    var userResponse = await UserApi.getUser(widget.username);
+    User user = JsonParsing.getUserFromRequest(userResponse);
+    List temp = user.friends;
+    for(Map<String, dynamic> user in temp) {
+      String userId = user['friendId'];
+      String userJson = await UserApi.getUserById(userId);
+      Map<String, dynamic> outerUser = jsonDecode(userJson);
+      User u = new User.fromJson(outerUser['user']);
+      print('Look a friend' + u.toString());
+      tempUsers.add(u);
+    }
+    print(tempUsers.toString());
+    setState(() {
+      friends = tempUsers;
+    });
   }
 
   Future<void> _loadFriends() async {
