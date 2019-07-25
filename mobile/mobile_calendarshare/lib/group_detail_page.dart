@@ -40,7 +40,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(5.0))),
           child: Column(children: <Widget>[
-            Text("Group Name",
+            Text(widget.group.groupName,
             style: TextStyle(
              fontSize: 25,
              fontWeight: FontWeight.bold,
@@ -60,7 +60,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
                   width: 10,
                 ),
                 Container(child: Expanded(
-                  child: Text("Current Members: " + widget.group.members.toString(),
+                  child: Text("Current Members: " + widget.group.members.length.toString(),
                   style:TextStyle(fontSize: 15,
                   color: Colors.blue,
                   ),
@@ -83,8 +83,9 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
                 SizedBox(
                   width: 10,
                 ),
-                Container(child: Expanded(
-                child:  Text("Number of Events:",
+                Container(
+                child: Expanded(
+                child:  Text("Number of Events: " + widget.group.events.length.toString(),
                 style: TextStyle(fontSize: 15,
                 color: Colors.blue,
                 ),
@@ -97,7 +98,37 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
            
             ],),
            
+            Column(children: <Widget>[
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20.0),
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: widget.group.events.length, itemBuilder: (context, index) {
+                        return Container(
+                          
+                          width: MediaQuery.of(context).size.width * .7,
+                          child: Card(
+                            elevation: 10,
+                            color: Colors.blueGrey[300],
+                            borderOnForeground: true,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                              CircleAvatar( 
+          backgroundImage: AssetImage('assets/images/friends.png'),
+          minRadius: 20,
+          maxRadius: 30,
+         ),
+                              
+                            ],),
+                          ),
+                        );
+                      }
+                    )
 
+              ),
+            ],),
             SizedBox(
               height: 50
             ),

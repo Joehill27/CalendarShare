@@ -80,7 +80,7 @@ class _FriendsListPageState extends State<FriendsListPage> {
 
   Widget _buildFriendListTile(BuildContext context, int index) {
     var friend = _friends[index];
-
+    Divider();
     return new ListTile(
       onTap: () => _navigateToFriendDetails(friend, index),
       leading: new Hero(
@@ -89,9 +89,10 @@ class _FriendsListPageState extends State<FriendsListPage> {
           backgroundImage: new NetworkImage(friend.avatar),
         ),
       ),
-      title: new Text(friend.name),
-      subtitle: new Text(friend.email),
+      title: new Text(friend.name, style: TextStyle(color: Colors.white),),
+      subtitle: new Text(friend.email, style: TextStyle(color: Colors.white30),),
     );
+   
   }
 
   void _navigateToFriendDetails(Friend friend, Object avatarTag) {
@@ -120,7 +121,11 @@ class _FriendsListPageState extends State<FriendsListPage> {
     }
 
     return new Scaffold(
-      appBar: new AppBar(title: new Text('Friends')),
+      backgroundColor: Colors.blueGrey[800],
+      appBar: new AppBar(title: new Text('Friends'),
+      centerTitle: true,
+      backgroundColor: Colors.blueGrey[600],
+      ),
       body: content,
     );
   }
