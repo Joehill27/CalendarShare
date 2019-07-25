@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBFooter, MDBIcon } from 'mdbreact';
 import Footer from './Footer';
+const Logo = require('../img/calendarlogo.png')
 
 class CreateAccountV2 extends Component {
 
@@ -29,10 +30,11 @@ class CreateAccountV2 extends Component {
                 <MDBContainer>
                     <MDBRow >
                         <MDBCol>
-                            <h1>Site Logo</h1>
+                        <h1><img className="Center" src={Logo} width='40%' height='auto'/></h1>
+
                         </MDBCol>
                         <MDBCol class="">
-                            <form class="text-center p-5" action="#!">
+                            <form class="text-center" action="#!">
 
                                 <p class="h4 mb-4 white-text">Create Account</p>
 
