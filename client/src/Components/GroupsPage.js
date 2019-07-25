@@ -8,6 +8,7 @@ import Footer from './Footer';
 import Group from "./Group";
 import GroupRequest from "./GroupRequest";
 import GroupItem from "./GroupItem";
+import { getUser } from "../apiCalls/userAPI";
 
   class GroupsPage extends React.Component {
 
@@ -15,11 +16,29 @@ import GroupItem from "./GroupItem";
         super(props)
         this.state = {
             modal1: false,
-            searchTerm: ""
+            searchTerm: "",
+            groupRequests: '',
+            groups: ''
         }
+
         this.logoutHandler = this.logoutHandler.bind(this);
+        this.renderGroupInvites = this.renderGroupInvites.bind(this);
     }
 
+    componentDidMount()
+    {
+        let user;
+        getUser(this.props.location.state.userName)
+            .then((userJson) => {
+                user = userJson;
+                this.setState({
+                    groups: user.groups,
+                    groupRequests: user.groupRequests
+                });
+
+                console.log(this.state);
+            })
+    }
 
     toggle = nr => () => {
         let modalNumber = 'modal' + nr
@@ -38,6 +57,31 @@ import GroupItem from "./GroupItem";
         localStorage.setItem('user', '');
         this.props.history.push('/');
       }
+
+    renderGroups()
+    {
+        if (this.state.groups != '')
+        {
+            console.log(this.state.groups);
+            return (
+                this.state.groups.map((e, index) => (
+                    <Group logoutHandler={this.logoutHandler} key={index} groupName={e} />
+                ))
+            );
+        }
+    }
+
+    renderGroupInvites()
+    {
+        if (this.state.groupRequests !== '') {
+            console.log(this.state.groupRequests);
+            return (
+                this.state.groupRequests.map((e, index) => (
+                    <GroupRequest logoutHandler={this.logoutHandler} key={index} groupName={e} />
+                ))
+            );
+        }
+    }
 
 
     render() {
@@ -81,20 +125,6 @@ import GroupItem from "./GroupItem";
                                         </MDBCol>
                                     </MDBRow>
                                     <MDBRow>
-                                        <GroupItem/>
-                                        <GroupItem/>
-                                        <GroupItem/>
-                                        <GroupItem/>
-                                        <GroupItem/>
-                                        <GroupItem/>
-                                        <GroupItem/>
-                                        <GroupItem/>
-                                        <GroupItem/>
-                                        <GroupItem/>
-                                        <GroupItem/>
-                                        <GroupItem/>
-                                        <GroupItem/>
-                                        <GroupItem/>
                                     </MDBRow>
                                 </MDBContainer>
                             </MDBModalBody>
@@ -102,18 +132,7 @@ import GroupItem from "./GroupItem";
                 </div>
             </div>
                 <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-                    <Group/>
-                    <Group/>
-                    <Group/>
-                    <Group/>
-                    <Group/>
-                    <Group/>
-                    <Group/>
-                    <Group/>
-                    <Group/>
-                    <Group/>
-                    <Group/>
-                    <Group/>
+                    { this.renderGroups() }
                 </div>
                 <div className="d-flex">
                 <MDBDropdown dropright className="pb-3 pt-3">
@@ -128,17 +147,7 @@ import GroupItem from "./GroupItem";
                     </MDBDropdown>
                 </div>
                 <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-                    <GroupRequest/>
-                    <GroupRequest/>
-                    <GroupRequest/>
-                    <GroupRequest/>
-                    <GroupRequest/>
-                    <GroupRequest/>
-                    <GroupRequest/>
-                    <GroupRequest/>
-                    <GroupRequest/>
-                    <GroupRequest/>
-                    <GroupRequest/>
+                    { this.renderGroupInvites() }
                 </div>
                 <Footer/>
             </div>

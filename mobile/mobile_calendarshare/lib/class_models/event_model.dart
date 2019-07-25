@@ -1,7 +1,12 @@
 
 class Event {
   String id, name, type, description, startDate, endDate, imageId,
-    formattedStart, formattedEnd, location;
+    formattedStart, formattedEnd;
+
+  Map<String, dynamic> location;
+
+
+  
  
   Event(this.type, this.location, this.name);
 
@@ -16,7 +21,7 @@ class Event {
         startDate = serializedEvent['start'],
         endDate = serializedEvent['end'],
         imageId = serializedEvent['eventPicture'],
-        location = serializedEvent['eventLocation'];
+        location = serializedEvent['location'];
        
 
   toJson() {
@@ -28,7 +33,7 @@ class Event {
       "start": startDate,
       "end": endDate,
       "eventPicture": imageId,
-      "eventLocation": location
+      "location": location
     };
   }
 

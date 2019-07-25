@@ -6,7 +6,7 @@ let hostUrl = 'http://localhost:3001';
 //Create group
 export const createGroup = async(group) => {
     try {
-        let result = await axios.post('/api/group/createGroup', group);
+        let result = await axios.post(hostUrl + '/api/group/createGroup', group);
         return result;
     } catch(e) {
         console.log(e);
@@ -16,7 +16,7 @@ export const createGroup = async(group) => {
 //Delete group
 export const deleteGroup = async(groupId) => {
     try {
-        let result = await axios.delete('/api/group/' + groupId + '/deleteGroup');
+        let result = await axios.delete(hostUrl + '/api/group/' + groupId + '/deleteGroup');
         return result;
     } catch(e) {
         console.log(e);
@@ -45,7 +45,7 @@ export const getMembers = async(groupId) => {
 //Create group event
 export const createGroupEvent = async(groupId, event) => {
     try {
-        let result = await axios.post('/api/group/'+ groupId + '/addEvent', event);
+        let result = await axios.post(hostUrl + '/api/group/'+ groupId + '/addEvent', event);
         return result;
     } catch(e) {
         console.log(e);
@@ -55,7 +55,7 @@ export const createGroupEvent = async(groupId, event) => {
 //Update group event
 export const updateGroupEvent = async(groupId, event) => {
     try {
-        let result = await axios.put('/api/group/' + groupId + '/updateEvent/' + event.eventId, event);
+        let result = await axios.put(hostUrl + '/api/group/' + groupId + '/updateEvent/' + event.eventId, event);
         return result;
     } catch(e) {
         console.log(e);
@@ -65,7 +65,7 @@ export const updateGroupEvent = async(groupId, event) => {
 //Delete group event
 export const deleteGroupEvent = async(groupId, eventId) => {
     try {
-        let result = await axios.delete('/api/group/' + groupId + '/deleteEvent/' + eventId);
+        let result = await axios.delete(hostUrl + '/api/group/' + groupId + '/deleteEvent/' + eventId);
         return result;
     } catch(e) {
         console.log(e);
@@ -75,7 +75,7 @@ export const deleteGroupEvent = async(groupId, eventId) => {
 //Add user to group
 export const addMember = async(user, groupId) => {
     try {
-        let result = await axios.post('/api/group/' + groupId + '/addMember', user);
+        let result = await axios.post(hostUrl + '/api/group/' + groupId + '/addMember', user);
         return result;
     } catch(e) {
         console.log(e);
@@ -85,7 +85,7 @@ export const addMember = async(user, groupId) => {
 //Update member
 export const updateMember = async(groupId, member) => {
     try {
-        let result = await axios.put('/api/group/');
+        let result = await axios.put(hostUrl + '/api/group/');
     } catch(e) {
         console.log(e);
     }
@@ -94,7 +94,7 @@ export const updateMember = async(groupId, member) => {
 //Delete user from group
 export const deleteMember = async(groupId, userId) => {
     try {
-        let result = await axios.delete('/api/group/' + groupId + '/deleteMember/' + userId);
+        let result = await axios.delete(hostUrl + '/api/group/' + groupId + '/deleteMember/' + userId);
         return result;
     } catch(e) {
         console.log(e);
@@ -113,7 +113,7 @@ export const inviteUserToGroup = async(groupId, userId) => {
 //Update group picture
 export const updateGroupPicture = async(groupId, image) => {
     try {
-        let result = await axios.put('/api/group/', );
+        let result = await axios.put(hostUrl + '/api/group/', );
         return result;
     } catch(e) {
         console.log(e);
@@ -123,7 +123,7 @@ export const updateGroupPicture = async(groupId, image) => {
 //Update group settings
 export const updateGroupSettings = async(groupId, settings) => {
     try {
-        let result = await axios.put('/api/group/settings', settings);
+        let result = await axios.put(hostUrl + '/api/group/settings', settings);
         return result;
     } catch(e) {
         console.log(e);

@@ -27,6 +27,7 @@ class MyEvent extends React.Component {
 
             let startString = convertDateToFormat(event.start);
             let endString = convertDateToFormat(event.end);
+
             let location = event.location;
 
             this.setState({

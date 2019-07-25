@@ -578,7 +578,7 @@ class Home extends React.Component {
                     <label className="medText grey-text font-weight-light ml-1">Event Type</label>
                     <select
                       className="browser-default custom-select"
-                      name="eventType"
+                      name="newEventType"
                       required
                     >
                       <option value="">Choose Event Type</option>
