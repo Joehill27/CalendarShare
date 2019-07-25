@@ -113,7 +113,7 @@ class MyHomePage extends StatelessWidget {
                     padding: const EdgeInsets.only(
                         left: 20.0, right: 20.0, top: 10.0),
                     child: GestureDetector(
-                      onTap: () {
+                       onTap: () {
                          Navigator.push(context, MaterialPageRoute(
                            builder: (context) => LoginPage(),
                          ));

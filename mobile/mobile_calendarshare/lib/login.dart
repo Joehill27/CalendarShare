@@ -10,10 +10,11 @@ import './class_models/event_model.dart';
 import './class_models/user_model.dart';
 import './helper_functions/json_parsing.dart';
 
+
 class LoginPage extends StatefulWidget {
   LoginPage({this.loggedIn});
 
-  var loggedIn;
+  final loggedIn;
 
   @override
   State<StatefulWidget> createState() => new _LoginPageState();
