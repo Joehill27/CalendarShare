@@ -33,6 +33,15 @@ export const getGroupEvents = async(groupId) => {
     }
 }
 
+export const getMembers = async(groupId) => {
+    try {
+        let members = await axios.get(hostUrl + '/api/group/' + groupId + '/getMembers');
+        return members.data.members;
+    } catch(e) {
+        console.log(e);
+    }
+}
+
 //Create group event
 export const createGroupEvent = async(groupId, event) => {
     try {

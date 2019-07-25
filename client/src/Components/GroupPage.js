@@ -17,7 +17,8 @@ import {
 import Navigation from './Navigation';
 import Friend from "./Friend";
 import MyEvent from './MyEvent';
-import {getGroupEvents} from '../apiCalls/groupAPI';
+import UserItem from './UserItem';
+import {getGroupEvents, getMembers} from '../apiCalls/groupAPI';
 
 class GroupPage extends React.Component {
     constructor(props) {
@@ -42,6 +43,7 @@ class GroupPage extends React.Component {
         };
 
         this.renderEvents = this.renderEvents.bind(this);
+        this.renderMembers = this.renderMembers.bind(this);
     }
 
     componentDidMount() 
@@ -54,7 +56,15 @@ class GroupPage extends React.Component {
                 this.setState ({
                     'events' : group
                 });
-                console.log(this.state);
+            })
+
+        getMembers(this.state.groupID)
+            .then((groupJson) => {
+                group = groupJson;
+                console.log(group);
+                this.setState ({
+                    'members' : group
+                });
             })
     }
 
@@ -71,6 +81,19 @@ class GroupPage extends React.Component {
             return (
                 this.state.events.map((e, index) => (
                     <MyEvent key={index} event={e} />
+                ))
+            );
+        }
+    }
+
+    renderMembers()
+    {
+        if(this.state.members !== '')
+        {
+            console.log(this.state.members);
+            return (
+                this.state.members.map((e, index) => (
+                    <userItem key={index} userName={e} />
                 ))
             );
         }
@@ -138,18 +161,7 @@ class GroupPage extends React.Component {
                 </div>
 
                 <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
-                    <Friend onClick = {this.onClick}/>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
-                    <Friend/>
+                    { this.renderMembers() }
                 </div>
             </div>
 

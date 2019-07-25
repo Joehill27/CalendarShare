@@ -88,11 +88,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     var key = new GlobalKey<ScaffoldState>();
     return new Scaffold(
-      backgroundColor: Colors.cyanAccent[700],
+      backgroundColor: Colors.blueGrey[800],
       key: key,
       appBar: new AppBar(
-        backgroundColor: Colors.teal[300],
-        elevation: 0.0,
+        backgroundColor: Colors.blueGrey[600],
+        elevation: 10.0,
         title: new Container(
             child: new Row(
           children: <Widget>[
@@ -147,34 +147,31 @@ class _HomePageState extends State<HomePage> {
             ),
             Spacer(),
             CircleAvatar(
-              backgroundImage: ExactAssetImage('assets/images/logo.png'),
+              backgroundImage: ExactAssetImage('assets/images/ironman.jpeg'),
               minRadius: 5,
               maxRadius: 20,
             ),
             new SizedBox(
               width: 10,
             ),
-            Text(" User"),
+            Text(widget.username),
           ],
         )),
         automaticallyImplyLeading: false,
       ),
       body: new ListView(
         children: <Widget>[
-          Center(child: Row(children: <Widget>[
-            CircleAvatar(backgroundImage: ExactAssetImage('assets/images/events.png'),
-        
-          minRadius: 10,
-          maxRadius: 30,
+          SizedBox(
+            height: 20,
           ),
-          ],)),
+          
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: new Container(
                 child: new Column(
               children: <Widget>[
                 new SizedBox(
-                  height: 30.0,
+                  height: 20.0,
                 ),
                 new SizedBox(
                   height: 10.0,
@@ -198,6 +195,7 @@ class _HomePageState extends State<HomePage> {
                           return Container(
                               width: MediaQuery.of(context).size.width * .7,
                               child: Card(
+                                elevation: 20,
                                 child: Column(
                                   children: [
                                     ListTile(
