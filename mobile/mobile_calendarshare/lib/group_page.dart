@@ -20,18 +20,14 @@ class GroupPage extends StatefulWidget{
 
 class _GroupPageState extends State<GroupPage> {
 
-  
- final groupInvites = <Group>[];
-
- final initialGroups = <Group>[];
  List<Group> groups = [];
- List groupRequests = [];
+ List <Group> groupInvites = [];
 
  @override
  void initState() {
    super.initState();
    _loadGroups();
-//   _loadGroupRequest();
+   _loadGroupRequest();
 
  }
 
@@ -53,9 +49,19 @@ class _GroupPageState extends State<GroupPage> {
  }
 
  Future<void> _loadGroupRequest() async {
-   List temp = await UserApi.getUser(widget.username);
+   List<Group> tempGroups = [];
+   var userResponse = await UserApi.getUser(widget.username);
+   User user = JsonParsing.getUserFromRequest(userResponse);
+   List temp = user.groupRequests;
+   for(Map<String, dynamic> group in temp) {
+     String groupId = group['_id'];
+     String groupJson = await GroupAPi.getGroup(groupId);
+     Map<String, dynamic> outerGroup = jsonDecode(groupJson);
+     Group g = new Group.fromJson(outerGroup['group']);
+     tempGroups.add(g);
+   }
    setState(() {
-     groupRequests = temp;
+     groupInvites = tempGroups;
    });
  }
 

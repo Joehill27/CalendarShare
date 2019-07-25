@@ -170,6 +170,19 @@ router.get('/:groupId/getEvents', (req, res) => {
     }); 
 });
 
+router.get('/:groupId/getMembers', (req, res) => {
+    let groupId = req.params.groupId;
+
+    Group.findById(groupId, 'members', (err, group) => {
+        if(err) {
+            res.send({'error': 'Unable to find group ' + err});
+        } else {
+            console.log(group);
+            res.send({'members': group.members, 'error': ''});
+        }
+    });
+});
+
 //Add group event
 router.post('/:groupId/addEvent', (req, res) => {
     let groupId = req.params.groupId;

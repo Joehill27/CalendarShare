@@ -55,6 +55,24 @@ class UserApi {
     return json;
   }
 
+  static getUserById(String userId) async {
+    String url = 'http://www.cop4331groupone.com/api/user/getById/'+userId;
+    String json = "";
+
+    Response response;
+    Map<String, String> headers = {"Content-type": "application/json"};
+    try {
+      response = await get(url, headers: headers);
+    } catch(e) {
+      print(e);
+    } finally {
+      if(response != null) {
+        json = response.body;
+      }
+    }
+    return json;
+  }
+
   static loginRequest(String username) async {
     String url = 'http://www.cop4331groupone.com/api/user/login';
     String password = "";

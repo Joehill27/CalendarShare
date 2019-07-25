@@ -20,7 +20,7 @@ class Friend extends React.Component {
 
         this.state = {
             modal1: false,
-            userName: 'admin'
+            userName: this.props.userName
         }
 
         this.toggle = this.toggle.bind(this);
@@ -61,18 +61,18 @@ class Friend extends React.Component {
                             <MDBBtn onClick={() => this.doSomething()} size="sm" color="mdb-color darken-2" >View Page</MDBBtn>
                             <MDBBtn color="transparent" className="p-1 m-0" onClick={this.toggle(1)}><MDBIcon icon="trash-alt" className="red-text py-1 px-1"/></MDBBtn>
                             <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered size="sm">
-                            <MDBModalHeader toggle={this.toggle(1)} className="danger-color-dark white-text">Remove Friend</MDBModalHeader>
-                                    <MDBModalBody>
-                                        <MDBContainer fluid>
-                                            <MDBRow>
-                                                <MDBCol>
-                                                <MDBBtn size="sm" color="danger">Remove</MDBBtn>
-                                                <MDBBtn size="sm" color="mdb-color darken-2" onClick={this.toggle(1)}>Cancel</MDBBtn>
-                                                </MDBCol>
-                                            </MDBRow>
-                                        </MDBContainer>
-                                    </MDBModalBody>
-                        </MDBModal>
+                                <MDBModalHeader toggle={this.toggle(1)} className="danger-color-dark white-text">Remove Friend</MDBModalHeader>
+                                        <MDBModalBody>
+                                            <MDBContainer fluid>
+                                                <MDBRow>
+                                                    <MDBCol>
+                                                    <MDBBtn size="sm" color="danger">Remove</MDBBtn>
+                                                    <MDBBtn size="sm" color="mdb-color darken-2" onClick={this.toggle(1)}>Cancel</MDBBtn>
+                                                    </MDBCol>
+                                                </MDBRow>
+                                            </MDBContainer>
+                                        </MDBModalBody>
+                            </MDBModal>
                         </div>
                     </MDBCardBody>
                 </MDBCard>
