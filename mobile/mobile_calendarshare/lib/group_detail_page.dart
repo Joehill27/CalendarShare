@@ -106,8 +106,23 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
                       scrollDirection: Axis.horizontal,
                       itemCount: widget.group.events.length, itemBuilder: (context, index) {
                         return Container(
+                          
                           width: MediaQuery.of(context).size.width * .7,
-                          child: Card(child: Text("Hello")),
+                          child: Card(
+                            elevation: 10,
+                            color: Colors.blueGrey[300],
+                            borderOnForeground: true,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                              CircleAvatar( 
+          backgroundImage: AssetImage('assets/images/friends.png'),
+          minRadius: 20,
+          maxRadius: 30,
+         ),
+                              
+                            ],),
+                          ),
                         );
                       }
                     )
