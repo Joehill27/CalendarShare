@@ -123,7 +123,7 @@ class Navigation extends React.Component {
 										<MDBNavLink to="/friends">Friends</MDBNavLink>
 									</MDBNavItem>
 									<MDBNavItem>
-										<MDBNavLink to="#">Groups</MDBNavLink>
+										<MDBNavLink to="/groups">Groups</MDBNavLink>
 									</MDBNavItem>
 									{/* <MDBNavItem>
                     <MDBDropdown>
