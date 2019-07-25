@@ -20,7 +20,7 @@ class Friend extends React.Component {
 
         this.state = {
             modal1: false,
-            userName: 'admin'
+            userName: this.props.userName
         }
 
         this.toggle = this.toggle.bind(this);
