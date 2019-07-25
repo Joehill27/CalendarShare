@@ -90,11 +90,11 @@ router.delete('/:groupId/deleteGroup', (req, res) => {
 router.post('/:groupId/addMember', (req, res) => {
     let groupId = req.params.groupId;
     var user = {
-        _id: req.body.userId,
-        'userName': req.body.userName
+        memberId: req.body.userId,
+        memberPermission: 'admin'
     };
 
-    User.findOne({'userName': user.userName}, (req, res) => {
+    User.findById(user._id, (req, res) => {
         if(!user) {
             res.send({'error': 'User does not exist'});
         }
@@ -228,7 +228,7 @@ router.delete('/:groupId/deleteEvent/:eventId', (req, res) => {
             res.send({'success': 'event deleted', 'error': ''})
         )
         .catch(function(err){
-            res.send({'error': err});
+            console.log(err);
         });
     });
 });
@@ -258,6 +258,27 @@ router.put('/:groupId/settings', (req, res) => {
         } else {
             group.settings = req.body;
             res.send({'success': 'Group settings updated successfully'});
+        }
+    });
+});
+
+//Invite user to group
+router.post('/:groupId/inviteUser/:userId', (req, res) => {
+    let groupId = req.params.groupId;
+    let userId = req.params.userId;
+
+    User.findById(userId, (err, user) => {
+        if(err) {
+            res.send({'error': 'unable to find user'});
+        } else {
+            user.groupRequests.push(groupId);
+            user.save()
+            .then(
+                res.send({'success': 'User invited to group', 'error': ''})
+            )
+            .catch(function(err){
+                console.log(err);
+            });
         }
     });
 });

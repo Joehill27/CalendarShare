@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_calendarshare/group_detail_page.dart';
-import 'stacked_icons.dart';
-import 'home.dart';
 import './class_models/group_model.dart';
 import './api_calls/user_api_calls.dart';
 import './api_calls/group_api_calls.dart';
 import './class_models/user_model.dart';
 import './helper_functions/json_parsing.dart';
+import 'dart:convert';
 
 
 class GroupPage extends StatefulWidget{
@@ -37,15 +36,20 @@ class _GroupPageState extends State<GroupPage> {
  }
 
  Future<void> _loadGroups() async {
+   List<Group> tempGroups = [];
    var userResponse = await UserApi.getUser(widget.username);
    User user = JsonParsing.getUserFromRequest(userResponse);
-   List tempGroups = user.groups;
-   print('Number of groups' + tempGroups.toString());
-   for(Map<String, dynamic> group in tempGroups) {
-     print('Printing group name ' + group['groupName'].toString());
-     groups.add(new Group.fromJson(group));
+   List temp = user.groups;
+   for(Map<String, dynamic> group in temp) {
+     String groupId = group['_id'];
+     String groupJson = await GroupAPi.getGroup(groupId);
+     Map<String, dynamic> outerGroup = jsonDecode(groupJson);
+     Group g = new Group.fromJson(outerGroup['group']);
+     tempGroups.add(g);
    }
-
+   setState(() {
+     groups = tempGroups;
+   });
  }
 
  Future<void> _loadGroupRequest() async {
@@ -175,7 +179,7 @@ class _GroupPageState extends State<GroupPage> {
                          )
                        );
                     },
-                    title: Text("Group Name", style: TextStyle(fontSize: 18, )),
+                    title: Text(groups[index].groupName, style: TextStyle(fontSize: 18, )),
                     leading: Icon(Icons.group_add,
                     color: Colors.blue,
                     ),

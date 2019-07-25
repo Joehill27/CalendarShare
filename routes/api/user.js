@@ -280,11 +280,12 @@ router.delete('/:userId/deleteGroupRequest/:groupId', (req, res) => {
     });
 });
 
-//Accept group request
-router.post('/:userId/acceptGroupRequest/:groupId', (req, res) => {
+//Accept group invite
+router.post('/:userId/acceptGroupInvite/:groupId', (req, res) => {
     let userId = req.params.userId;
     let groupId = req.params.groupId;
-    let memberPermission = req.body.memberPermission;
+    // let memberPermission = req.body.memberPermission;
+    let memberPermission = 'admin';
 
     let member = {
         'memberId': userId,
@@ -303,7 +304,7 @@ router.post('/:userId/acceptGroupRequest/:groupId', (req, res) => {
                     res.send({'error': 'Unable to find group' + err});
                 } else {
                     group.members.push(member);
-                    res.send({'success': 'User join group', 'error': ''});
+                    res.send({'success': 'User joined group', 'error': ''});
                 }
             });
         }
@@ -326,9 +327,9 @@ router.get('/:userId/getFriendRequests', (req, res) => {
 });
 
 //Add incoming friend request
-router.post('/:userId/createFriendRequest', (req, res) => {
+router.post('/:userId/createFriendRequest/:otherId', (req, res) => {
     let fromUserId = req.params.userId;
-    let toUserId = req.body.userId;
+    let toUserId = req.params.otherId;
 
     User.findById(toUserId, function(err, user) {
         if(!user) 
@@ -354,18 +355,25 @@ router.post('/:userId/createFriendRequest', (req, res) => {
 //Delete incoming friend request
 router.delete('/:userId/deleteFriendRequest/:friendId', (req, res) => {
     let userId = req.params.userId;
-    let friendId = req.params.userId;
+    let friendId = req.params.friendId;
     User.findById(userId, function(err, user) {
         if(err) 
             res.send({'error': 'user not found' + err});
 
-        user.friendRequests.pull(friendId);
+
+
+        // User.update(
+        //     { _id: userId },             
+        //     {$pull: {friendRequests: friendId}}
+        // )
+        user.friendRequests = user.friendRequests
+        .filter((request) => {return request.from != friendId});
         user.save()
         .then(
             res.send({'succes': 'friend request deleted', 'error': ''})
         )
         .catch(function(err){
-            res.send({'error': err});
+            console.log(err);
         });
     });
 
@@ -385,43 +393,41 @@ router.get('/:userId/friends', (req, res) => {
 });
 
 //Add friend
-router.post('/:userId/addFriend', (req, res) => {
-    let friendOneId = req.body.friendOneId;
-    let friendOneName = req.body.friendOneName;
-    let friendTwoId = req.body.friendTwoId;
-    let friendTwoName = req.body.friendTwoName;
-    let userWithRequest = req.params.userId;
+router.post('/:userId/addFriend/:friendId', (req, res) => {
+    let friendId = req.params.friendId
+    let userId = req.params.userId;
 
     //Check if user to be added exists
-    User.findById(friendOneId, (err, findUser) => {
+    User.findById(friendId, (err, findUser) => {
         if(err) {
             res.send({'error': "user does not exist"});
         } else {
 
-            let friendOne = {
-                friendId: friendTwoId,
-                friendName: friendTwoName
-            }
-            let friendTwo = {
-                friendId: friendOneId,
-                friendName: friendOneName
-            }
+            // let friendOne = {
+            //     friendId: friendTwoId,
+            //     friendName: friendTwoName
+            // }
+            // let friendTwo = {
+            //     friendId: friendOneId,
+            //     friendName: friendOneName
+            // }
             
             //Add friend, remove incoming friend request
             User.update(
-                { _id: friendOneId }, 
-                { $push: { friends: friendOne }},
-                { $pull: { friendRequests: friendTwoId}}
+                { _id: userId }, 
+                { $push: { friends: {'friendId': friendId} }},
+                { $pull: { friendRequests: userId}}
             ).exec(function(err) {
                 if(err) {
                     res.send({'error': err});
                 } else {
                     //Add friend, no friend request ot delete
                     User.update(
-                        { _id: friendTwoId},
-                        { $push : {friends : friendTwo}}
+                        { _id: userId},
+                        { $push : {friends : {'friendId': friendId}}},
+                        { $pull: { friendRequests: friendId}}
                     )
-                    res.send({'friends added successfully' : friend});
+                    res.send({'success':'friends added successfully'});
                 }
             });
         }
@@ -544,7 +550,6 @@ router.get('/:userId/getProfilePicture', (req, res) => {
     });
 });
 
-//TODO request to join a group
 router.post('/:userId/requestToJoinGroup/:groupId', (req, res) => {
     let userId = req.params.userId;
     let groupId = req.params.groupId;
