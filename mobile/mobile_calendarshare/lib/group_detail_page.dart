@@ -118,8 +118,9 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
                               CircleAvatar( 
           backgroundImage: AssetImage('assets/images/friends.png'),
           minRadius: 20,
-          maxRadius: 30,
+          maxRadius: 50,
          ),
+
                               
                             ],),
                           ),
