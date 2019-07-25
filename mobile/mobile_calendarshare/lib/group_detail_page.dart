@@ -40,7 +40,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(5.0))),
           child: Column(children: <Widget>[
-            Text("Group Name",
+            Text(widget.group.groupName,
             style: TextStyle(
              fontSize: 25,
              fontWeight: FontWeight.bold,
