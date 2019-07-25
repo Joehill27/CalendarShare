@@ -161,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
 //                        Navigator.push(context, MaterialPageRoute(
 //                            builder: (context) => HomePage(userId: _userId)
 //                        ));
-//                      },
+//                    },
                       child: new Container(
                         alignment: Alignment.center,
                         height: 60.0,

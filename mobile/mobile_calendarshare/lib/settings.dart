@@ -53,12 +53,14 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      backgroundColor: Colors.blueGrey[200],
       appBar: new AppBar(
         title: new Text('Settings'),
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.blueGrey[200],
       ),
-      body: new Container(
-        color: Colors.black54,
+      body:
+       new Container(
+        color: Colors.blueGrey[600],
         child: new Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 8.0,
@@ -66,12 +68,16 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           child: new Column(
             children: [
+              SizedBox(height: 30,),
               new Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: new TextField(
                     controller: bioController,
                     decoration: new InputDecoration(
                       labelText: 'Tell us a little about yourself.',
+                      labelStyle: TextStyle(color: Colors.white),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(4)))
+                      
                     )),
               ),
               new Padding(
@@ -79,7 +85,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: new TextField(
                     controller: cityController,
                     decoration: new InputDecoration(
+                      
                       labelText: "What city are you from?",
+                      labelStyle: TextStyle(color: Colors.white),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(4)))
+                    
                     )),
               ),
               new Padding(
@@ -88,6 +98,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     controller: countryController,
                     decoration: new InputDecoration(
                       labelText: 'What country are you from?',
+                      labelStyle: TextStyle(color: Colors.white),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(4)))
                     )),
               ),
               new Padding(
@@ -97,6 +109,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     return new RaisedButton(
                       color: Colors.indigoAccent,
                       child: new Text('Update Settings'),
+                      
                       onPressed: () => submitSettings(context),
                     );
                   },
