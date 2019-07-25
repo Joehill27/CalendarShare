@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       print('Not logging in');
       return new Scaffold(
-        backgroundColor: Colors.blueGrey[900],
+        backgroundColor: Colors.blueGrey[800],
         appBar: new AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0.0,
@@ -110,6 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: new TextField(
                   decoration: new InputDecoration(
                     labelText: 'Username',
+                    labelStyle: TextStyle(color: Colors.white),
                   ),
                   style: TextStyle(color: Colors.white),
                 ),
@@ -122,7 +123,11 @@ class _LoginPageState extends State<LoginPage> {
                     const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
                 child: new TextField(
                   obscureText: true,
-                  decoration: new InputDecoration(labelText: 'Password'),
+                  decoration: new InputDecoration(
+                    labelText: 'Password',
+                    labelStyle: TextStyle(color: Colors.white),
+                  ),
+                  style: TextStyle(color: Colors.white, decorationColor: Colors.white),
                 ),
               ),
               new Row(

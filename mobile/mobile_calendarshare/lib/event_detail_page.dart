@@ -26,7 +26,11 @@ class _EventDetailPageState extends State<EventDetailPage> {
       child: new Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Image(image: AssetImage('assets/images/friends.png'),),
+          CircleAvatar(backgroundImage: ExactAssetImage('assets/images/friend2.jpeg'),
+        
+          minRadius: 10,
+          maxRadius: 80,
+          ),
           new SizedBox(
             height: 10,
           ),
@@ -147,6 +151,7 @@ FlatButton(
       backgroundColor: Colors.cyan[900],
       appBar: new AppBar(
         backgroundColor: Colors.blueGrey[600],
+        elevation: 10,
         centerTitle: true,
         title: new Text("Event"),
       ),
