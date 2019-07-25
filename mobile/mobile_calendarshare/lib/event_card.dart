@@ -43,7 +43,7 @@ void initState() {
                
                 new Text(event.name.toString(),
                     style: Theme.of(context).textTheme.headline),
-                new Text(widget.event.location,
+                new Text(widget.event.type,
                     style: Theme.of(context).textTheme.subhead),
                 
               ],

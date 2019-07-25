@@ -1,7 +1,7 @@
 import axios from "axios";
 
-let hostUrl = 'http://localhost:3001';
-// let hostUrl = '';
+// let hostUrl = 'http://localhost:3001';
+let hostUrl = '';
 
 //Create group
 export const createGroup = async(group) => {

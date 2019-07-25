@@ -1,3 +1,4 @@
+
 module.exports = {
 	//Can't think of any other way to access local images...
 	//To be replaced with better way and/or uploading images to database

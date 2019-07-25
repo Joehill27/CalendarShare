@@ -26,7 +26,6 @@ class GroupRequest extends React.Component {
         }
 
         this.toggle = this.toggle.bind(this);
-        this.doSomething = this.doSomething.bind(this);
     }
 
     toggle = nr => () => {
