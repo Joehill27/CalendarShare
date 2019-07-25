@@ -30,10 +30,22 @@ class _LoginPageState extends State<LoginPage> {
   List<Event> _groupEvents;
   var _loggedIn = false;
 
+  TextEditingController usernameController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+
 
   _login() async {
+<<<<<<< HEAD
     String encryptedPassword = Encrypt.encryptString('admin', 'Group9!');
     var userJson = await UserApi.loginRequest('admin');
+=======
+    _username = usernameController.text;
+    _password = passwordController.text;
+    print(_password + ' ' + _username);
+
+    String encryptedPassword = Encrypt.encryptString(_username, _password);
+    var userJson = await UserApi.loginRequest(_username);
+>>>>>>> 3a76b01c75a97889ba3aa2509d844c70a91fb8bb
     Map<String, dynamic> userOuter = jsonDecode(userJson);
     if (userOuter.containsKey('error')) {
       if (userOuter['error'] != '') {
@@ -109,6 +121,8 @@ class _LoginPageState extends State<LoginPage> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
                 child: new TextField(
+                  keyboardType: TextInputType.text,
+                  controller: usernameController,
                   decoration: new InputDecoration(
                     labelText: 'Username',
                     labelStyle: TextStyle(color: Colors.white),
@@ -124,6 +138,8 @@ class _LoginPageState extends State<LoginPage> {
                     const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
                 child: new TextField(
                   obscureText: true,
+                  keyboardType: TextInputType.text,
+                  controller: passwordController,
                   decoration: new InputDecoration(
                     labelText: 'Password',
                     labelStyle: TextStyle(color: Colors.white),

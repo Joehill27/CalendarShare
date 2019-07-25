@@ -73,10 +73,21 @@ class Home extends React.Component {
     this.createEventHandler = this.createEventHandler.bind(this);
     this.changeHandler = this.changeHandler.bind(this);
     this.toggle = this.toggle.bind(this);
+    this.joinHandler = this.toggle.bind(this);
 
   }
 
 
+  joinHandler = event => {
+    console.log(event);
+    createUserEvent(localStorage.getItem('userId', event))
+    .then((res) => {
+        console.log('Added event' + res);
+    })
+    .catch((e) => {
+        console.log(e);
+    });
+}
 
   componentDidMount() {
     if (localStorage.getItem('userId') === -1)
@@ -147,7 +158,7 @@ class Home extends React.Component {
     if (this.state.futureEvents !== '') {
       return (
         this.state.futureEvents.map((e, index) => (
-          <MyEvent key={index} event={e} />
+          <MyEvent joinHandler={this.joinHandler} key={index} event={e} />
         ))
       );
     }
@@ -278,8 +289,8 @@ class Home extends React.Component {
               </MDBDropdownToggle>
               <MDBDropdownMenu>
                 <MDBDropdownItem header>Sort</MDBDropdownItem>
-                <MDBDropdownItem onClick={(meow) => { this.setState({ eventSortType: 'PastEvent', sortBy: 'Ascending' }); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen" /></MDBDropdownItem>
-                <MDBDropdownItem onClick={(meow) => { this.setState({ eventSortType: 'PastEvent', sortBy: 'Descending' }); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed" /></MDBDropdownItem>
+                <MDBDropdownItem >Time<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen" /></MDBDropdownItem>
+                <MDBDropdownItem>Time<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed" /></MDBDropdownItem>
                 <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen" /></MDBDropdownItem>
                 <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed" /></MDBDropdownItem>
               </MDBDropdownMenu>
@@ -312,8 +323,8 @@ class Home extends React.Component {
               </MDBDropdownToggle>
               <MDBDropdownMenu>
                 <MDBDropdownItem header>Sort</MDBDropdownItem>
-                <MDBDropdownItem onClick={(meow) => { this.setState({ eventSortType: 'PastEvent', sortBy: 'Ascending' }); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen" /></MDBDropdownItem>
-                <MDBDropdownItem onClick={(meow) => { this.setState({ eventSortType: 'PastEvent', sortBy: 'Descending' }); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed" /></MDBDropdownItem>
+                <MDBDropdownItem >Time<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen" /></MDBDropdownItem>
+                <MDBDropdownItem >Time<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed" /></MDBDropdownItem>
                 <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen" /></MDBDropdownItem>
                 <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed" /></MDBDropdownItem>
               </MDBDropdownMenu>

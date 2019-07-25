@@ -25,14 +25,22 @@ class Event extends React.Component {
             let startString = convertDateToFormat(event.start);
             let endString = convertDateToFormat(event.end);
 
+            let location = event.location;
+
+
             this.setState({
+                'event': event,
                 'eventId' : event._id,
                 'eventName': event.eventName,
                 'eventStart': startString,
                 'eventEnd': endString,
                 'eventType': event.eventType,
                 'eventDetails': event.eventDetails,
-                'eventImageID': event.imageId
+                'eventImageID': event.imageId,
+                'eventAddress': location.address,
+                'eventZipCode': location.zipCode,
+                'eventCity': location.city,
+                'eventCountry': location.country
             });
         }
     }
@@ -41,16 +49,6 @@ class Event extends React.Component {
         let modalNumber = 'modal' + nr
         this.setState({
             [modalNumber]: !this.state[modalNumber]
-        });
-    }
-
-    joinHandler = event => {
-        createUserEvent(localStorage.getItem('userId', event))
-        .then((event) => {
-            console.log('Added event' + event);
-        })
-        .catch((e) => {
-            console.log(e);
         });
     }
 
@@ -71,7 +69,7 @@ class Event extends React.Component {
                         <MDBCardTitle>{this.state.eventName}</MDBCardTitle>
                         <MDBCardText><MDBIcon icon="calendar-day" className="mr-2"/>{this.state.eventStart}</MDBCardText>
                         <MDBCardText><MDBIcon icon="calendar-day" className="mr-2"/>{this.state.eventEnd}</MDBCardText>
-                        <MDBCardText><MDBIcon icon="info-circle" className="mr-2"/>{this.state.eventDetails}</MDBCardText>
+                        <MDBCardText><MDBIcon icon="map-marker-alt" className="mr-2"/>{this.state.eventCity}, {this.state.eventCountry}</MDBCardText>
                         <MDBBtn size="sm" color="mdb-color darken-2" onClick={this.toggle(1)}>View</MDBBtn>
                             <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered>
                                 <MDBModalHeader toggle={this.toggle(1)} className="mdb-color darken-2 white-text">{this.state.eventName}</MDBModalHeader>
@@ -85,7 +83,7 @@ class Event extends React.Component {
                                     <MDBBtn color="danger" onClick={this.toggle(1)}>Close</MDBBtn>
                                 </MDBModalFooter>
                             </MDBModal>
-                        <MDBBtn size="sm" color="green darken-4" href="#">Join</MDBBtn>
+                        <MDBBtn size="sm" color="green darken-4" onClick={() => this.props.joinHandler}>Join</MDBBtn>
                     </MDBCardBody>
                 </MDBCard>
             </MDBCol>
