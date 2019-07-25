@@ -53,7 +53,7 @@ router.post('/createAccount', (req, res) => {
             
             // Check if email has already been used
             User.findOne().exec(function(err, user) {
-                if(!user) {
+                if(!err) {
                     let newUser = new User(req.body);
                     newUser.profilePicture = '1';
                     newUser.settings = {
