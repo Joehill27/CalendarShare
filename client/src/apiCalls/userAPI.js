@@ -1,10 +1,10 @@
 import axios from "axios";
 import {getGroupEvents} from './groupAPI';
 
-// let hostUrl = 'http://localhost:3001';
+let hostUrl = 'http://localhost:3001';
 
 let groupEvents = [];
-let hostUrl = '';
+// let hostUrl = '';
 
 //Get user
 export const getUser = async(userName) => {
@@ -28,7 +28,7 @@ export const getUserById = async(userId) => {
 //Delete user
 export const deleteUser = async(userId) => {
     try {
-        let result = await axios.delete('/api/user/deleteAccount/'+userId);
+        let result = await axios.delete(hostUrl + '/api/user/deleteAccount/'+userId);
         return result;
     } catch(e) {
         console.log(e);
@@ -38,7 +38,7 @@ export const deleteUser = async(userId) => {
 //Get all friend requests
 export const getFriendRequests = async(userId) => {
     try {
-        let friendRequests = await axios.get('/api/user/' + userId + '/getFriendRequests');
+        let friendRequests = await axios.get(hostUrl + '/api/user/' + userId + '/getFriendRequests');
         return friendRequests;
     } catch(e) {
         console.log(e);
@@ -48,7 +48,7 @@ export const getFriendRequests = async(userId) => {
 //Create friend request
 export const createFriendRequest = async(toId, fromId) => {
     try {
-        let result = await axios.get('/api/user/' + fromId + '/createFriendRequest', toId);
+        let result = await axios.get(hostUrl + '/api/user/' + fromId + '/createFriendRequest', toId);
         return result;
     } catch(e) {
         console.log(e);
@@ -63,7 +63,7 @@ export const acceptFriendRequest = async(friendOne, friendTwo) => {
         'friendTwo': friendTwo
     }
     try {
-        let result = await axios.post('/api/user/' + userId + 'addFriend', request);
+        let result = await axios.post(hostUrl + '/api/user/' + userId + 'addFriend', request);
         return result;
     } catch(e) {
         console.log(e);
@@ -73,7 +73,7 @@ export const acceptFriendRequest = async(friendOne, friendTwo) => {
 //Deny friend request
 export const denyFriendRequest = async(userId) => {
     try {
-        let result = await axios.delete('/api/user/' + userId + '/deleteFriendRequest');
+        let result = await axios.delete(hostUrl + '/api/user/' + userId + '/deleteFriendRequest');
         return result;
     } catch(e) {
         console.log(e);
@@ -83,7 +83,7 @@ export const denyFriendRequest = async(userId) => {
 //Create group request
 export const createGroupRequest = async(userId, groupId) => {
     try {
-        let result = await axios.post('/api/user/' + userId + '/createGroupRequest/' + groupId);
+        let result = await axios.post(hostUrl + '/api/user/' + userId + '/createGroupRequest/' + groupId);
         return result;
     } catch(e) {
         console.log(e);
@@ -95,7 +95,7 @@ export const createGroupRequest = async(userId, groupId) => {
 //Deny group request
 export const denyGroupRequest = async(userId, groupId) => {
     try {
-        let result = await axios.delete('/api/user/' + userId + '/deleteGroupRequest/' + groupId);
+        let result = await axios.delete(hostUrl + '/api/user/' + userId + '/deleteGroupRequest/' + groupId);
         return result;
     } catch(e) {
         console.log(e);
@@ -105,7 +105,7 @@ export const denyGroupRequest = async(userId, groupId) => {
 //Update User Settings
 export const updateUserSettings = async(userId, settings) => {
     try {
-        let result = await axios.put('/api/user/' + userId + '/updateSettings',  settings);
+        let result = await axios.put(hostUrl + '/api/user/' + userId + '/updateSettings',  settings);
         return result;
     } catch(e) {
         console.log(e);
@@ -114,7 +114,7 @@ export const updateUserSettings = async(userId, settings) => {
 
 export const getProfilePicture = async(userId) => {
     try {
-        let imageId = await axios.get('/api/user/'+userId+'/getProfilePicture');
+        let imageId = await axios.get(hostUrl + '/api/user/'+userId+'/getProfilePicture');
         return imageId;
     } catch(e) {
         console.log(e);
@@ -124,7 +124,7 @@ export const getProfilePicture = async(userId) => {
 //Update profile picture
 export const updateProfilePicture = async(userId, imageId) => {
     try {
-        let result = await axios.put('/api/user/'+userId+'/updateProfilePicture', {'imageId': imageId});
+        let result = await axios.put(hostUrl + '/api/user/'+userId+'/updateProfilePicture', {'imageId': imageId});
         return result;
     } catch(e) {
         console.log(e);
@@ -134,7 +134,7 @@ export const updateProfilePicture = async(userId, imageId) => {
 //Get all user events
 export const getUserEvents = async(userId) => {
     try {
-        let events = await axios.get('/api/user/'+userId+'/events');
+        let events = await axios.get(hostUrl + '/api/user/'+userId+'/events');
         return events;
     } catch(e) {
         console.log(e);
@@ -163,7 +163,7 @@ export const updateUserEvent = async(userId, eventId, event) => {
 //Delete user event
 export const deleteUserEvent = async(userId, eventId) => {
     try {
-        let result = await axios.delete('/api/user/' + userId + '/deleteEvent/' + eventId);
+        let result = await axios.delete(hostUrl + '/api/user/' + userId + '/deleteEvent/' + eventId);
         return result;
     } catch(e) {
         console.log(e);
@@ -174,7 +174,7 @@ export const deleteUserEvent = async(userId, eventId) => {
 //Get all groups
 export const getUserGroups = async(userId) => {
     try {
-        let groups = await axios.get('/api/user/' + userId + 'groups');
+        let groups = await axios.get(hostUrl + '/api/user/' + userId + 'groups');
         return groups;
     } catch(e) {
         console.log(e);
@@ -184,7 +184,7 @@ export const getUserGroups = async(userId) => {
 //Get all friends events
 export const getFriendsEvents = async(userId) => {
     try {
-        let friendsEvents = await axios.get('/api/user/' + userId + '/friends/events');
+        let friendsEvents = await axios.get(hostUrl + '/api/user/' + userId + '/friends/events');
         return friendsEvents;
     } catch (e) {
         console.log(e);
