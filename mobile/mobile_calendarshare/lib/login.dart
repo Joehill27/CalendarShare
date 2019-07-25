@@ -10,10 +10,11 @@ import './class_models/event_model.dart';
 import './class_models/user_model.dart';
 import './helper_functions/json_parsing.dart';
 
+
 class LoginPage extends StatefulWidget {
   LoginPage({this.loggedIn});
 
-  var loggedIn;
+  final loggedIn;
 
   @override
   State<StatefulWidget> createState() => new _LoginPageState();
@@ -55,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         _userId = user['_id'];
         _username = user['username'];
+
         List eventsVar = user['events'];
         _events = new List();
         for (var e in eventsVar) {
@@ -63,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
         var userRequest = await UserApi.getUser('admin');
         _user = JsonParsing.getUserFromRequest(userRequest);
         _profilePicture = user['profilePicture'];
+        List groups = _user.groups;
         _groupEvents = await JsonParsing.getGroupEventsFromIds(_user.groups);
         print(_groupEvents.toString());
         _loggedIn = true;
