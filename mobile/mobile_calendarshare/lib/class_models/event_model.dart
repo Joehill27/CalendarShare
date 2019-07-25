@@ -6,9 +6,9 @@ class Event {
   Map<String, dynamic> location;
 
 
-  
+
  
-  Event(this.type, this.location, this.name);
+  Event( this.name, this.type, this.description,);
 
   Event.detailed(this.id ,this.name, this.type, this.description, this.startDate,
       this.endDate, this.imageId, this.location);
