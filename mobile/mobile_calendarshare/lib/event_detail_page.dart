@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:mobile_calendarshare/class_models/event_model.dart';
 import 'package:mobile_calendarshare/helper_functions/convert_time.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart'; 
+
 
 
 
