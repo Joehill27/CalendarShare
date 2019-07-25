@@ -261,15 +261,7 @@ class Home extends React.Component {
             </MDBDropdown>
             <MDBBtn onClick={this.toggle(1)} size="sm" color="dark-green">New</MDBBtn>
           </div>
-          <div className="ml-auto">
 
-            <MDBFormInline className="md-form cardpadding pr-3">
-              <input className="form-control mr-sm-2 white-text" type="text" placeholder="Search" aria-label="Search" />
-              <MDBBtn outline color="white" size="sm" type="submit" className="mr-auto">
-                Search
-              </MDBBtn>
-            </MDBFormInline>
-          </div>
         </div>
         <div id="future" className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
           {this.renderFutureEvents()}

@@ -42,7 +42,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/logo.png
-#    - assets/images/events.png
+    - assets/images/events.png
     - assets/images/friends.png
     - assets/defaultImages/userProfilePics/
     - assets/defaultImages/groupProfilePics/
@@ -54,6 +54,7 @@ flutter:
     - assets/images/study_session.png
     - assets/images/friend2.jpeg
     - assets/images/ironman.jpeg
+    - assets/images/calendarlogo.png
 
 fonts:
   - family: Montserrat

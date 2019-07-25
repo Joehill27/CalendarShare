@@ -1,10 +1,10 @@
 import axios from "axios";
 import {getGroupEvents} from './groupAPI';
 
-let hostUrl = 'http://localhost:3001';
+// let hostUrl = 'http://localhost:3001';
 
 let groupEvents = [];
-// let hostUrl = '';
+let hostUrl = '';
 
 //Get user
 export const getUser = async(userName) => {

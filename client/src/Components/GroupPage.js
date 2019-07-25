@@ -68,13 +68,16 @@ class GroupPage extends React.Component {
                     'members': group
                 });
                 
-                getUserById(this.state.members[0]._id)
-                    .then((userJson) => {
-                        user = userJson;
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    })
+                if(this.state.members)
+                {
+                    getUserById(this.state.members[0]._id)
+                        .then((userJson) => {
+                            user = userJson;
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        })
+                }
             })
     }
 
@@ -86,7 +89,7 @@ class GroupPage extends React.Component {
     }
 
     renderEvents() {
-        if (this.state.events !== '') {
+        if (this.state.events) {
             return (
                 this.state.events.map((e, index) => (
                     <MyEvent key={index} event={e} />
@@ -96,7 +99,7 @@ class GroupPage extends React.Component {
     }
 
     renderMembers() {
-        if (this.state.members !== '') {
+        if (this.state.members) {
             console.log(this.state.members);
             return (
                 this.state.members.map((e, index) => (

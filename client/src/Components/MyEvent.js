@@ -233,9 +233,9 @@ class MyEvent extends React.Component {
                                                     <MDBCol>
                                                         <MDBInput
                                                             value={this.state.eventCounrty}
-                                                            label="Counrty" 
+                                                            label="Country" 
                                                             className="form-control"
-                                                            name="eventCounrty"
+                                                            name="eventCountry"
                                                             onChange={this.changeHandler}
                                                             type="text"
                                                             required

@@ -90,6 +90,7 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       print('Not logging in');
       return new Scaffold(
+        resizeToAvoidBottomPadding: false,
         backgroundColor: Colors.blueGrey[800],
         appBar: new AppBar(
             backgroundColor: Colors.transparent,
@@ -100,7 +101,13 @@ class _LoginPageState extends State<LoginPage> {
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              new StakedIcons(),
+              CircleAvatar( 
+          backgroundImage: AssetImage('assets/images/calendarlogo.png'),
+          minRadius: 20,
+          maxRadius: 80,
+         ),
+         SizedBox(height: 10,),
+
               new Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

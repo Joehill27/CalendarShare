@@ -6,7 +6,7 @@ import './api_calls/user_api_calls.dart';
 class EventDetailPage extends StatefulWidget {
   final Event event;
   final String userId;
-
+  
   EventDetailPage(this.userId ,this.event);
 
   @override
@@ -14,6 +14,12 @@ class EventDetailPage extends StatefulWidget {
 }
 
 class _EventDetailPageState extends State<EventDetailPage> {
+
+@override
+  void initState() {
+    super.initState();
+    String address = widget.event.location['address'];
+  }
 
   _deleteEvent() async {
     var result = await UserApi.deleteUserEvent(widget.userId, widget.event.id);
@@ -70,28 +76,62 @@ class _EventDetailPageState extends State<EventDetailPage> {
                           Container(
                             child: Expanded(
                               child: Text(TimeFunctions.convertToEventFormat(
-                                      widget.event.startDate) +
-                                  " - " +
+                                      widget.event.startDate)),
+                            ),
+                          )
+                        ],
+                      ),
+
+                      SizedBox(
+                        height: 10,
+                      ),
+
+                      Row(
+                        children: <Widget>[
+                          Icon(Icons.access_time),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Container(
+                            child: Expanded(
+                              child: Text(
                                   TimeFunctions.convertToEventFormat(
                                       widget.event.endDate)),
                             ),
                           )
                         ],
+                      ),
+
+                      SizedBox(
+                        height: 10,
+                      ),
+
+                      Row(
+                        children: <Widget>[
+                          Icon(Icons.location_city),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Container(
+                            child: Expanded(
+                             child: Text(widget.event.location['address'] + " " + widget.event.location['city']
+                             + " " "\n" + widget.event.location['zipCode'])
+                            ),
+                          )
+                        ],
                       )
+
                     ],
                   ),
 
                   SizedBox(
                     height: 10.0,
                   ),
-
-//THIS ONE NEEDS TO BE CHANGED TO TIME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
                   Column(
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Icon(Icons.location_on),
+                          Icon(Icons.event_seat),
                           SizedBox(
                             width: 10,
                           ),

@@ -28,6 +28,7 @@ import { getUser } from "../apiCalls/userAPI";
     componentDidMount()
     {
         let user;
+        console.log(this.props.location.state.userName);
         getUser(this.props.location.state.userName)
             .then((userJson) => {
                 user = userJson;
@@ -60,7 +61,7 @@ import { getUser } from "../apiCalls/userAPI";
 
     renderGroups()
     {
-        if (this.state.groups != '')
+        if (this.state.groups)
         {
             console.log(this.state.groups);
             return (

@@ -20,7 +20,7 @@ class Group extends React.Component {
 
         this.state = {
             modal1: false,
-            groupName: 'admin',
+            groupName: 'Demo Group',
             groupID: '5d38bf4076a6a43e482c2bd3'
         }
 
