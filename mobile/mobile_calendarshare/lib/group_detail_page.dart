@@ -93,6 +93,9 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
                 ),
                 ),
                 ),)
+
+                
+
               ],)
            
             ],),

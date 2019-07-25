@@ -16,6 +16,8 @@ import {
 } from 'mdbreact';
 import Navigation from './Navigation';
 import Friend from "./Friend";
+import MyEvent from './MyEvent';
+import {getGroupEvents} from '../apiCalls/groupAPI';
 
 class GroupPage extends React.Component {
     constructor(props) {
@@ -25,14 +27,35 @@ class GroupPage extends React.Component {
             this.props.history.push('');
         }
 
+        console.log(this.props.location.state);
+
         this.state = {
             modal1: false,
             modal2: false,
-            groupName: 'TODO: Add groupname'
+            group: '',
+            groupName: this.props.location.state.groupName,
+            groupID: this.props.location.state.groupID,
+            members: '',
+            groupRequests: '',
+            events: '',
+            groupPicture: ''
         };
+
+        this.renderEvents = this.renderEvents.bind(this);
     }
 
-    componentDidMount() {
+    componentDidMount() 
+    {
+        let group;
+        getGroupEvents(this.state.groupID)
+            .then((groupJson) => {
+                group = groupJson;
+                console.log(group);
+                this.setState ({
+                    'events' : group
+                });
+                console.log(this.state);
+            })
     }
 
     toggle = nr => () => {
@@ -40,6 +63,17 @@ class GroupPage extends React.Component {
         this.setState({
             [modalNumber]: !this.state[modalNumber]
         });
+    }
+
+    renderEvents()
+    {
+        if (this.state.events !== '') {
+            return (
+                this.state.events.map((e, index) => (
+                    <MyEvent key={index} event={e} />
+                ))
+            );
+        }
     }
 
     render() {
@@ -51,8 +85,8 @@ class GroupPage extends React.Component {
                     <Navigation imageId={localStorage.getItem('profilePicture')} />
                     <div>
                         <h2> {''}</h2>
-                        <h3> {'______________________________________________________________________________________________________________'}</h3>
-                        <h5> {'______________________________________________________________________________________________________________'}</h5>
+                        <h3> {'_________'}</h3>
+                        <h5> {'_________'}</h5>
                         <MDBDropdownToggle nav caret onClick={this.toggle(1)}>
                             {/* <Image imageId={this.state.imageId} /> */}
                             <span float="right">{this.state.groupName}</span>
@@ -89,31 +123,17 @@ class GroupPage extends React.Component {
                             <MDBDropdownToggle color="transparent">
                                 <h3 className="text-white">Events<MDBIcon icon="sort-amount-down ml-2" className="ml-2 mdb-color-text" /></h3>
                             </MDBDropdownToggle>
-                            <MDBDropdownMenu>
-                                <MDBDropdownItem header>Sort</MDBDropdownItem>
-                                <MDBDropdownItem onClick={(meow) => { this.setState({ eventSortType: 'MyEvent', sortBy: 'Ascending' }); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen" /></MDBDropdownItem>
-                                <MDBDropdownItem onClick={(meow) => { this.setState({ eventSortType: 'MyEvent', sortBy: 'Descending' }); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed" /></MDBDropdownItem>
-                                <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen" /></MDBDropdownItem>
-                                <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed" /></MDBDropdownItem>
-                            </MDBDropdownMenu>
                         </MDBDropdown>
                     </div>
-
                 </div>
                 <div id="future" className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
+                    { this.renderEvents() }
                 </div>
                 <div>
                     <MDBDropdown dropright className="ml-2">
                         <MDBDropdownToggle color="transparent">
                             <h3 className="text-white">Members<MDBIcon icon="sort-amount-down ml-2" className="ml-2 mdb-color-text" /></h3>
                         </MDBDropdownToggle>
-                        <MDBDropdownMenu>
-                            <MDBDropdownItem header>Sort</MDBDropdownItem>
-                            <MDBDropdownItem onClick={(meow) => { this.setState({ eventSortType: 'GroupEvent', sortBy: 'Ascending' }); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen" /></MDBDropdownItem>
-                            <MDBDropdownItem onClick={(meow) => { this.setState({ eventSortType: 'GroupEvent', sortBy: 'Descending' }); this.sortEvents(); }}>Time<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed" /></MDBDropdownItem>
-                            <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-up ml-2" className="FilterTypeGreen" /></MDBDropdownItem>
-                            <MDBDropdownItem href="#!">Location<MDBIcon icon="angle-double-down ml-2" className="FilterTypeRed" /></MDBDropdownItem>
-                        </MDBDropdownMenu>
                     </MDBDropdown>
                 </div>
 

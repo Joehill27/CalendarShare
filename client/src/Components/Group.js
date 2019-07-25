@@ -1,13 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import { Link, withRouter } from 'react-router-dom';
 import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBIcon, MDBModal, MDBModalBody,
 MDBModalHeader, MDBModalFooter, MDBContainer, MDBRow, MDBInput } from 'mdbreact';
 import Image from './Image';
 import one from '../defaultImages/userProfilePics/8.png';
 
 class Group extends React.Component {
+    static propTypes = {
+        match: PropTypes.object.isRequired,
+        location: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired
+    }
 
-    state = {
-        modal1: false
+    constructor(props)
+    {
+        super(props);
+
+        this.state = {
+            modal1: false,
+            groupName: 'admin',
+            groupID: '5d38bf4076a6a43e482c2bd3'
+        }
+
+        this.toggle = this.toggle.bind(this);
+        this.doSomething = this.doSomething.bind(this);
     }
 
     toggle = nr => () => {
@@ -17,7 +35,17 @@ class Group extends React.Component {
         });
     }
 
+    doSomething() {
+        console.log(this.state.groupName);
+        this.props.history.push({
+            pathname: '/group',
+            state: { groupName: this.state.groupName, groupID: this.state.groupID }
+        });
+    }
+
     render() {
+        const { match, location, history } = this.props;
+
         return(
             <div className="card-inline pb-2">
                <MDBCol style={{ maxWidth: "23rem" }}>
@@ -32,7 +60,7 @@ class Group extends React.Component {
                         </MDBRow>
                         <MDBCardTitle className="text-center pt-1">Group Name</MDBCardTitle>
                         <div className="pl-1">
-                            <MDBBtn size="sm" color="mdb-color darken-2">View Page</MDBBtn>
+                            <MDBBtn onClick={() => this.doSomething()} size="sm" color="mdb-color darken-2">View Page</MDBBtn>
                             <MDBBtn color="transparent" className="p-1 m-0" onClick={this.toggle(1)}><MDBIcon icon="sign-out-alt" className="red-text py-1 px-1"/></MDBBtn>
                             <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} centered size="sm">
                             <MDBModalHeader toggle={this.toggle(1)} className="danger-color-dark white-text">Leave Group</MDBModalHeader>
@@ -54,4 +82,4 @@ class Group extends React.Component {
             </div>
         );
     }
-} export default Group;
+} export default withRouter(Group);

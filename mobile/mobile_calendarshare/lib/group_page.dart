@@ -125,8 +125,8 @@ class _GroupPageState extends State<GroupPage> {
                                   width: 5,
                                 ),
                                 FlatButton(
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(7))),
-                                color: Colors.green,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
+                                color: Colors.blueAccent[100],
                                 child: Row(children: <Widget>[
                                   Icon(Icons.check_box),
                                   Text("Join"),
@@ -138,8 +138,8 @@ class _GroupPageState extends State<GroupPage> {
                               ),
                               Spacer(),
                               FlatButton(
-                              color: Colors.red,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(7))),
+                              color: Colors.redAccent[100],
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
                               child: Row(children: <Widget>[
                                 Icon(Icons.delete_forever),
                                 Text("Reject"),
@@ -163,6 +163,7 @@ class _GroupPageState extends State<GroupPage> {
       SizedBox(
         height: 15,
       ),
+      Divider(color: Colors.red,),
       Container(
         alignment: Alignment.bottomLeft,
         child: new Text("My Groups", style: new TextStyle(

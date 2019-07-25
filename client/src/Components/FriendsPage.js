@@ -14,7 +14,8 @@ import UserItem from "./UserItem";
         super(props);
 
         this.state = {
-            'userName' : ''
+            'userName' : '',
+            'friends' : ''
         };
 
         this.logoutHandler = this.logoutHandler.bind(this);
@@ -116,6 +117,7 @@ import UserItem from "./UserItem";
                 </div>
             </div>
                 <div className="scrolling-wrapper-flexbox scrollbar scrollbar-primary" style={scrollContainerStyle}>
+                    { console.log(this) }
                     <Friend/>
                     <Friend/>
                     <Friend/>
