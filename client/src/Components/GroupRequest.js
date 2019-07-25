@@ -2,15 +2,31 @@
 // NOW LONGER NEEDED
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol, MDBIcon, MDBModal, MDBModalBody,
 MDBModalHeader, MDBModalFooter, MDBContainer, MDBRow, MDBInput } from 'mdbreact';
+import { Link, withRouter } from 'react-router-dom';
 import Image from './Image';
 import one from '../defaultImages/userProfilePics/8.png';
 
 class GroupRequest extends React.Component {
+    static propTypes = {
+        match: PropTypes.object.isRequired,
+        location: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired
+    }
 
-    state = {
-        modal1: false
+    constructor(props)
+    {
+        super(props);
+
+        this.state = {
+            modal1: false,
+            groupName: ''
+        }
+
+        this.toggle = this.toggle.bind(this);
+        this.doSomething = this.doSomething.bind(this);
     }
 
     toggle = nr => () => {
@@ -21,6 +37,8 @@ class GroupRequest extends React.Component {
     }
 
     render() {
+        const { match, location, history } = this.props;
+
         return(
             <div className="card-inline pb-2">
                <MDBCol style={{ maxWidth: "23rem" }}>

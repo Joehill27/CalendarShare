@@ -136,7 +136,10 @@ class Navigation extends React.Component {
 										}}>Friends</MDBNavLink>
 									</MDBNavItem>
 									<MDBNavItem>
-										<MDBNavLink to="/groups">Groups</MDBNavLink>
+										<MDBNavLink to={{
+											pathname: '/groups',
+											state: { userName: this.state.userName }
+										}}>Groups</MDBNavLink>
 									</MDBNavItem>
 									{/* <MDBNavItem>
                     <MDBDropdown>

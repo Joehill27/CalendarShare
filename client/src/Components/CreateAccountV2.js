@@ -20,6 +20,40 @@ class CreateAccountV2 extends Component {
             passconfirmed: '0',
             email: '',
         };
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(e) {
+        let target = e.target;
+        let value = target.type === 'checkbox' ? target.checked : target.value;
+        let name = target.name;
+
+        this.setState({
+            [name]: value
+        }, function () {
+            if (name === "password" || name === "checkPass")
+                this.setState({ passconfirmed: '1' })
+
+            // Check that the password meets our requirements
+            var password = this.state.password;
+            if (password.match(/[A-Z]/g) != null) this.setState({ uppercase: 'green' }); // We have an uppercase
+            else this.setState({ uppercase: 'red', passconfirmed: '0' });
+            if (password.match(/[a-z]/g) != null) this.setState({ lowercase: 'green' }); // We have a lowercase
+            else this.setState({ lowercase: 'red', passconfirmed: '0' });
+            if (password.match(/\d+/g) != null) this.setState({ number: 'green' }); // We have a number
+            else this.setState({ number: 'red', passconfirmed: '0' });
+            if (password.match(/[^\s\w]/g) != null) this.setState({ symbol: 'green' }); // We have a symbol
+            else this.setState({ symbol: 'red', passconfirmed: '0' });
+            if ((password.length >= 8 && password.length <= 20)) this.setState({ length: 'green' }); // We have correct length
+            else this.setState({ length: 'red', passconfirmed: '0' });
+            var matches = password.match(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_])\S{8,20}$/g);
+            if (matches == null) console.log("Password does not meet requirements");
+
+            // Checking that confirmation works
+            if (this.state.checkPass === this.state.password) this.setState({ passconfirm: 'green' });
+            else this.setState({ passconfirm: 'red', passconfirmed: '0' });
+        });
     }
 
     render() {
@@ -37,31 +71,42 @@ class CreateAccountV2 extends Component {
                                 <p class="h4 mb-4 white-text">Create Account</p>
 
                                 <input type="text" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="Username" required />
-                                <div style={{ overflow: 'hidden' }}>
-                                    <p style={{ float: 'left', marginTop: '0em', marginBot: '0em', color: this.state.uppercase }}>Uppercase Letter</p>
-                                    <p style={{ float: 'right', marginTop: '0em', marginBot: '0em', color: this.state.lowercase }}>Lowercase Letter</p>
-                                    <p style={{ float: 'left', marginTop: '1.25em', marginBot: '0em', color: this.state.number }}>Number</p>
-                                    <p style={{ float: 'right', marginTop: '1.25em', marginBot: '0em', color: this.state.symbol }}>Symbol</p>
-                                    <p style={{ float: 'left', marginTop: '0em', marginBot: '0em', color: this.state.length }}>Between 8 and 20 characters</p>
-                                    <p style={{ float: 'right', marginTop: '0em', marginBot: '0em', color: this.state.passconfirm }}>Confirmation match</p>
+                                <div> <h4 style={{ color: 'white' }}> Password Requirements </h4> </div>
+                                <div class="grid-container" style={{ display: 'inline-grid', 'grid-template-columns': 'auto auto auto', padding: '10px' }}>
+                                    <div class="grid-item" style={{ 'font-size': '18px', padding: '2px', border: '1px solid rgba(0, 0, 0, 0.8)' }}>
+                                        <p style={{ color: this.state.uppercase, marginTop: '1.0em' }}>Uppercase</p>
+                                    </div>
+                                    <div class="grid-item" style={{ 'font-size': '18px', padding: '2px', border: '1px solid rgba(0, 0, 0, 0.8)' }}>
+                                        <p style={{ color: this.state.lowercase, marginTop: '1.0em' }}>Lowercase</p>
+                                    </div>
+                                    <div class="grid-item" style={{ 'font-size': '18px', padding: '2px', border: '1px solid rgba(0, 0, 0, 0.8)' }}>
+                                        <p style={{ color: this.state.number, marginTop: '1.0em' }}>Number</p>
+                                    </div>
+                                    <div class="grid-item" style={{ 'font-size': '18px', padding: '2px', border: '1px solid rgba(0, 0, 0, 0.8)' }}>
+                                        <p style={{ color: this.state.symbol, marginTop: '1.0em' }}>Symbol</p>
+                                    </div>
+                                    <div class="grid-item" style={{ 'font-size': '18px', padding: '2px', border: '1px solid rgba(0, 0, 0, 0.8)' }}>
+                                        <p style={{ color: this.state.length, marginTop: '1.0em' }}>Between 8 and 20</p>
+                                    </div>
+                                    <div class="grid-item" style={{ 'font-size': '18px', padding: '2px', border: '1px solid rgba(0, 0, 0, 0.8)' }}>
+                                        <p style={{ color: this.state.passconfirm, marginTop: '1.0em' }}>Confirmation</p>
+                                    </div>
                                 </div>
 
-                                <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password" required />
+                                <input type="password" id="defaultLoginFormPassword" className="form-control mb-4" placeholder="Enter Your Password" name="password"
+                                    value={this.state.password} onChange={this.handleChange} />
 
-                                <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Confirm Password" required />
+                                <input type="password" id="defaultLoginFormPassword" className="form-control mb-4" placeholder="Confirm Password" name="checkPass"
+                                    value={this.state.checkPass} onChange={this.handleChange} />
 
-                                <input type="email" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Email" required />
+                                <input type="email" id="defaultLoginFormPassword" className="form-control mb-4" placeholder="Email" name="email"
+                                    value={this.state.email} onChange={this.handleChange} />
 
                                 <MDBBtn outline color="primary">Create Account</MDBBtn>
 
                                 <p class="white-text">Have an account?
-                        <a href="/loginv2"> Sign In</a>
+                                    <a href="/loginv2"> Sign In</a>
                                 </p>
-
-                                {/* <p class="white-text">or sign in with:</p>
-
-                    <MDBBtn outline color="cyan"><MDBIcon fab icon="google pr-2"/>Google</MDBBtn>
-                    <MDBBtn outline color="cyan"><MDBIcon fab icon="facebook-square pr-2"/>Facebook</MDBBtn> */}
                             </form>
                         </MDBCol>
                     </MDBRow>
