@@ -19,13 +19,6 @@ import two from '../defaultImages/eventPics/2.jpg';
 import three from '../defaultImages/eventPics/3.jpg';
 import four from '../defaultImages/eventPics/4.jpg';
 import five from '../defaultImages/eventPics/5.jpg';
-import six from '../defaultImages/eventPics/6.jpg';
-import seven from '../defaultImages/eventPics/7.jpg';
-import eight from '../defaultImages/eventPics/8.jpg';
-import nine from '../defaultImages/eventPics/9.jpg';
-import ten from '../defaultImages/eventPics/10.jpg';
-import eleven from '../defaultImages/eventPics/11.jpg';
-import twelve from '../defaultImages/eventPics/12.jpg';
 
 class Home extends React.Component {
   constructor(props) {
@@ -381,55 +374,6 @@ class Home extends React.Component {
                     onClick={() => this.setState({ newEventPic: 5 })}
                     className="gallery-item"
                     src={five}
-                    height="50"
-                    width="50"
-                  />
-                  <img
-                    onClick={() => this.setState({ newEventPic: 6 })}
-                    className="gallery-item"
-                    src={six}
-                    height="50"
-                    width="50"
-                  />
-                  <img
-                    onClick={() => this.setState({ newEventPic: 7 })}
-                    className="gallery-item"
-                    src={seven}
-                    height="50"
-                    width="50"
-                  />
-                  <img
-                    onClick={() => this.setState({ newEventPic: 8 })}
-                    className="gallery-item"
-                    src={eight}
-                    height="50"
-                    width="50"
-                  />
-                  <img
-                    onClick={() => this.setState({ newEventPic: 9 })}
-                    className="gallery-item"
-                    src={nine}
-                    height="50"
-                    width="50"
-                  />
-                  <img
-                    onClick={() => this.setState({ newEventPic: 10 })}
-                    className="gallery-item"
-                    src={ten}
-                    height="50"
-                    width="50"
-                  />
-                  <img
-                    onClick={() => this.setState({ newEventPic: 11 })}
-                    className="gallery-item"
-                    src={eleven}
-                    height="50"
-                    width="50"
-                  />
-                  <img
-                    onClick={() => this.setState({ newEventPic: 12 })}
-                    className="gallery-item"
-                    src={twelve}
                     height="50"
                     width="50"
                   />
