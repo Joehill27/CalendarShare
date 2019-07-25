@@ -294,17 +294,23 @@ router.post('/:groupId/inviteUser/:userId', (req, res) => {
     let groupId = req.params.groupId;
     let userId = req.params.userId;
 
+    let request = {
+        'from': groupId
+    }
+
     User.findById(userId, (err, user) => {
         if(err) {
             res.send({'error': 'unable to find user'});
         } else {
-            user.groupRequests.push(groupId);
-            user.save()
-            .then(
-                res.send({'success': 'User invited to group', 'error': ''})
-            )
-            .catch(function(err){
-                console.log(err);
+            User.update(
+                { _id: userId }, 
+                { $push: { groupRequests: request }}
+            ).exec(function(err) {
+                if(err) {
+                    res.send({'error': err});
+                } else {
+                    res.send({'request added successfully' : request});
+                }
             });
         }
     });

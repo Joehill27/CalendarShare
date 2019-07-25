@@ -49,7 +49,7 @@ let UserSchema = new Schema({
     },
     groupRequests : {
         type: [{
-            groupId: {
+            from: {
                 type: String
             }
         }]
